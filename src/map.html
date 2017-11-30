@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <!--Firebase data-->
+    <script src="https://www.gstatic.com/firebasejs/4.6.1/firebase.js"></script>
+    <!--for jquery scripts-->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyDKKJTf4YSeMypo9ciQYM9CqnNB8lVTHBg",
+            authDomain: "lotterydata-2fe33.firebaseapp.com",
+            databaseURL: "https://lotterydata-2fe33.firebaseio.com",
+            projectId: "lotterydata-2fe33",
+            storageBucket: "lotterydata-2fe33.appspot.com",
+            messagingSenderId: "601473570505"
+        };
+        firebase.initializeApp(config);
+        //database root reference
+        var rootRef = firebase.database().ref();
+    </script>
+</head>
+
+<body>
+
+
+
+<!--Map Element-->
+<div id="map" onload="initMap()"></div>
+<script>
+    var map;
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 44.5, lng: -84.5555},
+            zoom: 7,
+            styles: [ { featureType: "road", stylers: [ { visibility: "off" } ] },{ },
+                      { featureType: "poi", stylers: [ { visibility: "off" } ] },{ },
+                      { featureType: "administrative", stylers: [ { visibility: "off" } ] },{ }]
+        });
+        map.data.loadGeoJson("simplified.json");
+
+        map.data.setStyle(function(feature) {
+            var name = feature.getProperty('NAME');
+            if (name == "Alcona Community Schools") {
+                color = 'red';
+                return {
+                    fillColor: color,
+                    strokeWeight: .7
+                };
+            } else {
+                return {
+                    strokeWeight: .3
+                };
+            }
+        });
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKb-lSY4lMIiiy014YHhf9pwJOejs2YYU&callback=initMap"
+        async defer></script>
+</body>
+
+
+
+
+<script>
+    results = []                                                                                                                                                                                                                            ;
+    rootRef.orderByChild("percent_black").endAt(1).once("value", function(snapshot){
+        snapshot.forEach(function(childSnapshot){
+            results.push(childSnapshot);
+            console.log(results.length)
+
+
+        });
+
+    });
+</script>
+</html>

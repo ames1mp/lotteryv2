@@ -1,0 +1,6 @@
+{
+  "name": "lottery",
+  "short_name": "lottery",
+  "start_url": "/",
+  "display": "standalone"
+}

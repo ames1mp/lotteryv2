@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+
+      <link rel="import" href="../../src/map.html">
+      <script src="https://www.w3schools.com/lib/w3.js"></script>
+
+    <title>lottery</title>
+    <meta name="description" content="lottery description">
+
+    <!-- See https://goo.gl/OOhYW5 -->
+    <link rel="manifest" href="/manifest.json">
+
+    <script src="/bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+
+    <link rel="import" href="/src/my-lotto/my-lotto.html">
+
+    <style>
+      body {
+        margin: 0;
+        font-family: sans-serif;
+        background-color: #f5f5f5;
+      }
+    </style>
+
+  </head>
+  <body>
+    <my-lotto>
+        <slot>
+           Test
+            <div w3-include-html="../../src/map.html">
+                <span></span>
+            </div>
+            <script src="https://www.w3schools.com/lib/w3.js"></script>
+            <script>
+                w3.include.HTML();
+            </script>
+        </slot>
+    </my-lotto>
+
+  Image Info:
+    By <a href="//commons.wikimedia.org/wiki/User:Dehk" title="User:Dehk">Dehk</a> - <span class="int-own-work" lang="en">Own work</span>, <a href="http://creativecommons.org/licenses/by/3.0" title="Creative Commons Attribution 3.0">CC BY 3.0</a>, <a href="https://commons.wikimedia.org/w/index.php?curid=4683886">Link</a>
+  </body>
+</html>

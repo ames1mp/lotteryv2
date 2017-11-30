@@ -1,0 +1,250 @@
+<!-- Layout adapted from https://github.com/PolymerElements/app-layout/blob/master/templates/test-drive/test-app.html -->
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/app-layout/app-layout.html">
+<link rel="import" href="../../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="../../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
+
+
+
+
+<iron-iconset-svg name="app" size="24">
+    <svg><defs>
+        <g id="menu"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></g>
+    </defs></svg>
+</iron-iconset-svg>
+
+<dom-module id="my-lotto">
+
+    <template>
+
+        <style>
+
+            app-drawer-layout:not([narrow]) [drawer-toggle] {
+                display: none;
+            }
+
+            app-drawer-section {
+                height: 100%;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            app-drawer h2 {
+                margin: 8px 0 0;
+                padding: 18px;
+                font-size: 18px;
+            }
+
+            app-drawer paper-checkbox {
+                display: block;
+                padding: 18px;
+            }
+
+            app-header {
+                color: #fff;
+                background-color: #C62828;
+                --app-header-background-front-layer: {
+                    background-image: url('../../res/mack.jpg');
+                    background-position: 50% 10%;
+                };
+            }
+
+            [main-title] {
+                font-size: 2em;
+            }
+
+          /*  :host {
+        display: block;
+      }*/
+
+        </style>
+
+        <app-drawer-layout>
+
+            <app-drawer swipe-open slot="drawer">
+                <section>
+                    <h2>Filter Map By:</h2>
+                    <h2>Median Household Income</h2>
+                    <paper-checkbox checked="{{income0}}">
+                        $0 - $20K
+                    </paper-checkbox>
+                    <paper-checkbox checked="{{income1}}">
+                        $20K - $35K
+                    </paper-checkbox>
+                    <paper-checkbox checked="{{income2}}">
+                        $35K - $50K
+                    </paper-checkbox>
+                    <paper-checkbox checked="{{income3}}">
+                        $50K+
+                    </paper-checkbox>
+
+                    <h2>Race</h2>
+                    <paper-checkbox checked="{{race0}}">
+                        0 - 10% African American
+                    </paper-checkbox>
+                    <paper-checkbox checked="{{race1}}">
+                        10 - 20% African American
+                    </paper-checkbox>
+                    <paper-checkbox checked="{{race2}}">
+                        20 - 30% African American
+                    </paper-checkbox>
+                    <paper-checkbox checked="{{race3}}">
+                        30 - 50% African American
+                    </paper-checkbox>
+                    <paper-checkbox checked="{{race4}}">
+                        50%+ African American
+                    </paper-checkbox>
+
+                    <h2>$ Spent/School Funding Received </h2>
+                    <paper-checkbox checked="{{ratio0}}">
+                        $0 - $2
+                    </paper-checkbox>
+                    <paper-checkbox checked="{{ratio1}}">
+                        $2 - $4
+                    </paper-checkbox>
+                    <paper-checkbox checked="{{ratio2}}">
+                        $4 - $6
+                    </paper-checkbox>
+                    <paper-checkbox checked="{{ratio3}}">
+                        $6 - $8
+                    </paper-checkbox>
+                    <paper-checkbox checked="{{ratio4}}">
+                        $8 - $10
+                    </paper-checkbox>
+                    <paper-checkbox checked="{{ratio5}}">
+                        $10 - $14
+                    </paper-checkbox>
+                    <paper-checkbox checked="{{ratio6}}">
+                        $14 - $23
+                    </paper-checkbox>
+                </section>
+            </app-drawer>
+
+            <app-header-layout>
+
+                <app-header
+                        condenses="[[condenses]]"
+                        fixed="[[fixed]]"
+                        reveals="[[reveals]]"
+                        shadow="[[shadow]]"
+                        effects="[[_computeEffects(blendBackground, fadeBackground, parallaxBackground, resizeSnappedTitle, resizeTitle, waterfall)]]"
+                        slot="header">
+                    <app-toolbar>
+                        <paper-icon-button icon="app:menu" drawer-toggle></paper-icon-button>
+                        <div condensed-title>School Disbursements</div>
+                    </app-toolbar>
+
+                    <app-toolbar></app-toolbar>
+
+                    <app-toolbar>
+                        <div main-title spacer>Michigan Lottery Disbursements to Public Schools</div>
+                    </app-toolbar>
+
+                </app-header>
+
+            </app-header-layout>
+            <slot></slot>
+
+
+        </app-drawer-layout>
+
+  </template>
+
+  <script>
+
+
+    /**
+     * @customElement
+     * @polymer
+     */
+    class MyLotto extends Polymer.Element {
+      static get is() { return 'my-lotto'; }
+      static get properties() {
+        return {
+            condenses: {
+                type: Boolean,
+                value: true
+            },
+            fixed: {
+                type: Boolean,
+                value: true
+            },
+            reveals: {
+                type: Boolean,
+                value: false
+            },
+            shadow: {
+                type: Boolean,
+                value: false
+            },
+            blendBackground: {
+                type: Boolean,
+                value: true
+            },
+            fadeBackground: {
+                type: Boolean,
+                value: false
+            },
+            parallaxBackground: {
+                type: Boolean,
+                value: true
+            },
+            resizeSnappedTitle: {
+                type: Boolean,
+                value: false
+            },
+            resizeTitle: {
+                type: Boolean,
+                value: true
+            },
+            waterfall: {
+                type: Boolean,
+                value: true
+            }
+          }
+        };
+
+      static get observers() {
+          return [
+              '_removeIf("fixed", reveals)',
+              '_removeIf("reveals", fixed)',
+              '_removeIf("shadow", waterfall)',
+              '_removeIf("blendBackground", fadeBackground)',
+              '_removeIf("fadeBackground", blendBackground)',
+              '_removeIf("resizeSnappedTitle", resizeTitle)',
+              '_removeIf("resizeTitle", resizeSnappedTitle)',
+              '_removeIf("waterfall", shadow)'
+          ]
+      };
+
+        _computeEffects() {
+            return [
+                this.blendBackground ? 'blend-background ' : '',
+                this.fadeBackground ? 'fade-background ' : '',
+                this.parallaxBackground ? 'parallax-background ' : '',
+                this.resizeSnappedTitle ? 'resize-snapped-title ' : '',
+                this.resizeTitle ? 'resize-title ' : '',
+                this.waterfall ? 'waterfall ' : ''
+            ].join('');
+        };
+
+        _removeIf(propName, value) {
+            if (this[propName] && value) {
+                this[propName] = false;
+            }
+        };
+
+
+    }
+
+
+
+
+    window.customElements.define(MyLotto.is, MyLotto);
+  </script>
+</dom-module>
