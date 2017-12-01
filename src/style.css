@@ -2,20 +2,22 @@
         * element that contains the map. */
 #map {
     height: 100%;
+    width: 100%;
 }
 /* Optional: Makes the sample page fill the window. */
-html, body {
+/*html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-}
+}*/
 
+/*
 #navbar {
     overflow: hidden;
     background-color: #333;;
 }
 
-/* Navbar links */
+!* Navbar links *!
 #navbar a {
     float: left;
     display: block;
@@ -37,4 +39,4 @@ html, body {
 
 .sticky + .content {
     padding-top: 60px;
-}
+}*/
