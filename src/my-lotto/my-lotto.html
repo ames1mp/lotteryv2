@@ -11,6 +11,9 @@
 <link rel="import" href="../../bower_components/iron-iconset-svg/iron-iconset-svg.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKb-lSY4lMIiiy014YHhf9pwJOejs2YYU&callback=ready"
+        async defer></script>
+
 
 
 
@@ -59,12 +62,13 @@
             [main-title] {
                 font-size: 2em;
             }
-             slot {
-                 width: 100px;
-                 height: 1000px;
-                 overflow: scroll;
-                 position: absolute;
+             #map {
+                 width: 100%;
+                 height: 100%;
+
              }
+
+
 
             :host {
         display: block;
@@ -159,7 +163,8 @@
                 </app-header>
 
             </app-header-layout>
-            <slot></slot>
+
+            <div id="map"></div>
 
 
         </app-drawer-layout>
@@ -233,6 +238,35 @@
           ]
       };
 
+        ready() {
+            super.ready();
+
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 44.5, lng: -84.5555},
+                zoom: 7,
+                styles: [ { featureType: "road", stylers: [ { visibility: "off" } ] },{ },
+                    { featureType: "poi", stylers: [ { visibility: "off" } ] },{ },
+                    { featureType: "administrative", stylers: [ { visibility: "off" } ] },{ }]
+            });
+            map.data.loadGeoJson("res/simplified.json");
+
+            map.data.setStyle(function(feature) {
+                var name = feature.getProperty('NAME');
+                if (name == "Alcona Community Schools") {
+                    color = 'red';
+                    return {
+                        fillColor: color,
+                        strokeWeight: .7
+                    };
+                } else {
+                    return {
+                        strokeWeight: .3
+                    };
+                }
+            });
+
+        }
+
         _computeEffects() {
             return [
                 this.blendBackground ? 'blend-background ' : '',
@@ -259,3 +293,4 @@
     window.customElements.define(MyLotto.is, MyLotto);
   </script>
 </dom-module>
+
