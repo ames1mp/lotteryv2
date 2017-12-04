@@ -7,7 +7,9 @@
     "app-layout": "PolymerElements/app-layout#^2.0.4",
     "paper-checkbox": "^2.0.1",
     "iron-iconset-svg": "^2.1.0",
-    "paper-icon-button": "^2.0.1"
+    "paper-icon-button": "^2.0.1",
+    "iron-pages": "^2.0.1",
+    "google-apis": "^2.0.0"
   },
   "devDependencies": {
     "web-component-tester": "Polymer/web-component-tester#^6.0.0",

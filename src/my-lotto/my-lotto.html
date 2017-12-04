@@ -10,12 +10,11 @@
 <link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../bower_components/iron-iconset-svg/iron-iconset-svg.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/google-apis/google-apis.html">
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKb-lSY4lMIiiy014YHhf9pwJOejs2YYU&callback=ready"
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKb-lSY4lMIiiy014YHhf9pwJOejs2YYU"
         async defer></script>
-
-
-
 
 <iron-iconset-svg name="app" size="24">
     <svg><defs>
@@ -23,7 +22,18 @@
     </defs></svg>
 </iron-iconset-svg>
 
+<!--<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>-->
+
 <dom-module id="my-lotto">
+   <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKb-lSY4lMIiiy014YHhf9pwJOejs2YYU&callback=ready"
+            async defer></script>-->
+    <!--<google-maps-api api-key="AIzaSyCKb-lSY4lMIiiy014YHhf9pwJOejs2YYU" version="3.exp"></google-maps-api>
+    <script>
+        var mapsAPI = document.querySelector('google-maps-api');
+        mapsAPI.addEventListener('ready', function(e) {
+            // this.api === google.maps
+        });
+    </script>-->
 
     <template>
 
@@ -62,9 +72,11 @@
             [main-title] {
                 font-size: 2em;
             }
-             #map {
+             #mapEle {
                  width: 100%;
                  height: 100%;
+                 min-height: 500px;
+                 z-index: -1;
 
              }
 
@@ -80,7 +92,7 @@
         <app-drawer-layout force-narrow>
 
             <app-drawer slot="drawer">
-                <div style="height: 100%; overflow: auto;">
+                <div style="height: 100%; overflow: auto; z-index: 2">
                 <section>
                     <h2>Filter Map By:</h2>
                     <h2>Median Household Income</h2>
@@ -164,12 +176,62 @@
 
             </app-header-layout>
 
-            <div id="map"></div>
+
+
 
 
         </app-drawer-layout>
+      <!--  <iron-pages id="pages" selected="0">
+            <section>-->
+
+
+
+
+                <!--<script>
+                    var map;
+                    function initMap() {
+                        map = new google.maps.Map(this.$.mapEle, {
+                            center: {lat: 44.5, lng: -84.5555},
+                            zoom: 7,
+                            styles: [ { featureType: "road", stylers: [ { visibility: "off" } ] },{ },
+                                { featureType: "poi", stylers: [ { visibility: "off" } ] },{ },
+                                { featureType: "administrative", stylers: [ { visibility: "off" } ] },{ }]
+                        });
+                        map.data.loadGeoJson("simplified.json");
+
+                        map.data.setStyle(function(feature) {
+                            var name = feature.getProperty('NAME');
+                            if (name == "Alcona Community Schools") {
+                                color = 'red';
+                                return {
+                                    fillColor: color,
+                                    strokeWeight: .7
+                                };
+                            } else {
+                                return {
+                                    strokeWeight: .3
+                                };
+                            }
+                        });
+                    }
+                </script>
+                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKb-lSY4lMIiiy014YHhf9pwJOejs2YYU&callback=initMap"
+                        async defer></script>-->
+
+      <!--      </section>
+
+        </iron-pages>-->
+        <!--Map Element-->
+
+        <div id="mapEle" min-height=""></div>
+
 
   </template>
+
+
+
+
+
 
   <script>
 
@@ -239,16 +301,52 @@
       };
 
         ready() {
-            super.ready();
+           super.ready();
 
-            map = new google.maps.Map(document.getElementById('map'), {
+           /*var apiLoader = document.createElement("script");
+           apiLoader.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyCKb-lSY4lMIiiy014YHhf9pwJOejs2YYU&callback=initMap";
+           apiLoader.type = "text/javascript";
+           */
+           /*var mapInitElement = document.createElement("script");
+           mapInitElement.type = "text/javascript";
+           mapInitElement.innerHTML = "  var map;" +*/
+
+           /* function initMap() {*/
+               var map = new google.maps.Map(this.$.mapEle, {
+                    center: {lat: 44.5, lng: -84.5555},
+                    zoom: 7,
+                    styles: [ { featureType: "road", stylers: [ { visibility: "off" } ] },{ },
+                        { featureType: "poi", stylers: [ { visibility: "off" } ] },{ },
+                        { featureType: "administrative", stylers: [ { visibility: "off" } ] },{ }]
+                });
+                map.data.loadGeoJson("src/simplified.json");
+
+                map.data.setStyle(function(feature) {
+                    var name = feature.getProperty('NAME');
+                    if (name == "Alcona Community Schools") {
+                        var color = 'red';
+                        return {
+                            fillColor: color,
+                            strokeWeight: .7
+                        };
+                    } else {
+                        return {
+                            strokeWeight: .3
+                        };
+                    }
+                });
+           /* }*/
+
+           /*var map;
+
+            map = new google.maps.Map(this.$.mapEle, {
                 center: {lat: 44.5, lng: -84.5555},
                 zoom: 7,
                 styles: [ { featureType: "road", stylers: [ { visibility: "off" } ] },{ },
                     { featureType: "poi", stylers: [ { visibility: "off" } ] },{ },
                     { featureType: "administrative", stylers: [ { visibility: "off" } ] },{ }]
             });
-            map.data.loadGeoJson("res/simplified.json");
+            map.data.loadGeoJson("src/simplified.json");
 
             map.data.setStyle(function(feature) {
                 var name = feature.getProperty('NAME');
@@ -263,9 +361,9 @@
                         strokeWeight: .3
                     };
                 }
-            });
+            });*/
 
-        }
+        };
 
         _computeEffects() {
             return [
@@ -292,5 +390,6 @@
 
     window.customElements.define(MyLotto.is, MyLotto);
   </script>
+
 </dom-module>
 
