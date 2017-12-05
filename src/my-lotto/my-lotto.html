@@ -17,7 +17,12 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKb-lSY4lMIiiy014YHhf9pwJOejs2YYU"
         async defer>
 
+
 </script>
+
+<!--for jquery scripts-->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
 <!--Firebase data-->
 <script src="https://www.gstatic.com/firebasejs/4.6.1/firebase.js"></script>
 <script>
@@ -41,7 +46,13 @@
     </defs></svg>
 </iron-iconset-svg>
 
-<!--<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>-->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+<script>
+    incomeValues = [[0, 20000], [20000, 35000], [35000, 50000], [50000, Number.MAX_VALUE]];
+</script>
+
+
 
 <dom-module id="my-lotto">
 
@@ -127,7 +138,7 @@
 
         <app-drawer-layout force-narrow>
 
-            <app-drawer slot="drawer">
+            <app-drawer id="appDrawer" slot="drawer" opened="{{drawerOpened}}">
                 <div style="height: 100%; overflow: auto; z-index: 2">
                 <section>
                     <h2>Filter Map By:</h2>
@@ -138,50 +149,50 @@
                     <paper-toggle-button id="i2" disabled="{{i2-dis}}">
                         $20K - $35K
                     </paper-toggle-button>
-                    <paper-checkbox checked="{{income2}}">
+                    <paper-checkbox id="i3"checked="{{income2}}">
                         $35K - $50K
                     </paper-checkbox>
-                    <paper-checkbox checked="{{income3}}">
+                    <paper-checkbox id="i4"checked="{{income3}}">
                         $50K+
                     </paper-checkbox>
 
                     <h2>Race</h2>
-                    <paper-checkbox checked="{{race0}}">
+                    <paper-checkbox id="r0" checked="{{race0}}">
                         0 - 10% African American
                     </paper-checkbox>
-                    <paper-checkbox checked="{{race1}}">
+                    <paper-checkbox id="r1" checked="{{race1}}">
                         10 - 20% African American
                     </paper-checkbox>
-                    <paper-checkbox checked="{{race2}}">
+                    <paper-checkbox id="r2" checked="{{race2}}">
                         20 - 30% African American
                     </paper-checkbox>
-                    <paper-checkbox checked="{{race3}}">
+                    <paper-checkbox id="r3" checked="{{race3}}">
                         30 - 50% African American
                     </paper-checkbox>
-                    <paper-checkbox checked="{{race4}}">
+                    <paper-checkbox id="r4" checked="{{race4}}">
                         50%+ African American
                     </paper-checkbox>
 
                     <h2>$ Spent/School Funding Received </h2>
-                    <paper-checkbox checked="{{ratio0}}">
+                    <paper-checkbox id="ratio0" checked="{{ratio0}}">
                         $0 - $2
                     </paper-checkbox>
-                    <paper-checkbox checked="{{ratio1}}">
+                    <paper-checkbox id="ratio1" checked="{{ratio1}}">
                         $2 - $4
                     </paper-checkbox>
-                    <paper-checkbox checked="{{ratio2}}">
+                    <paper-checkbox id="ratio2" checked="{{ratio2}}">
                         $4 - $6
                     </paper-checkbox>
-                    <paper-checkbox checked="{{ratio3}}">
+                    <paper-checkbox id="ratio3" checked="{{ratio3}}">
                         $6 - $8
                     </paper-checkbox>
-                    <paper-checkbox checked="{{ratio4}}">
+                    <paper-checkbox id="ratio4" checked="{{ratio4}}">
                         $8 - $10
                     </paper-checkbox>
-                    <paper-checkbox checked="{{ratio5}}">
+                    <paper-checkbox id="ratio5" checked="{{ratio5}}">
                         $10 - $14
                     </paper-checkbox>
-                    <paper-checkbox checked="{{ratio6}}">
+                    <paper-checkbox id="ratio6" checked="{{ratio6}}">
                         $14 - $23
                     </paper-checkbox>
                 </section>
@@ -232,20 +243,20 @@
         <!--Map Element-->
         <div id ="main" style="display: inline;">
             <div id="mapEle"></div>
-            <div id="data">
+            <!--<div id="data">
                 <h1>Select a School District</h1>
                 <div id="graph-container">
                     <canvas id="results-graph"></canvas>
                 </div>
-            <!-- Selector drop down for the districts -->
+            &lt;!&ndash; Selector drop down for the districts &ndash;&gt;
                 <div id="select_div">
-                    <!--appends html select to div -->
+                    &lt;!&ndash;appends html select to div &ndash;&gt;
                     <script>
                         $('#select_div').append(select);
                     </script>
                 </div>
             <button id="getData" onclick=getData()>Get Data</button>
-            </div>
+            </div>-->
         </div>
 
 
@@ -310,7 +321,13 @@
             i1dis: {
                 type: Boolean,
                 value: false
+            },
+            drawerOpened: {
+                type: Boolean,
+                notify: true,
+                observer: "_drawerStateChanged"
             }
+
           }
         };
 
@@ -341,17 +358,8 @@
                 map.data.loadGeoJson("src/simplified.json");
 
                 map.data.setStyle(function(feature) {
-                    var name = feature.getProperty('NAME');
-                    if (name == "Alcona Community Schools") {
-                        var color = 'red';
-                        return {
-                            fillColor: color,
-                            strokeWeight: .7
-                        };
-                    } else {
                         return {
                             strokeWeight: .3
-                        };
                     }
                 });
         };
@@ -373,17 +381,118 @@
             }
         };
 
+        //Update the map when the App-Drawer is closed
+        _drawerStateChanged(ev) {
+            var districtNames = [];
+
+            //check to see if App-Drawer is closed
+            if(!ev) {
+
+                var incomeBoxStates = [];
+                incomeBoxStates.push(this.$.i1.checked);
+                incomeBoxStates.push(this.$.i2.checked);
+                incomeBoxStates.push(this.$.i3.checked);
+                incomeBoxStates.push(this.$.i4.checked);
+
+                var raceBoxStates = [];
+                raceBoxStates.push(this.$.r0.checked);
+                raceBoxStates.push(this.$.r1.checked);
+                raceBoxStates.push(this.$.r2.checked);
+                raceBoxStates.push(this.$.r3.checked);
+                raceBoxStates.push(this.$.r4.checked);
+
+                var ratioBoxStates = [];
+                raceBoxStates.push(this.$.ratio0.checked);
+                raceBoxStates.push(this.$.ratio1.checked);
+                raceBoxStates.push(this.$.ratio2.checked);
+                raceBoxStates.push(this.$.ratio3.checked);
+                raceBoxStates.push(this.$.ratio4.checked);
+                raceBoxStates.push(this.$.ratio5.checked);
+                raceBoxStates.push(this.$.ratio6.checked);
+
+                //get the income range to query on firebase
+                if (incomeBoxStates != undefined && incomeBoxStates.includes(true)) {
+                    var min = Number.MAX_VALUE;
+                    var max = Number.MIN_VALUE;
+                    for(var i = 0; i < incomeBoxStates.length; ++i) {
+                        if(incomeBoxStates[i]) {
+                            if(min > incomeValues[i][0])
+                                min = incomeValues[i][0];
+                            if (max < incomeValues[i][1])
+                                max = incomeValues[i][1];
+                        }
+                    }
+                    var results = []                                                                                                                                                                                                                            ;
+                    rootRef.orderByChild("estimate_income").startAt(min).endAt(max).once("value", function(snapshot){
+                        snapshot.forEach(function(childSnapshot){
+                            results.push(childSnapshot);
+
+                        });
+
+                        results.forEach(function(entry) {
+                            districtNames.push(entry.val().district_name);
+                        });
+
+                    });
+
+
+
+                } else if(raceBoxStates != undefined && raceBoxStates.includes(true)) {
+
+                }
+
+                var map = new google.maps.Map(this.$.mapEle, {
+                    center: {lat: 44.5, lng: -84.5555},
+                    zoom: 7,
+                    styles: [ { featureType: "road", stylers: [ { visibility: "off" } ] },{ },
+                        { featureType: "poi", stylers: [ { visibility: "off" } ] },{ },
+                        { featureType: "administrative", stylers: [ { visibility: "off" } ] },{ }]
+                });
+                map.data.loadGeoJson("src/simplified.json");
+
+                map.data.setStyle(function(feature) {
+                    var name = feature.getProperty('NAME');
+
+                        if (districtNames.includes(name)) {
+                            var color = 'red';
+                            return {
+                                fillColor: color,
+                                strokeWeight: .3
+                            };
+                        } else {
+                            return {
+                                strokeWeight: .3
+                            };
+                        }
+
+                });
+
+
+            }
+
+        }
 
 
 
         checkBoxChecked(ev) {
 
+            /*var results = []                                                                                                                                                                                                                            ;
+            rootRef.orderByChild("percent_black").endAt(1).once("value", function(snapshot){
+                snapshot.forEach(function(childSnapshot){
+                    results.push(childSnapshot);
+                    console.log(results.length)
+
+
+                });
+
+            });*/
+
             //alert(ev.target.checked);
            var other = this.$.i2;
            other.disabled = true;
-           alert(other.checked);
+           //alert(other.checked);
 
-            /*var map = new google.maps.Map(this.$.mapEle, {
+          /*  var map = new google.maps.Map(this.$.mapEle, {
                 center: {lat: 44.5, lng: -84.5555},
                 zoom: 7,
                 styles: [ { featureType: "road", stylers: [ { visibility: "off" } ] },{ },
@@ -409,6 +518,11 @@
             });*/
         };
 
+
+
+
+
+
     }
 
 
@@ -417,4 +531,6 @@
   </script>
 
 </dom-module>
+
+
 
