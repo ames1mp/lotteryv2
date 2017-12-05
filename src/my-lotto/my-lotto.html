@@ -50,6 +50,8 @@
 
 <script>
     incomeValues = [[0, 20000], [20000, 35000], [35000, 50000], [50000, Number.MAX_VALUE]];
+    raceValues  = [[0, 10], [10, 20], [20, 30], [30, 50], [50, 100]];
+    ratioValues = [[0, 2], [2, 4], [4, 6], [6, 8], [8, 10], [10, 14], [14, 23]];
 </script>
 
 
@@ -402,29 +404,82 @@
                 raceBoxStates.push(this.$.r4.checked);
 
                 var ratioBoxStates = [];
-                raceBoxStates.push(this.$.ratio0.checked);
-                raceBoxStates.push(this.$.ratio1.checked);
-                raceBoxStates.push(this.$.ratio2.checked);
-                raceBoxStates.push(this.$.ratio3.checked);
-                raceBoxStates.push(this.$.ratio4.checked);
-                raceBoxStates.push(this.$.ratio5.checked);
-                raceBoxStates.push(this.$.ratio6.checked);
+                ratioBoxStates.push(this.$.ratio0.checked);
+                ratioBoxStates.push(this.$.ratio1.checked);
+                ratioBoxStates.push(this.$.ratio2.checked);
+                ratioBoxStates.push(this.$.ratio3.checked);
+                ratioBoxStates.push(this.$.ratio4.checked);
+                ratioBoxStates.push(this.$.ratio5.checked);
+                ratioBoxStates.push(this.$.ratio6.checked);
 
                 //get the income range to query on firebase
                 if (incomeBoxStates != undefined && incomeBoxStates.includes(true)) {
-                    var min = Number.MAX_VALUE;
-                    var max = Number.MIN_VALUE;
-                    for(var i = 0; i < incomeBoxStates.length; ++i) {
-                        if(incomeBoxStates[i]) {
-                            if(min > incomeValues[i][0])
-                                min = incomeValues[i][0];
-                            if (max < incomeValues[i][1])
-                                max = incomeValues[i][1];
+                    var incomeMin = Number.MAX_VALUE;
+                    var incomeMax = Number.MIN_VALUE;
+                    for (var i = 0; i < incomeBoxStates.length; ++i) {
+                        if (incomeBoxStates[i]) {
+                            if (incomeMin > incomeValues[i][0])
+                                incomeMin = incomeValues[i][0];
+                            if (incomeMax < incomeValues[i][1])
+                                incomeMax = incomeValues[i][1];
                         }
                     }
-                    var results = []                                                                                                                                                                                                                            ;
-                    rootRef.orderByChild("estimate_income").startAt(min).endAt(max).once("value", function(snapshot){
+                }
+                //get the race range to query on firebase
+                if (raceBoxStates != undefined && raceBoxStates.includes(true)) {
+                    var raceMin = Number.MAX_VALUE;
+                    var raceMax = Number.MIN_VALUE;
+                    for (var i = 0; i < raceBoxStates.length; ++i) {
+                        if (raceBoxStates[i]) {
+                            if (raceMin > raceValues[i][0])
+                                raceMin = raceValues[i][0];
+                            if (raceMax < raceValues[i][1])
+                                raceMax = raceValues[i][1];
+                        }
+                    }
+                    console.log("Race Min: " + raceMin + " Race Max: " + raceMax);
+                }
+                //get the ratio range to query on firebase
+                if (ratioBoxStates != undefined && ratioBoxStates.includes(true)) {
+                    var ratioMin = Number.MAX_VALUE;
+                    var ratioMax = Number.MIN_VALUE;
+                    for (var i = 0; i < ratioBoxStates.length; ++i) {
+                        if (ratioBoxStates[i]) {
+                            if (ratioMin > ratioValues[i][0])
+                                ratioMin = ratioValues[i][0];
+                            if (ratioMax < ratioValues[i][1])
+                                ratioMax = ratioValues[i][1];
+                        }
+                    }
+                    console.log("Ratio Min: " + ratioMin + " Ratio Max: " + ratioMax);
+                }
+
+                //decide which category to filter by
+                var queryCategory = "estimate_income";
+                var queryMin = 0;
+                var queryMax = 0;
+
+                if(incomeBoxStates.includes(true)) {
+                    queryMin = incomeMin;
+                    queryMax = incomeMax;
+                }
+                else if (raceBoxStates.includes(true)) {
+                    queryCategory = "percent_black";
+                    queryMin = raceMin;
+                    queryMax = raceMax;
+                }
+                else if (ratioBoxStates.includes(true)) {
+                    queryCategory = "money_spent_funding_received";
+                    queryMin = ratioMin;
+                    queryMax = ratioMax;
+                }
+
+                var results = []                                                                                                                                                                                                                            ;
+                    rootRef.orderByChild(queryCategory).startAt(queryMin).endAt(queryMax).once("value", function(snapshot){
                         snapshot.forEach(function(childSnapshot){
+                            if (raceBoxStates.includes(true)) {
+
+                            }
                             results.push(childSnapshot);
 
                         });
@@ -435,11 +490,6 @@
 
                     });
 
-
-
-                } else if(raceBoxStates != undefined && raceBoxStates.includes(true)) {
-
-                }
 
                 var map = new google.maps.Map(this.$.mapEle, {
                     center: {lat: 44.5, lng: -84.5555},
