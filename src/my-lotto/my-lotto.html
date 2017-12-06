@@ -23,6 +23,7 @@ We ask only that you give the authors credit.
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../bower_components/google-signin/google-signin.html">
 
+
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKb-lSY4lMIiiy014YHhf9pwJOejs2YYU"
         async defer>
 </script>
@@ -34,7 +35,7 @@ We ask only that you give the authors credit.
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
 <!--Firebase data-->
-<script src="https://www.gstatic.com/firebasejs/4.6.1/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.7.0/firebase.js"></script>
 <script>
     // Initialize Firebase
     var config = {
@@ -49,6 +50,12 @@ We ask only that you give the authors credit.
     //database root reference
     rootRef = firebase.database().ref();
 </script>
+
+<!--firebase auth scripts-->
+<!-- The code below initializes the sign-in widget from FirebaseUI web. -->
+<script src="https://cdn.firebase.com/libs/firebaseui/1.0.0/firebaseui.js"></script>
+<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/1.0.0/firebaseui.css" />
+
 
 <iron-iconset-svg name="app" size="24">
     <svg><defs>
@@ -106,47 +113,47 @@ We ask only that you give the authors credit.
             [main-title] {
                 font-size: 2em;
             }
-             #mapEle {
-                 width: 60vw;
-                 height: 100%;
-                 min-height: 500px;
-                 z-index: -1;
-                 float: left;
+            #mapEle {
+                width: 60vw;
+                height: 100%;
+                min-height: 500px;
+                z-index: -1;
+                float: left;
 
-             }
+            }
 
-             #copyright {
-                 text-align: right;
-                 font-size: x-small;
-                 color: white;
-                 text-decoration: none;
-                 opacity: 0.5;
+            #copyright {
+                text-align: right;
+                font-size: x-small;
+                color: white;
+                text-decoration: none;
+                opacity: 0.5;
 
-             }
-             google-signin {
-                 float: right;
-             }
+            }
+            google-signin {
+                /*float: right;*/
+            }
 
-             #main {
-                 display: inline;
-             }
+            #main {
+                display: inline;
+            }
 
-             #data {
-                 width: 39vw;
-                 float: right;
-             }
+            #data {
+                width: 39vw;
+                float: right;
+            }
 
-             #graph-container {
-                 width: 39vw;
-                 float: right;
-                 visibility: visible;
-             }
+            #graph-container {
+                width: 39vw;
+                float: right;
+                visibility: visible;
+            }
 
 
             :host {
-        display: block;
+                display: block;
 
-      }
+            }
 
         </style>
 
@@ -156,62 +163,72 @@ We ask only that you give the authors credit.
             <!-- Checkboxes in the slide-out menu-->
             <app-drawer id="appDrawer" slot="drawer" opened="{{drawerOpened}}">
                 <div style="height: 100%; overflow: auto; z-index: 2">
-                <section>
-                    <h2>Filter Map By:</h2>
-                    <h2>Median Household Income</h2>
-                    <paper-checkbox id="i1" on-change="checkBoxChecked" disabled="{{i1-dis}}">
-                        $0 - $20K
-                    </paper-checkbox>
-                    <paper-checkbox id="i2" disabled="{{i2-dis}}">
-                        $20K - $35K
-                    </paper-checkbox>
-                    <paper-checkbox id="i3"checked="{{income2}}">
-                        $35K - $50K
-                    </paper-checkbox>
-                    <paper-checkbox id="i4"checked="{{income3}}">
-                        $50K+
-                    </paper-checkbox>
+                    <section>
+                        <!--div for firebase sign-in components to be added to-->
+                        <div id="firebase_ui_container"></div>
+                        <!--<google-signin id="signInButton" on-click="signInFirebase"></google-signin>-->
+                        <!--todo replace button with prettier one that maybe animates or soething-->
+                        <div>
+                            <paper-button id="statusButton"></paper-button>
+                        </div>
+                        <div>
+                            <paper-button id="signOutButton" on-click="signOutFirebase">Sign Out (click me)</paper-button>
+                        </div>
+                        <h2>Filter Map By:</h2>
+                        <h2>Median Household Income</h2>
+                        <paper-checkbox id="i1" on-change="checkBoxChecked" disabled="{{i1-dis}}">
+                            $0 - $20K
+                        </paper-checkbox>
+                        <paper-checkbox id="i2" disabled="{{i2-dis}}">
+                            $20K - $35K
+                        </paper-checkbox>
+                        <paper-checkbox id="i3"checked="{{income2}}">
+                            $35K - $50K
+                        </paper-checkbox>
+                        <paper-checkbox id="i4"checked="{{income3}}">
+                            $50K+
+                        </paper-checkbox>
 
-                    <h2>Race</h2>
-                    <paper-checkbox id="r0" checked="{{race0}}">
-                        0 - 10% African American
-                    </paper-checkbox>
-                    <paper-checkbox id="r1" checked="{{race1}}">
-                        10 - 20% African American
-                    </paper-checkbox>
-                    <paper-checkbox id="r2" checked="{{race2}}">
-                        20 - 30% African American
-                    </paper-checkbox>
-                    <paper-checkbox id="r3" checked="{{race3}}">
-                        30 - 50% African American
-                    </paper-checkbox>
-                    <paper-checkbox id="r4" checked="{{race4}}">
-                        50%+ African American
-                    </paper-checkbox>
+                        <h2>Race</h2>
+                        <paper-checkbox id="r0" checked="{{race0}}">
+                            0 - 10% African American
+                        </paper-checkbox>
+                        <paper-checkbox id="r1" checked="{{race1}}">
+                            10 - 20% African American
+                        </paper-checkbox>
+                        <paper-checkbox id="r2" checked="{{race2}}">
+                            20 - 30% African American
+                        </paper-checkbox>
+                        <paper-checkbox id="r3" checked="{{race3}}">
+                            30 - 50% African American
+                        </paper-checkbox>
+                        <paper-checkbox id="r4" checked="{{race4}}">
+                            50%+ African American
+                        </paper-checkbox>
 
-                    <h2>$ Spent/School Funding Received </h2>
-                    <paper-checkbox id="ratio0" checked="{{ratio0}}">
-                        $0 - $2
-                    </paper-checkbox>
-                    <paper-checkbox id="ratio1" checked="{{ratio1}}">
-                        $2 - $4
-                    </paper-checkbox>
-                    <paper-checkbox id="ratio2" checked="{{ratio2}}">
-                        $4 - $6
-                    </paper-checkbox>
-                    <paper-checkbox id="ratio3" checked="{{ratio3}}">
-                        $6 - $8
-                    </paper-checkbox>
-                    <paper-checkbox id="ratio4" checked="{{ratio4}}">
-                        $8 - $10
-                    </paper-checkbox>
-                    <paper-checkbox id="ratio5" checked="{{ratio5}}">
-                        $10 - $14
-                    </paper-checkbox>
-                    <paper-checkbox id="ratio6" checked="{{ratio6}}">
-                        $14 - $23
-                    </paper-checkbox>
-                </section>
+                        <h2>$ Spent/School Funding Received </h2>
+                        <paper-checkbox id="ratio0" checked="{{ratio0}}">
+                            $0 - $2
+                        </paper-checkbox>
+                        <paper-checkbox id="ratio1" checked="{{ratio1}}">
+                            $2 - $4
+                        </paper-checkbox>
+                        <paper-checkbox id="ratio2" checked="{{ratio2}}">
+                            $4 - $6
+                        </paper-checkbox>
+                        <paper-checkbox id="ratio3" checked="{{ratio3}}">
+                            $6 - $8
+                        </paper-checkbox>
+                        <paper-checkbox id="ratio4" checked="{{ratio4}}">
+                            $8 - $10
+                        </paper-checkbox>
+                        <paper-checkbox id="ratio5" checked="{{ratio5}}">
+                            $10 - $14
+                        </paper-checkbox>
+                        <paper-checkbox id="ratio6" checked="{{ratio6}}">
+                            $14 - $23
+                        </paper-checkbox>
+                    </section>
                 </div>
             </app-drawer>
             <!-- Layout for the header-->
@@ -228,8 +245,6 @@ We ask only that you give the authors credit.
                     <app-toolbar>
                         <paper-icon-button icon="app:menu" drawer-toggle></paper-icon-button>
                         <div condensed-title>School Disbursements</div>
-                        <paper-icon-button>icon="app:signin"</paper-icon-button>
-                        <google-signin></google-signin>
                     </app-toolbar>
 
                     <app-toolbar></app-toolbar>
@@ -238,21 +253,24 @@ We ask only that you give the authors credit.
                         <div main-title spacer>Michigan Lottery Disbursements to Public Schools</div>
                     </app-toolbar>
 
-                   <div id="copyright">
-                       Image Info: By <a href="//commons.wikimedia.org/wiki/User:Dehk" title="User:Dehk">Dehk</a> - <span class="int-own-work" lang="en">Own work</span>, <a href="http://creativecommons.org/licenses/by/3.0" title="Creative Commons Attribution 3.0">CC BY 3.0</a>, <a href="https://commons.wikimedia.org/w/index.php?curid=4683886">Link</a>
-                   </div>
+                    <div id="copyright">
+                        Image Info: By <a href="//commons.wikimedia.org/wiki/User:Dehk" title="User:Dehk">Dehk</a> - <span class="int-own-work" lang="en">Own work</span>, <a href="http://creativecommons.org/licenses/by/3.0" title="Creative Commons Attribution 3.0">CC BY 3.0</a>, <a href="https://commons.wikimedia.org/w/index.php?curid=4683886">Link</a>
+                    </div>
                 </app-header>
 
             </app-header-layout>
 
         </app-drawer-layout>
-      <!--  <iron-pages id="pages" selected="0">
-            <section>-->
+        <!--  <iron-pages id="pages" selected="0">
+              <section>-->
+        <!--janky way of calling polymer methods for now-->
+        <div id="call" on-click="setFirebaseListener">
+            <!--<button id="button">Whatup</button>-->
+        </div>
 
+        <!--      </section>
 
-      <!--      </section>
-
-        </iron-pages>-->
+          </iron-pages>-->
 
         <!-- Div which contains the main content (Map and side panel with charts)-->
         <div id ="main" style="display: inline;">
@@ -266,92 +284,101 @@ We ask only that you give the authors credit.
         </div>
 
 
-  </template>
+
+
+
+
+
+    </template>
 
 
 
 
 
 
-  <script>
+    <script>
 
 
-    /**
-     * @customElement
-     * @polymer
-     */
-    class MyLotto extends Polymer.Element {
-      static get is() { return 'my-lotto'; }
-      static get properties() {
-        return {
-            condenses: {
-                type: Boolean,
-                value: true
-            },
-            fixed: {
-                type: Boolean,
-                value: true
-            },
-            reveals: {
-                type: Boolean,
-                value: false
-            },
-            shadow: {
-                type: Boolean,
-                value: false
-            },
-            blendBackground: {
-                type: Boolean,
-                value: true
-            },
-            fadeBackground: {
-                type: Boolean,
-                value: false
-            },
-            parallaxBackground: {
-                type: Boolean,
-                value: true
-            },
-            resizeSnappedTitle: {
-                type: Boolean,
-                value: false
-            },
-            resizeTitle: {
-                type: Boolean,
-                value: true
-            },
-            waterfall: {
-                type: Boolean,
-                value: true
-            },
-            i1dis: {
-                type: Boolean,
-                value: false
-            },
-            drawerOpened: {
-                type: Boolean,
-                notify: true,
-                observer: "_drawerStateChanged"
-            }
+        /**
+         * @customElement
+         * @polymer
+         */
+        class MyLotto extends Polymer.Element {
+            static get is() { return 'my-lotto'; }
+            static get properties() {
+                return {
+                    condenses: {
+                        type: Boolean,
+                        value: true
+                    },
+                    fixed: {
+                        type: Boolean,
+                        value: true
+                    },
+                    reveals: {
+                        type: Boolean,
+                        value: false
+                    },
+                    shadow: {
+                        type: Boolean,
+                        value: false
+                    },
+                    blendBackground: {
+                        type: Boolean,
+                        value: true
+                    },
+                    fadeBackground: {
+                        type: Boolean,
+                        value: false
+                    },
+                    parallaxBackground: {
+                        type: Boolean,
+                        value: true
+                    },
+                    resizeSnappedTitle: {
+                        type: Boolean,
+                        value: false
+                    },
+                    resizeTitle: {
+                        type: Boolean,
+                        value: true
+                    },
+                    waterfall: {
+                        type: Boolean,
+                        value: true
+                    },
+                    i1dis: {
+                        type: Boolean,
+                        value: false
+                    },
+                    drawerOpened: {
+                        type: Boolean,
+                        notify: true,
+                        observer: "_drawerStateChanged"
+                    }
 
-          }
-        };
+                }
+            };
 
-      static get observers() {
-          return [
-              '_removeIf("fixed", reveals)',
-              '_removeIf("reveals", fixed)',
-              '_removeIf("shadow", waterfall)',
-              '_removeIf("blendBackground", fadeBackground)',
-              '_removeIf("fadeBackground", blendBackground)',
-              '_removeIf("resizeSnappedTitle", resizeTitle)',
-              '_removeIf("resizeTitle", resizeSnappedTitle)',
-              '_removeIf("waterfall", shadow)'
-          ]
-      };
-        //Runs one time, when the DOM is fully loaded. Renders the map for the first time.
-        ready() {
-           super.ready();
+            static get observers() {
+                return [
+                    '_removeIf("fixed", reveals)',
+                    '_removeIf("reveals", fixed)',
+                    '_removeIf("shadow", waterfall)',
+                    '_removeIf("blendBackground", fadeBackground)',
+                    '_removeIf("fadeBackground", blendBackground)',
+                    '_removeIf("resizeSnappedTitle", resizeTitle)',
+                    '_removeIf("resizeTitle", resizeSnappedTitle)',
+                    '_removeIf("waterfall", shadow)'
+                ]
+            };
+            //Runs one time, when the DOM is fully loaded. Renders the map for the first time.
+            ready() {
+                super.ready();
+                var div = this.$.call;
+//                var div2 = document.getElementById('call');
+                div.click();
+//                div.innerHTML = "asdfasdf";
 
 
                 var map = new google.maps.Map(this.$.mapEle, {
@@ -364,131 +391,131 @@ We ask only that you give the authors credit.
                 map.data.loadGeoJson("src/simplified.json");
 
                 map.data.setStyle(function(feature) {
-                        return {
-                            strokeWeight: .3
+                    return {
+                        strokeWeight: .3
                     }
                 });
-        };
+            };
 
-        _computeEffects() {
-            return [
-                this.blendBackground ? 'blend-background ' : '',
-                this.fadeBackground ? 'fade-background ' : '',
-                this.parallaxBackground ? 'parallax-background ' : '',
-                this.resizeSnappedTitle ? 'resize-snapped-title ' : '',
-                this.resizeTitle ? 'resize-title ' : '',
-                this.waterfall ? 'waterfall ' : ''
-            ].join('');
-        };
+            _computeEffects() {
+                return [
+                    this.blendBackground ? 'blend-background ' : '',
+                    this.fadeBackground ? 'fade-background ' : '',
+                    this.parallaxBackground ? 'parallax-background ' : '',
+                    this.resizeSnappedTitle ? 'resize-snapped-title ' : '',
+                    this.resizeTitle ? 'resize-title ' : '',
+                    this.waterfall ? 'waterfall ' : ''
+                ].join('');
+            };
 
-        _removeIf(propName, value) {
-            if (this[propName] && value) {
-                this[propName] = false;
-            }
-        };
+            _removeIf(propName, value) {
+                if (this[propName] && value) {
+                    this[propName] = false;
+                }
+            };
 
-        //This function fires when the slide-out app drawer changes state (open/close).
-        _drawerStateChanged(ev) {
-            var districtNames = [];
-            var incomeMin;
-            var incomeMax;
-            var raceMin;
-            var raceMax;
-            var ratioMin;
-            var ratioMax;
-            var inVsOut = this.$.inVsOut;
-            var graphContainer = $('#graphContainer');
-            //var arr = [];
+            //This function fires when the slide-out app drawer changes state (open/close).
+            _drawerStateChanged(ev) {
+                var districtNames = [];
+                var incomeMin;
+                var incomeMax;
+                var raceMin;
+                var raceMax;
+                var ratioMin;
+                var ratioMax;
+                var inVsOut = this.$.inVsOut;
+                var graphContainer = $('#graphContainer');
+                //var arr = [];
 
-            //check to see if App-Drawer is closed
-            if(!ev) {
-                //get the states of the checkboxes
-                var incomeBoxStates = [];
-                incomeBoxStates.push(this.$.i1.checked);
-                incomeBoxStates.push(this.$.i2.checked);
-                incomeBoxStates.push(this.$.i3.checked);
-                incomeBoxStates.push(this.$.i4.checked);
+                //check to see if App-Drawer is closed
+                if(!ev) {
+                    //get the states of the checkboxes
+                    var incomeBoxStates = [];
+                    incomeBoxStates.push(this.$.i1.checked);
+                    incomeBoxStates.push(this.$.i2.checked);
+                    incomeBoxStates.push(this.$.i3.checked);
+                    incomeBoxStates.push(this.$.i4.checked);
 
-                var raceBoxStates = [];
-                raceBoxStates.push(this.$.r0.checked);
-                raceBoxStates.push(this.$.r1.checked);
-                raceBoxStates.push(this.$.r2.checked);
-                raceBoxStates.push(this.$.r3.checked);
-                raceBoxStates.push(this.$.r4.checked);
+                    var raceBoxStates = [];
+                    raceBoxStates.push(this.$.r0.checked);
+                    raceBoxStates.push(this.$.r1.checked);
+                    raceBoxStates.push(this.$.r2.checked);
+                    raceBoxStates.push(this.$.r3.checked);
+                    raceBoxStates.push(this.$.r4.checked);
 
-                var ratioBoxStates = [];
-                ratioBoxStates.push(this.$.ratio0.checked);
-                ratioBoxStates.push(this.$.ratio1.checked);
-                ratioBoxStates.push(this.$.ratio2.checked);
-                ratioBoxStates.push(this.$.ratio3.checked);
-                ratioBoxStates.push(this.$.ratio4.checked);
-                ratioBoxStates.push(this.$.ratio5.checked);
-                ratioBoxStates.push(this.$.ratio6.checked);
+                    var ratioBoxStates = [];
+                    ratioBoxStates.push(this.$.ratio0.checked);
+                    ratioBoxStates.push(this.$.ratio1.checked);
+                    ratioBoxStates.push(this.$.ratio2.checked);
+                    ratioBoxStates.push(this.$.ratio3.checked);
+                    ratioBoxStates.push(this.$.ratio4.checked);
+                    ratioBoxStates.push(this.$.ratio5.checked);
+                    ratioBoxStates.push(this.$.ratio6.checked);
 
-                //get the income range to query on firebase
-                if (incomeBoxStates != undefined && incomeBoxStates.includes(true)) {
-                    incomeMin = Number.MAX_VALUE;
-                    incomeMax = Number.MIN_VALUE;
-                    for (var i = 0; i < incomeBoxStates.length; ++i) {
-                        if (incomeBoxStates[i]) {
-                            if (incomeMin > incomeValues[i][0])
-                                incomeMin = incomeValues[i][0];
-                            if (incomeMax < incomeValues[i][1])
-                                incomeMax = incomeValues[i][1];
+                    //get the income range to query on firebase
+                    if (incomeBoxStates != undefined && incomeBoxStates.includes(true)) {
+                        incomeMin = Number.MAX_VALUE;
+                        incomeMax = Number.MIN_VALUE;
+                        for (var i = 0; i < incomeBoxStates.length; ++i) {
+                            if (incomeBoxStates[i]) {
+                                if (incomeMin > incomeValues[i][0])
+                                    incomeMin = incomeValues[i][0];
+                                if (incomeMax < incomeValues[i][1])
+                                    incomeMax = incomeValues[i][1];
+                            }
                         }
                     }
-                }
-                //get the race range to query on firebase
-                if (raceBoxStates != undefined && raceBoxStates.includes(true)) {
-                    raceMin = Number.MAX_VALUE;
-                    raceMax = Number.MIN_VALUE;
-                    for (var i = 0; i < raceBoxStates.length; ++i) {
-                        if (raceBoxStates[i]) {
-                            if (raceMin > raceValues[i][0])
-                                raceMin = raceValues[i][0];
-                            if (raceMax < raceValues[i][1])
-                                raceMax = raceValues[i][1];
+                    //get the race range to query on firebase
+                    if (raceBoxStates != undefined && raceBoxStates.includes(true)) {
+                        raceMin = Number.MAX_VALUE;
+                        raceMax = Number.MIN_VALUE;
+                        for (var i = 0; i < raceBoxStates.length; ++i) {
+                            if (raceBoxStates[i]) {
+                                if (raceMin > raceValues[i][0])
+                                    raceMin = raceValues[i][0];
+                                if (raceMax < raceValues[i][1])
+                                    raceMax = raceValues[i][1];
+                            }
                         }
+
+                    }
+                    //get the ratio range to query on firebase
+                    if (ratioBoxStates != undefined && ratioBoxStates.includes(true)) {
+                        ratioMin = Number.MAX_VALUE;
+                        ratioMax = Number.MIN_VALUE;
+                        for (var i = 0; i < ratioBoxStates.length; ++i) {
+                            if (ratioBoxStates[i]) {
+                                if (ratioMin > ratioValues[i][0])
+                                    ratioMin = ratioValues[i][0];
+                                if (ratioMax < ratioValues[i][1])
+                                    ratioMax = ratioValues[i][1];
+                            }
+                        }
+
                     }
 
-                }
-                //get the ratio range to query on firebase
-                if (ratioBoxStates != undefined && ratioBoxStates.includes(true)) {
-                    ratioMin = Number.MAX_VALUE;
-                    ratioMax = Number.MIN_VALUE;
-                    for (var i = 0; i < ratioBoxStates.length; ++i) {
-                        if (ratioBoxStates[i]) {
-                            if (ratioMin > ratioValues[i][0])
-                                ratioMin = ratioValues[i][0];
-                            if (ratioMax < ratioValues[i][1])
-                                ratioMax = ratioValues[i][1];
-                        }
+                    //decide which category to filter by
+                    var queryCategory = "estimate_income";
+                    var queryMin = 0;
+                    var queryMax = 0;
+
+                    if(incomeBoxStates.includes(true)) {
+                        queryMin = incomeMin;
+                        queryMax = incomeMax;
+                    }
+                    else if (raceBoxStates.includes(true)) {
+                        queryCategory = "percent_black";
+                        queryMin = raceMin;
+                        queryMax = raceMax;
+                    }
+                    else if (ratioBoxStates.includes(true) && !raceBoxStates.includes(true)) {
+                        queryCategory = "money_spent_funding_received";
+                        queryMin = ratioMin;
+                        queryMax = ratioMax;
                     }
 
-                }
-
-                //decide which category to filter by
-                var queryCategory = "estimate_income";
-                var queryMin = 0;
-                var queryMax = 0;
-
-                if(incomeBoxStates.includes(true)) {
-                    queryMin = incomeMin;
-                    queryMax = incomeMax;
-                }
-                else if (raceBoxStates.includes(true)) {
-                    queryCategory = "percent_black";
-                    queryMin = raceMin;
-                    queryMax = raceMax;
-                }
-                else if (ratioBoxStates.includes(true) && !raceBoxStates.includes(true)) {
-                    queryCategory = "money_spent_funding_received";
-                    queryMin = ratioMin;
-                    queryMax = ratioMax;
-                }
-
-                //query and filter
-                var results = [];
+                    //query and filter
+                    var results = [];
                     rootRef.orderByChild(queryCategory).startAt(queryMin).endAt(queryMax).once("value", function(snapshot){
                         snapshot.forEach(function(childSnapshot){
 
@@ -496,14 +523,14 @@ We ask only that you give the authors credit.
                             if(queryCategory == "estimate_income") {
                                 if(raceBoxStates.includes(true) && ratioBoxStates.includes(true)) {
                                     if(childSnapshot.val().percent_black <= raceMax) {
-                                       if(childSnapshot.val().percent_black >= raceMin) {
-                                           if(childSnapshot.val().money_spent_funding_received <= ratioMax) {
-                                               if(childSnapshot.val().money_spent_funding_received >= ratioMin) {
-                                                   console.log(childSnapshot.val().percent_black);
-                                                   results.push(childSnapshot);
-                                               }
-                                           }
-                                       }
+                                        if(childSnapshot.val().percent_black >= raceMin) {
+                                            if(childSnapshot.val().money_spent_funding_received <= ratioMax) {
+                                                if(childSnapshot.val().money_spent_funding_received >= ratioMin) {
+                                                    console.log(childSnapshot.val().percent_black);
+                                                    results.push(childSnapshot);
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                                 else if (raceBoxStates.includes(true)) {
@@ -547,24 +574,24 @@ We ask only that you give the authors credit.
 
                         results.forEach(function(entry) {
                             districtNames.push(entry.val().district_name);
-                    });
+                        });
 
                         console.log("District Names:" +  districtNames.length);
-                });
+                    });
 
 
-                //recreate the map with the queried and filtered data
-                var map = new google.maps.Map(this.$.mapEle, {
-                    center: {lat: 44.5, lng: -84.5555},
-                    zoom: 7,
-                    styles: [ { featureType: "road", stylers: [ { visibility: "off" } ] },{ },
-                        { featureType: "poi", stylers: [ { visibility: "off" } ] },{ },
-                        { featureType: "administrative", stylers: [ { visibility: "off" } ] },{ }]
-                });
-                map.data.loadGeoJson("src/simplified.json");
+                    //recreate the map with the queried and filtered data
+                    var map = new google.maps.Map(this.$.mapEle, {
+                        center: {lat: 44.5, lng: -84.5555},
+                        zoom: 7,
+                        styles: [ { featureType: "road", stylers: [ { visibility: "off" } ] },{ },
+                            { featureType: "poi", stylers: [ { visibility: "off" } ] },{ },
+                            { featureType: "administrative", stylers: [ { visibility: "off" } ] },{ }]
+                    });
+                    map.data.loadGeoJson("src/simplified.json");
 
-                map.data.setStyle(function(feature) {
-                    var name = feature.getProperty('NAME');
+                    map.data.setStyle(function(feature) {
+                        var name = feature.getProperty('NAME');
 
                         if (districtNames.includes(name)) {
                             var color = 'red';
@@ -579,118 +606,185 @@ We ask only that you give the authors credit.
                                 clickable: true
                             };
                         }
-                });
+                    });
 
-                //add onClick handler
-                map.data.addListener('click', function(event){
-                    var districtChosen = event.feature.getProperty('NAME');
-                    //alert(districtChosen);
-                    //var districtRef = rootRef.child(districtChosen);
+                    //add onClick handler
+                    map.data.addListener('click', function(event){
+                        var districtChosen = event.feature.getProperty('NAME');
+                        //alert(districtChosen);
+                        //var districtRef = rootRef.child(districtChosen);
 
-                    var arr = [];
-                    rootRef.orderByChild('district_name').equalTo(districtChosen).limitToFirst(1).once("value", function(snapshot){
-                       snapshot.forEach(function(childSnapshot){
-                           arr.push(childSnapshot.val().district_name);
-                           arr.push(childSnapshot.val().total_lottery_spending);
-                           arr.push(childSnapshot.val().total_lottery_received);
+                        var arr = [];
+                        rootRef.orderByChild('district_name').equalTo(districtChosen).limitToFirst(1).once("value", function(snapshot){
+                            snapshot.forEach(function(childSnapshot){
+                                arr.push(childSnapshot.val().district_name);
+                                arr.push(childSnapshot.val().total_lottery_spending);
+                                arr.push(childSnapshot.val().total_lottery_received);
 
 
-                       });
-                        //console.log("Inside: " + typeof(arr[1]));
-                        $('#inVsOut').remove();
-                        $('#graphContainer').append('<canvas id="inVsOut"></canvas>');
-                        console.log(typeof(arr[1]));
-                        //console.log(arr[2]);
+                            });
+                            //console.log("Inside: " + typeof(arr[1]));
+                            $('#inVsOut').remove();
+                            $('#graphContainer').append('<canvas id="inVsOut"></canvas>');
+                            console.log(typeof(arr[1]));
+                            //console.log(arr[2]);
 
-                        var ctx = inVsOut.getContext('2d');
-                        var chart = new Chart(ctx, {
-                            type: 'bar',
+                            var ctx = inVsOut.getContext('2d');
+                            var chart = new Chart(ctx, {
+                                type: 'bar',
 
-                            data: {
-                                labels: ["Money Spent", "Money Received"],
-                                datasets: [{
-                                    labels: arr[0],
-                                    backgroundColor: ["#ff0000", "#00CC00"],
-                                    data: [arr[1], arr[2]]
-                                }]
-                            },
+                                data: {
+                                    labels: ["Money Spent", "Money Received"],
+                                    datasets: [{
+                                        labels: arr[0],
+                                        backgroundColor: ["#ff0000", "#00CC00"],
+                                        data: [arr[1], arr[2]]
+                                    }]
+                                },
 
-                            options: {
-                                legend: {
-                                    display: false
+                                options: {
+                                    legend: {
+                                        display: false
+                                    }
                                 }
-                            }
+                            });
                         });
+
+
                     });
 
 
-                });
-
+                }
 
             }
+
+
+            //Disregard for now
+
+            checkBoxChecked(ev) {
+
+                /*var results = []                                                                                                                                                                                                                            ;
+                rootRef.orderByChild("percent_black").endAt(1).once("value", function(snapshot){
+                    snapshot.forEach(function(childSnapshot){
+                        results.push(childSnapshot);
+                        console.log(results.length)
+
+
+                    });
+
+                });*/
+
+                //alert(ev.target.checked);
+                //var other = this.$.i2;
+                //other.disabled = true;
+                //alert(other.checked);
+
+                /*  var map = new google.maps.Map(this.$.mapEle, {
+                      center: {lat: 44.5, lng: -84.5555},
+                      zoom: 7,
+                      styles: [ { featureType: "road", stylers: [ { visibility: "off" } ] },{ },
+                          { featureType: "poi", stylers: [ { visibility: "off" } ] },{ },
+                          { featureType: "administrative", stylers: [ { visibility: "off" } ] },{ }]
+                  });
+                  map.data.loadGeoJson("src/simplified.json");
+
+                  map.data.setStyle(function(feature) {
+                      var name = feature.getProperty('NAME');
+                      if (name == "Alcona Community Schools") {
+                          var color = 'red';
+                          return {
+                              fillColor: color,
+                              strokeWeight: .7
+                          };
+                      } else {
+                          return {
+                              strokeWeight: .3,
+                              fillColor: 'blue'
+                          };
+                      }
+                  });*/
+            }
+//            creates the google signin button and handles the click
+            signInFirebase(){
+                var uiConfig = {
+                    signInSuccessUrl: 'http://cis.gvsu.edu/~hernz/CIS371/semester_proj/lotteryv2/',
+                    signInOptions: [
+                        // Specify providers you want to offer your users.
+                        firebase.auth.GoogleAuthProvider.PROVIDER_ID
+                    ],
+                    // Terms of service url can be specified and will show up in the widget.
+                    tosUrl: '<your-tos-url>'
+                };
+                // Initialize the FirebaseUI Widget using Firebase.
+                var ui = new firebaseui.auth.AuthUI(firebase.auth());
+                // The start method will wait until the DOM is loaded.
+                ui.start(this.$.firebase_ui_container, uiConfig);
+
+            }
+
+            signOutFirebase(){
+                firebase.auth().signOut().then(function() {
+                    //conditions if able to sign out
+                }).catch(function(error) {
+                    alert("Sorry, there was an error signing you out");
+                });
+            }
+
+            setFirebaseListener(){
+                //keeps track of firebase user
+
+                    // Track the UID of the current user.
+                    var currentUid = null;
+                    //for referencing in inner function
+                    var poly = this;
+                    //hide and unhide button based on sign in status
+                    var signOutButton = this.$.signOutButton;
+                    //another button just to display message, todo change later to something that looks better
+                    var statusButton = this.$.statusButton;
+
+
+                    firebase.auth().onAuthStateChanged(function(user) {
+                        // onAuthStateChanged listener triggers every time the user ID token changes.
+                        // This could happen when a new user signs in or signs out.
+                        // It could also happen when the current user ID token expires and is refreshed.
+                        if (user && user.uid != currentUid) {
+                            // Update the UI when a new user signs in.
+                            // Otherwise ignore if this is a token refresh.
+                            // Update the current user UID.
+                            currentUid = user.uid;
+                            //log just for testing purposes todo delete this later
+                            console.log(user.displayName + ' is signed in');
+                            //show signout button
+                            signOutButton.hide = false;
+                            //show that user is signed in
+                            statusButton.innerHTML = "Signed in as " + user.displayName;
+                        } else {
+                            // Sign out operation. Reset the current user UID.
+                            currentUid = null;
+                            console.log("no user signed in");
+                            //hide sign out button
+                            signOutButton.hidden = true;
+                            //hide status
+                            statusButton.hidden = true;
+                            poly.signInFirebase();
+
+                        }
+                    });
+
+            };
+
+
+
+
+
 
         }
 
 
-        //Disregard for now
 
-        checkBoxChecked(ev) {
-
-            /*var results = []                                                                                                                                                                                                                            ;
-            rootRef.orderByChild("percent_black").endAt(1).once("value", function(snapshot){
-                snapshot.forEach(function(childSnapshot){
-                    results.push(childSnapshot);
-                    console.log(results.length)
-
-
-                });
-
-            });*/
-
-            //alert(ev.target.checked);
-           //var other = this.$.i2;
-           //other.disabled = true;
-           //alert(other.checked);
-
-          /*  var map = new google.maps.Map(this.$.mapEle, {
-                center: {lat: 44.5, lng: -84.5555},
-                zoom: 7,
-                styles: [ { featureType: "road", stylers: [ { visibility: "off" } ] },{ },
-                    { featureType: "poi", stylers: [ { visibility: "off" } ] },{ },
-                    { featureType: "administrative", stylers: [ { visibility: "off" } ] },{ }]
-            });
-            map.data.loadGeoJson("src/simplified.json");
-
-            map.data.setStyle(function(feature) {
-                var name = feature.getProperty('NAME');
-                if (name == "Alcona Community Schools") {
-                    var color = 'red';
-                    return {
-                        fillColor: color,
-                        strokeWeight: .7
-                    };
-                } else {
-                    return {
-                        strokeWeight: .3,
-                        fillColor: 'blue'
-                    };
-                }
-            });*/
-        };
-
-
-
-
-
-
-    }
-
-
-
-    window.customElements.define(MyLotto.is, MyLotto);
-  </script>
+        window.customElements.define(MyLotto.is, MyLotto);
+    </script>
 
 </dom-module>
-
 
 
