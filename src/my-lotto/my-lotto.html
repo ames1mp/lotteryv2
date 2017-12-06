@@ -536,7 +536,11 @@ We ask only that you give the authors credit.
                                             results.push(childSnapshot);
                                         }
                                     }
+                                } else {
+                                    results.push(childSnapshot);
                                 }
+                            } else {
+                                results.push(childSnapshot);
                             }
                         });
 
@@ -583,7 +587,7 @@ We ask only that you give the authors credit.
                     var districtRef = rootRef.child(districtChosen);
 
 
-                    districtRef.once("value", function(snapshot){
+                    rootRef.orderByChild('district_name').equalTo(districtChosen).once("value", function(snapshot){
                        snapshot.forEach(function(childSnapshot){
                            console.log(childSnapshot.val().district_name);
                        });
