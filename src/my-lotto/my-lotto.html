@@ -2,7 +2,7 @@
 Authors: Michael Ames, Tyler Anson, Zachary Hern
 Version: December 2017
 This work may be modified and redistributed.
-We ask that you give the authors credit.
+We ask only that you give the authors credit.
 -->
 
 
@@ -25,9 +25,10 @@ We ask that you give the authors credit.
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKb-lSY4lMIiiy014YHhf9pwJOejs2YYU"
         async defer>
-
-
 </script>
+
+<!--Adding chart.js script to the page-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 
 <!--for jquery scripts-->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -255,20 +256,12 @@ We ask that you give the authors credit.
         <!-- Div which contains the main content (Map and side panel with charts)-->
         <div id ="main" style="display: inline;">
             <div id="mapEle"></div>
-            <!--<div id="data">
-                <h1>Select a School District</h1>
-                <div id="graph-container">
-                    <canvas id="results-graph"></canvas>
-                </div>
-            &lt;!&ndash; Selector drop down for the districts &ndash;&gt;
-                <div id="select_div">
-                    &lt;!&ndash;appends html select to div &ndash;&gt;
-                    <script>
-                        $('#select_div').append(select);
-                    </script>
-                </div>
-            <button id="getData" onclick=getData()>Get Data</button>
-            </div>-->
+
+            <div style="height: 100%; overflow: scroll;" id="graphContainer">
+                <canvas id="inVsOut"></canvas>
+                <canvas id="demographics"></canvas>
+            </div>
+            <!--</div>-->
         </div>
 
 
@@ -402,6 +395,9 @@ We ask that you give the authors credit.
             var raceMax;
             var ratioMin;
             var ratioMax;
+            var inVsOut = this.$.inVsOut;
+            var graphContainer = this.$.graphContainer;
+            var arr = [];
 
             //check to see if App-Drawer is closed
             if(!ev) {
@@ -527,6 +523,9 @@ We ask that you give the authors credit.
                                     }
 
                                 }
+                                else {
+                                    results.push(childSnapshot);
+                                }
 
 
                             } else if(queryCategory == "percent_black") {
@@ -566,13 +565,51 @@ We ask that you give the authors credit.
                             var color = 'red';
                             return {
                                 fillColor: color,
-                                strokeWeight: .3
+                                strokeWeight: .3,
+                                clickable: true
                             };
                         } else {
                             return {
-                                strokeWeight: .3
+                                strokeWeight: .3,
+                                clickable: true
                             };
                         }
+                });
+
+                //add onClick handler
+                map.data.addListener('click', function(event){
+                    var districtChosen = event.feature.getProperty('NAME');
+                    //alert(districtChosen);
+                    var districtRef = rootRef.child(districtChosen);
+
+
+                    districtRef.once("value", function(snapshot){
+                       snapshot.forEach(function(childSnapshot){
+                           console.log(childSnapshot.val().district_name);
+                       });
+                    });
+                    inVsOut.remove();
+                    graphContainer.append('<canvas id="inVsOut"></canvas>');
+
+                    var ctx = inVsOut.getContext('2d');
+                    var chart = new Chart(ctx, {
+                        type: 'bar',
+
+                        data: {
+                            labels: ["Money Spent", "Money Received"],
+                            datasets: [{
+                                labels: arr.district_name,
+                                backgroundColor: ["#ff0000", "#00CC00"],
+                                data: [arr.total_lottery_spending, arr.total_lottery_received]
+                            }]
+                        },
+
+                        options: {
+                            legend: {
+                                display: false
+                            }
+                        }
+                    });
 
                 });
 
