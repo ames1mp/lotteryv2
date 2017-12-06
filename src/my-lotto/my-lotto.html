@@ -386,6 +386,12 @@
         //Update the map when the App-Drawer is closed
         _drawerStateChanged(ev) {
             var districtNames = [];
+            var incomeMin;
+            var incomeMax;
+            var raceMin;
+            var raceMax;
+            var ratioMin;
+            var ratioMax;
 
             //check to see if App-Drawer is closed
             if(!ev) {
@@ -414,8 +420,8 @@
 
                 //get the income range to query on firebase
                 if (incomeBoxStates != undefined && incomeBoxStates.includes(true)) {
-                    var incomeMin = Number.MAX_VALUE;
-                    var incomeMax = Number.MIN_VALUE;
+                    incomeMin = Number.MAX_VALUE;
+                    incomeMax = Number.MIN_VALUE;
                     for (var i = 0; i < incomeBoxStates.length; ++i) {
                         if (incomeBoxStates[i]) {
                             if (incomeMin > incomeValues[i][0])
@@ -427,8 +433,8 @@
                 }
                 //get the race range to query on firebase
                 if (raceBoxStates != undefined && raceBoxStates.includes(true)) {
-                    var raceMin = Number.MAX_VALUE;
-                    var raceMax = Number.MIN_VALUE;
+                    raceMin = Number.MAX_VALUE;
+                    raceMax = Number.MIN_VALUE;
                     for (var i = 0; i < raceBoxStates.length; ++i) {
                         if (raceBoxStates[i]) {
                             if (raceMin > raceValues[i][0])
@@ -437,12 +443,12 @@
                                 raceMax = raceValues[i][1];
                         }
                     }
-                    console.log("Race Min: " + raceMin + " Race Max: " + raceMax);
+
                 }
                 //get the ratio range to query on firebase
                 if (ratioBoxStates != undefined && ratioBoxStates.includes(true)) {
-                    var ratioMin = Number.MAX_VALUE;
-                    var ratioMax = Number.MIN_VALUE;
+                    ratioMin = Number.MAX_VALUE;
+                    ratioMax = Number.MIN_VALUE;
                     for (var i = 0; i < ratioBoxStates.length; ++i) {
                         if (ratioBoxStates[i]) {
                             if (ratioMin > ratioValues[i][0])
@@ -451,7 +457,7 @@
                                 ratioMax = ratioValues[i][1];
                         }
                     }
-                    console.log("Ratio Min: " + ratioMin + " Ratio Max: " + ratioMax);
+
                 }
 
                 //decide which category to filter by
@@ -468,27 +474,70 @@
                     queryMin = raceMin;
                     queryMax = raceMax;
                 }
-                else if (ratioBoxStates.includes(true)) {
+                else if (ratioBoxStates.includes(true) && !raceBoxStates.includes(true)) {
                     queryCategory = "money_spent_funding_received";
                     queryMin = ratioMin;
                     queryMax = ratioMax;
                 }
 
-                var results = []                                                                                                                                                                                                                            ;
+                //query and filter
+                var results = [];
                     rootRef.orderByChild(queryCategory).startAt(queryMin).endAt(queryMax).once("value", function(snapshot){
                         snapshot.forEach(function(childSnapshot){
-                            if (raceBoxStates.includes(true)) {
 
+
+                            if(queryCategory == "estimate_income") {
+                                if(raceBoxStates.includes(true) && ratioBoxStates.includes(true)) {
+                                    if(childSnapshot.val().percent_black <= raceMax) {
+                                       if(childSnapshot.val().percent_black >= raceMin) {
+                                           if(childSnapshot.val().money_spent_funding_received <= ratioMax) {
+                                               if(childSnapshot.val().money_spent_funding_received >= ratioMin) {
+                                                   console.log(childSnapshot.val().percent_black);
+                                                   results.push(childSnapshot);
+                                               }
+                                           }
+                                       }
+                                    }
+                                }
+                                else if (raceBoxStates.includes(true)) {
+                                    if(childSnapshot.val().percent_black <= raceMax) {
+                                        if (childSnapshot.val().percent_black >= raceMin) {
+                                            console.log(childSnapshot.val().percent_black);
+                                            results.push(childSnapshot);
+                                        }
+                                    }
+                                }
+                                else if (ratioBoxStates.includes(true)) {
+                                    if(childSnapshot.val().money_spent_funding_received <= ratioMax) {
+                                        if (childSnapshot.val().money_spent_funding_received >= ratioMin) {
+                                            console.log(childSnapshot.val().money_spent_funding_received);
+                                            results.push(childSnapshot);
+                                        }
+
+                                    }
+
+                                }
+
+
+                            } else if(queryCategory == "percent_black") {
+                                if(ratioBoxStates.includes(true)){
+                                    if(childSnapshot.val().money_spent_funding_received <= ratioMax) {
+                                        if(childSnapshot.val().money_spent_funding_received >= ratioMin) {
+                                            console.log("Ratio: " + childSnapshot.val().money_spent_funding_received + " Race: " + childSnapshot.val().percent_black);
+                                            results.push(childSnapshot);
+                                        }
+                                    }
+                                }
                             }
-                            results.push(childSnapshot);
-
                         });
 
                         results.forEach(function(entry) {
                             districtNames.push(entry.val().district_name);
-                        });
-
                     });
+
+                        console.log("District Names:" +  districtNames.length);
+                });
+
 
 
                 var map = new google.maps.Map(this.$.mapEle, {
