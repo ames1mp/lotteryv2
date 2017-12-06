@@ -139,6 +139,7 @@ We ask only that you give the authors credit.
              #graph-container {
                  width: 39vw;
                  float: right;
+                 visibility: visible;
              }
 
 
@@ -396,8 +397,8 @@ We ask only that you give the authors credit.
             var ratioMin;
             var ratioMax;
             var inVsOut = this.$.inVsOut;
-            var graphContainer = this.$.graphContainer;
-            var arr = [];
+            var graphContainer = $('#graphContainer');
+            //var arr = [];
 
             //check to see if App-Drawer is closed
             if(!ev) {
@@ -584,36 +585,44 @@ We ask only that you give the authors credit.
                 map.data.addListener('click', function(event){
                     var districtChosen = event.feature.getProperty('NAME');
                     //alert(districtChosen);
-                    var districtRef = rootRef.child(districtChosen);
+                    //var districtRef = rootRef.child(districtChosen);
 
-
-                    rootRef.orderByChild('district_name').equalTo(districtChosen).once("value", function(snapshot){
+                    var arr = [];
+                    rootRef.orderByChild('district_name').equalTo(districtChosen).limitToFirst(1).once("value", function(snapshot){
                        snapshot.forEach(function(childSnapshot){
-                           console.log(childSnapshot.val().district_name);
+                           arr.push(childSnapshot.val().district_name);
+                           arr.push(childSnapshot.val().total_lottery_spending);
+                           arr.push(childSnapshot.val().total_lottery_received);
+
+
                        });
-                    });
-                    inVsOut.remove();
-                    graphContainer.append('<canvas id="inVsOut"></canvas>');
+                        //console.log("Inside: " + typeof(arr[1]));
+                        $('#inVsOut').remove();
+                        $('#graphContainer').append('<canvas id="inVsOut"></canvas>');
+                        console.log(typeof(arr[1]));
+                        //console.log(arr[2]);
 
-                    var ctx = inVsOut.getContext('2d');
-                    var chart = new Chart(ctx, {
-                        type: 'bar',
+                        var ctx = inVsOut.getContext('2d');
+                        var chart = new Chart(ctx, {
+                            type: 'bar',
 
-                        data: {
-                            labels: ["Money Spent", "Money Received"],
-                            datasets: [{
-                                labels: arr.district_name,
-                                backgroundColor: ["#ff0000", "#00CC00"],
-                                data: [arr.total_lottery_spending, arr.total_lottery_received]
-                            }]
-                        },
+                            data: {
+                                labels: ["Money Spent", "Money Received"],
+                                datasets: [{
+                                    labels: arr[0],
+                                    backgroundColor: ["#ff0000", "#00CC00"],
+                                    data: [arr[1], arr[2]]
+                                }]
+                            },
 
-                        options: {
-                            legend: {
-                                display: false
+                            options: {
+                                legend: {
+                                    display: false
+                                }
                             }
-                        }
+                        });
                     });
+
 
                 });
 
