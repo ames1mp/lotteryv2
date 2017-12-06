@@ -1,3 +1,12 @@
+<!--
+Authors: Michael Ames, Tyler Anson, Zachary Hern
+Version: December 2017
+This work may be modified and redistributed.
+We ask that you give the authors credit.
+-->
+
+
+
 <!-- Layout adapted from https://github.com/PolymerElements/app-layout/blob/master/templates/test-drive/test-app.html -->
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/app-layout/app-layout.html">
@@ -46,7 +55,7 @@
     </defs></svg>
 </iron-iconset-svg>
 
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
 
 <script>
     incomeValues = [[0, 20000], [20000, 35000], [35000, 50000], [50000, Number.MAX_VALUE]];
@@ -57,7 +66,8 @@
 
 
 <dom-module id="my-lotto">
-
+    <!-- Note, you cannot make a reference to templated elements within the template. Any refrences must be done in
+    the ready method, or in a function in the main script section-->
     <template>
 
         <style>
@@ -138,19 +148,21 @@
 
         </style>
 
+        <!-- Layout for the side slide-out menu, force-narrow lets the menu slide in and out on larger screens -->
         <app-drawer-layout force-narrow>
 
+            <!-- Checkboxes in the slide-out menu-->
             <app-drawer id="appDrawer" slot="drawer" opened="{{drawerOpened}}">
                 <div style="height: 100%; overflow: auto; z-index: 2">
                 <section>
                     <h2>Filter Map By:</h2>
                     <h2>Median Household Income</h2>
-                    <paper-toggle-button id="i1" on-change="checkBoxChecked" disabled="{{i1-dis}}">
+                    <paper-checkbox id="i1" on-change="checkBoxChecked" disabled="{{i1-dis}}">
                         $0 - $20K
-                    </paper-toggle-button>
-                    <paper-toggle-button id="i2" disabled="{{i2-dis}}">
+                    </paper-checkbox>
+                    <paper-checkbox id="i2" disabled="{{i2-dis}}">
                         $20K - $35K
-                    </paper-toggle-button>
+                    </paper-checkbox>
                     <paper-checkbox id="i3"checked="{{income2}}">
                         $35K - $50K
                     </paper-checkbox>
@@ -200,7 +212,7 @@
                 </section>
                 </div>
             </app-drawer>
-
+            <!-- Layout for the header-->
             <app-header-layout>
 
                 <app-header
@@ -210,6 +222,7 @@
                         shadow="[[shadow]]"
                         effects="[[_computeEffects(blendBackground, fadeBackground, parallaxBackground, resizeSnappedTitle, resizeTitle, waterfall)]]"
                         slot="header">
+
                     <app-toolbar>
                         <paper-icon-button icon="app:menu" drawer-toggle></paper-icon-button>
                         <div condensed-title>School Disbursements</div>
@@ -230,10 +243,6 @@
 
             </app-header-layout>
 
-
-
-
-
         </app-drawer-layout>
       <!--  <iron-pages id="pages" selected="0">
             <section>-->
@@ -242,7 +251,8 @@
       <!--      </section>
 
         </iron-pages>-->
-        <!--Map Element-->
+
+        <!-- Div which contains the main content (Map and side panel with charts)-->
         <div id ="main" style="display: inline;">
             <div id="mapEle"></div>
             <!--<div id="data">
@@ -345,7 +355,7 @@
               '_removeIf("waterfall", shadow)'
           ]
       };
-
+        //Runs one time, when the DOM is fully loaded. Renders the map for the first time.
         ready() {
            super.ready();
 
@@ -383,7 +393,7 @@
             }
         };
 
-        //Update the map when the App-Drawer is closed
+        //This function fires when the slide-out app drawer changes state (open/close).
         _drawerStateChanged(ev) {
             var districtNames = [];
             var incomeMin;
@@ -395,7 +405,7 @@
 
             //check to see if App-Drawer is closed
             if(!ev) {
-
+                //get the states of the checkboxes
                 var incomeBoxStates = [];
                 incomeBoxStates.push(this.$.i1.checked);
                 incomeBoxStates.push(this.$.i2.checked);
@@ -539,7 +549,7 @@
                 });
 
 
-
+                //recreate the map with the queried and filtered data
                 var map = new google.maps.Map(this.$.mapEle, {
                     center: {lat: 44.5, lng: -84.5555},
                     zoom: 7,
@@ -572,6 +582,7 @@
         }
 
 
+        //Disregard for now
 
         checkBoxChecked(ev) {
 
@@ -587,8 +598,8 @@
             });*/
 
             //alert(ev.target.checked);
-           var other = this.$.i2;
-           other.disabled = true;
+           //var other = this.$.i2;
+           //other.disabled = true;
            //alert(other.checked);
 
           /*  var map = new google.maps.Map(this.$.mapEle, {

@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a5b2b3f5-abb8-4bf9-bfb3-3dd658190734" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/my-lotto/my-lotto.html" afterPath="$PROJECT_DIR$/src/my-lotto/my-lotto.html" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -40,8 +39,8 @@
       <file leaf-file-name="my-lotto.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/my-lotto/my-lotto.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="736">
-              <caret line="552" column="59" lean-forward="true" selection-start-line="552" selection-start-column="59" selection-end-line="552" selection-end-column="59" />
+            <state relative-caret-position="-230">
+              <caret line="584" column="27" lean-forward="true" selection-start-line="584" selection-start-column="27" selection-end-line="584" selection-end-column="27" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#app-drawer#0;n#app-drawer-layout#0;n#template#0;n#dom-module#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#template#0;n#dom-module#0;n#!!top" expanded="true" />
@@ -170,12 +169,12 @@
       <workItem from="1512097227069" duration="9020000" />
       <workItem from="1512279790960" duration="35677000" />
       <workItem from="1512432522754" duration="3270000" />
-      <workItem from="1512484764883" duration="24803000" />
+      <workItem from="1512484764883" duration="25773000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="88482000" />
+    <option name="totallyTimeSpent" value="89452000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -360,8 +359,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/my-lotto/my-lotto.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="736">
-          <caret line="552" column="59" lean-forward="true" selection-start-line="552" selection-start-column="59" selection-end-line="552" selection-end-column="59" />
+        <state relative-caret-position="-230">
+          <caret line="584" column="27" lean-forward="true" selection-start-line="584" selection-start-column="27" selection-end-line="584" selection-end-column="27" />
           <folding>
             <element signature="n#style#0;n#div#0;n#app-drawer#0;n#app-drawer-layout#0;n#template#0;n#dom-module#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#template#0;n#dom-module#0;n#!!top" expanded="true" />
