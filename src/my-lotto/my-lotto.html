@@ -17,6 +17,7 @@ We ask only that you give the authors credit.
 <link rel="import" href="../../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
 <link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../../bower_components/iron-iconset-svg/iron-iconset-svg.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
@@ -81,6 +82,7 @@ We ask only that you give the authors credit.
                 height: 100%;
                 overflow-y: auto;
                 -webkit-overflow-scrolling: touch;
+                z-index: 5;
             }
 
             app-drawer h2 {
@@ -107,13 +109,25 @@ We ask only that you give the authors credit.
                 font-size: 2em;
             }
              #mapEle {
+
                  width: 60vw;
-                 height: 100%;
-                 min-height: 500px;
-                 z-index: -1;
+                 height: 75vh;
+                 min-height: 75vh;
+                 z-index: 0;
                  float: left;
 
+
              }
+            #mapCard {
+                width: 60vw;
+                float: left;
+                margin-top: 1%;
+                margin-left: 1%;
+                height: 75vh;
+                padding-top: 0%;
+                padding-left: 0%;
+
+            }
 
              #copyright {
                  text-align: right;
@@ -129,6 +143,7 @@ We ask only that you give the authors credit.
 
              #main {
                  display: inline;
+                 margin-top: 10px;
              }
 
              #data {
@@ -140,6 +155,21 @@ We ask only that you give the authors credit.
                  width: 39vw;
                  float: right;
                  visibility: visible;
+             }
+             paper-card {
+                 z-index: -2;
+
+             }
+
+
+             #dataCard {
+                 width: 37vw;
+                 float: right;
+                 margin-top: 1%;
+                 margin-right: 1%;
+             }
+             app-drawer {
+                 z-index: 10;
              }
 
 
@@ -256,13 +286,23 @@ We ask only that you give the authors credit.
 
         <!-- Div which contains the main content (Map and side panel with charts)-->
         <div id ="main" style="display: inline;">
-            <div id="mapEle"></div>
+            <paper-card id = "mapCard">
+                <div class="card-content">
+                    <div id="mapEle"></div>
+                </div>
+            </paper-card>
 
-            <div style="height: 100%; overflow: scroll;" id="graphContainer">
+
+            <paper-card id = dataCard>
+                <div class="card-content">
+                <div style="height: 100%; overflow: scroll;" id="graphContainer">
                 <canvas id="inVsOut"></canvas>
                 <canvas id="demographics"></canvas>
             </div>
-            <!--</div>-->
+
+        </div>
+
+        </paper-card>
         </div>
 
 
