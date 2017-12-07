@@ -704,7 +704,7 @@ We ask only that you give the authors credit.
                       }
                   });*/
             }
-//            creates the google signin button and handles the click
+            /* method used by setFirebaseListener() to create signin button and handle firebase logins*/
             signInFirebase(){
                 var uiConfig = {
                     signInSuccessUrl: 'http://cis.gvsu.edu/~hernz/CIS371/semester_proj/lotteryv2/',
@@ -722,6 +722,7 @@ We ask only that you give the authors credit.
 
             }
 
+            /*signs user out.... obviously*/
             signOutFirebase(){
                 firebase.auth().signOut().then(function() {
                     //conditions if able to sign out
@@ -730,6 +731,9 @@ We ask only that you give the authors credit.
                 });
             }
 
+            /* called thru a div in the ready() method. Sets up listener for users.
+            * if user is signed in, creates button for logging out.
+            * if user is not signed in, creates sign in button.*/
             setFirebaseListener(){
                 //keeps track of firebase user
 
