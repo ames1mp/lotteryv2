@@ -58,11 +58,13 @@ We ask only that you give the authors credit.
 </iron-iconset-svg>
 
 
-
+<!-- global variables -->
 <script>
     incomeValues = [[0, 20000], [20000, 35000], [35000, 50000], [50000, Number.MAX_VALUE]];
     raceValues  = [[0, 10], [10, 20], [20, 30], [30, 50], [50, 100]];
     ratioValues = [[0, 2], [2, 4], [4, 6], [6, 8], [8, 10], [10, 14], [14, 23]];
+    var map;
+    var barChart;
 </script>
 
 
@@ -110,20 +112,20 @@ We ask only that you give the authors credit.
             }
              #mapEle {
 
-                 width: 60vw;
-                 height: 75vh;
-                 min-height: 75vh;
-                 z-index: 0;
+                 width: 59vw;
+                 height: 73vh;
+                 min-height: 73vh;
+                 z-index: 1;
                  float: left;
 
 
              }
             #mapCard {
                 width: 60vw;
+                height: 75vh;
                 float: left;
                 margin-top: 1%;
                 margin-left: 1%;
-                height: 75vh;
                 padding-top: 0%;
                 padding-left: 0%;
 
@@ -157,7 +159,7 @@ We ask only that you give the authors credit.
                  visibility: visible;
              }
              paper-card {
-                 z-index: -2;
+                 z-index: -1;
 
              }
 
@@ -169,14 +171,15 @@ We ask only that you give the authors credit.
                  margin-right: 1%;
              }
              app-drawer {
-                 z-index: 10;
+                 z-index: 3;
              }
 
 
             :host {
-        display: block;
+                display: block;
+                z-index: 0;
 
-      }
+            }
 
         </style>
 
@@ -295,10 +298,10 @@ We ask only that you give the authors credit.
 
             <paper-card id = dataCard>
                 <div class="card-content">
-                <div style="height: 100%; overflow: scroll;" id="graphContainer">
+                    <h2>{{districtNameDisplay}}</h2>
                 <canvas id="inVsOut"></canvas>
                 <canvas id="demographics"></canvas>
-            </div>
+
 
         </div>
 
@@ -372,6 +375,10 @@ We ask only that you give the authors credit.
                 type: Boolean,
                 notify: true,
                 observer: "_drawerStateChanged"
+            },
+            districtNameDisplay: {
+                type: String,
+                value: "Test"
             }
 
           }
@@ -394,7 +401,7 @@ We ask only that you give the authors credit.
            super.ready();
 
 
-                var map = new google.maps.Map(this.$.mapEle, {
+            map = new google.maps.Map(this.$.mapEle, {
                     center: {lat: 44.5, lng: -84.5555},
                     zoom: 7,
                     styles: [ { featureType: "road", stylers: [ { visibility: "off" } ] },{ },
@@ -593,81 +600,78 @@ We ask only that you give the authors credit.
                 });
 
 
-                //recreate the map with the queried and filtered data
-                var map = new google.maps.Map(this.$.mapEle, {
-                    center: {lat: 44.5, lng: -84.5555},
-                    zoom: 7,
-                    styles: [ { featureType: "road", stylers: [ { visibility: "off" } ] },{ },
-                        { featureType: "poi", stylers: [ { visibility: "off" } ] },{ },
-                        { featureType: "administrative", stylers: [ { visibility: "off" } ] },{ }]
-                });
-                map.data.loadGeoJson("src/simplified.json");
+                //update map
+                if (map != undefined) {
+                        map.data.setStyle(function (feature) {
+                            var name = feature.getProperty('NAME');
 
-                map.data.setStyle(function(feature) {
-                    var name = feature.getProperty('NAME');
-
-                        if (districtNames.includes(name)) {
-                            var color = 'red';
-                            return {
-                                fillColor: color,
-                                strokeWeight: .3,
-                                clickable: true
-                            };
-                        } else {
-                            return {
-                                strokeWeight: .3,
-                                clickable: true
-                            };
-                        }
-                });
-
-                //add onClick handler
-                map.data.addListener('click', function(event){
-                    var districtChosen = event.feature.getProperty('NAME');
-                    //alert(districtChosen);
-                    //var districtRef = rootRef.child(districtChosen);
-
-                    var arr = [];
-                    rootRef.orderByChild('district_name').equalTo(districtChosen).limitToFirst(1).once("value", function(snapshot){
-                       snapshot.forEach(function(childSnapshot){
-                           arr.push(childSnapshot.val().district_name);
-                           arr.push(childSnapshot.val().total_lottery_spending);
-                           arr.push(childSnapshot.val().total_lottery_received);
-
-
-                       });
-                        //console.log("Inside: " + typeof(arr[1]));
-                        $('#inVsOut').remove();
-                        $('#graphContainer').append('<canvas id="inVsOut"></canvas>');
-                        console.log(typeof(arr[1]));
-                        //console.log(arr[2]);
-
-                        var ctx = inVsOut.getContext('2d');
-                        var chart = new Chart(ctx, {
-                            type: 'bar',
-
-                            data: {
-                                labels: ["Money Spent", "Money Received"],
-                                datasets: [{
-                                    labels: arr[0],
-                                    backgroundColor: ["#ff0000", "#00CC00"],
-                                    data: [arr[1], arr[2]]
-                                }]
-                            },
-
-                            options: {
-                                legend: {
-                                    display: false
-                                }
+                            if (districtNames.includes(name)) {
+                                var color = 'red';
+                                return {
+                                    fillColor: color,
+                                    strokeWeight: .3,
+                                    clickable: true
+                                };
+                            } else {
+                                return {
+                                    strokeWeight: .3,
+                                    clickable: true
+                                };
                             }
                         });
-                    });
+
+                        //add onClick handler
+                        map.data.addListener('click', function (event) {
+                            var districtChosen = event.feature.getProperty('NAME');
+                            //alert(districtChosen);
+                            //var districtRef = rootRef.child(districtChosen);
+
+                            var arr = [];
+                            rootRef.orderByChild('district_name').equalTo(districtChosen).limitToFirst(1).once("value", function (snapshot) {
+                                snapshot.forEach(function (childSnapshot) {
+                                    arr.push(childSnapshot.val().district_name);
+                                    arr.push(childSnapshot.val().total_lottery_spending);
+                                    arr.push(childSnapshot.val().total_lottery_received);
 
 
-                });
+                                });
+                                //console.log("Inside: " + typeof(arr[1]));
+                                /*$('#inVsOut').remove();
+                                $('#graphContainer').append('<canvas id="inVsOut"></canvas>');
+                                console.log(typeof(arr[1]));*/
+                                //console.log(arr[2]);
 
 
-            }
+                                var ctx = inVsOut.getContext('2d');
+
+                                if (barChart != undefined)
+                                    barChart.destroy();
+
+                                barChart = new Chart(ctx, {
+                                    type: 'bar',
+
+                                    data: {
+                                        labels: ["Money Spent", "Money Received"],
+                                        datasets: [{
+                                            labels: arr[0],
+                                            backgroundColor: ["#ff0000", "#00CC00"],
+                                            data: [arr[1], arr[2]]
+                                        }]
+                                    },
+
+                                    options: {
+                                        legend: {
+                                            display: false
+                                        }
+                                    }
+                                });
+                            });
+
+
+                        });
+                }
+
+            } //if (!ev)
 
         }
 
