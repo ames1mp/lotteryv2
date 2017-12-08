@@ -5,9 +5,8 @@ This work may be modified and redistributed.
 We ask only that you give the authors credit.
 -->
 
-
-
 <!-- Layout adapted from https://github.com/PolymerElements/app-layout/blob/master/templates/test-drive/test-app.html -->
+
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/app-layout/app-layout.html">
 <link rel="import" href="../../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
@@ -24,20 +23,18 @@ We ask only that you give the authors credit.
 <link rel="import" href="../../bower_components/iron-iconset-svg/iron-iconset-svg.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
-<link rel="import" href="../../bower_components/google-signin/google-signin.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
 
+
+
+<!-- Google Maps API -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKb-lSY4lMIiiy014YHhf9pwJOejs2YYU"
         async defer>
 </script>
 
-<!--Adding chart.js script to the page-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
-
-<!--for jquery scripts-->
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-
 <!--Firebase data-->
-<script src="https://www.gstatic.com/firebasejs/4.6.1/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+
 <script>
     // Initialize Firebase
     var config = {
@@ -48,10 +45,21 @@ We ask only that you give the authors credit.
         storageBucket: "lotterydata-2fe33.appspot.com",
         messagingSenderId: "601473570505"
     };
+
     firebase.initializeApp(config);
-    //database root reference
     rootRef = firebase.database().ref();
 </script>
+
+ <!--Firebase Auth-->
+<script src="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.js"></script>
+<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css" />
+
+<!--Chart.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+
+<!--jQuery-->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
 
 <iron-iconset-svg name="app" size="24">
     <svg><defs>
@@ -68,6 +76,15 @@ We ask only that you give the authors credit.
     var map;
     var barChart;
     var demoChart;
+    var ui;
+    var nonau;
+    var au;
+    var signInContainer;
+    var currentUid;
+    var currentUser;
+
+    var currentDistrict;
+    /*var provider = new firebase.auth.GoogleAuthProvider();*/
 </script>
 
 
@@ -142,9 +159,6 @@ We ask only that you give the authors credit.
                  opacity: 0.5;
 
              }
-             google-signin {
-                 float: right;
-             }
 
              #main {
                  display: inline;
@@ -163,7 +177,6 @@ We ask only that you give the authors credit.
              }
              paper-card {
                  z-index: -1;
-
              }
 
              #dataCard {
@@ -171,6 +184,13 @@ We ask only that you give the authors credit.
                  float: right;
                  margin-top: 1%;
                  margin-right: 1%;
+             }
+
+             #favCard {
+                 margin-right: 1%;
+                 margin-top: 1%;
+                 float: right;
+
              }
 
              #navLeft {
@@ -196,10 +216,15 @@ We ask only that you give the authors credit.
              }
 
 
+             #fav:hover {
+                 fill: red;
+             }
+
+
+
             :host {
                 display: block;
                 z-index: 0;
-
             }
 
         </style>
@@ -209,8 +234,18 @@ We ask only that you give the authors credit.
 
             <!-- Checkboxes in the slide-out menu-->
             <app-drawer id="appDrawer" slot="drawer" opened="{{drawerOpened}}">
-                <div style="height: 100%; overflow: auto; z-index: 2">
+                <div style="height: 100%; overflow: auto;">
                 <section>
+
+                    <div id="signInContainer"></div>
+                    <div id ="authUsers">
+                        <div>
+                            <paper-button id="signOutButton" on-click="signOutFirebase">Sign Out</paper-button>
+                            <h2 id="username"></h2>
+                        </div>
+                    </div>
+
+
                     <h2>Filter Map By:</h2>
                     <h2>Median Household Income</h2>
                     <paper-checkbox id="i1" on-change="checkBoxChecked" disabled="{{i1-dis}}">
@@ -281,9 +316,8 @@ We ask only that you give the authors credit.
 
                     <app-toolbar>
                         <paper-icon-button icon="app:menu" drawer-toggle></paper-icon-button>
+
                         <div condensed-title>School Disbursements</div>
-                        <paper-icon-button>icon="app:signin"</paper-icon-button>
-                        <google-signin></google-signin>
                     </app-toolbar>
 
                     <app-toolbar></app-toolbar>
@@ -302,9 +336,6 @@ We ask only that you give the authors credit.
         </app-drawer-layout>
 
 
-
-
-
         <!-- Div which contains the main content (Map and side panel with charts)-->
         <div id ="main" style="display: inline;">
             <paper-card id = "mapCard">
@@ -318,6 +349,7 @@ We ask only that you give the authors credit.
 
                 <div class="card-content">
                     <h2 id="distName"></h2>
+                    <!--<iron-icon on-click="_setFavorite"  id ='fav' icon="icons:favorite"></iron-icon>-->
                     <iron-icon on-click="_goPrev" id='navLeft' icon="icons:chevron-left"></iron-icon>
                     <iron-icon on-click="_goNext"  id ='navRight' icon="icons:chevron-right"></iron-icon>
                     <iron-pages id="pages" selected="0">
@@ -328,12 +360,18 @@ We ask only that you give the authors credit.
                             <canvas id="demographics"></canvas>
                         </section>
                     </iron-pages>
-
-
-
-        </div>
+                </div>
+                <div class="card-actions">
+                    <paper-icon-button icon="favorite" id="fav" on-click="_setFavorite"></paper-icon-button>
+                </div>
 
         </paper-card>
+
+         <paper-card id="favCard" heading="Favorites">
+             <div class="card-content" id="favContent">
+
+             </div>
+         </paper-card>
         </div>
 
 
@@ -404,22 +442,91 @@ We ask only that you give the authors credit.
                 notify: true,
                 observer: "_drawerStateChanged"
             },
-            districtNameDisplay: {
-                type: String,
-                value: "Test"
+            user: {
+                type: Object
             }
-
           }
         };
+
 
 
         //Runs one time, when the DOM is fully loaded. Renders the map for the first time.
         ready() {
            super.ready();
 
+            currentUid;
+            var poly = this;
+            var signOutButton = this.$.signOutButton;
+            var userGreeting = this.$.username;
+            signInContainer = this.$.signInContainer;
+            var favCard = this.$.favCard;
+            var favContent = this.$.favContent;
+
+            nonau = this.$.signInContainer;
+            au = this.$.authUsers;
+
+            if (currentUid == null) {
+                currentUid = null;
+                au.hidden = true;
+                nonau.hidden = false;
+                console.log("nobody signed in");
+            } else {
+                userGreeting.innerText = "Hello " + user.displayName;
+                au.hidden = false;
+                nonau.hidden = true;
+                console.log(user.displayName + ' is signed in');
+
+            }
+
+            firebase.auth().onAuthStateChanged(function(user) {
+
+                    if (user && user.uid != currentUid) {
+                        currentUid = user.uid;
+                        currentUser = user;
+
+
+                        if (user == null) {
+                            currentUid = null;
+                            au.hidden = true;
+                            nonau.hidden = false;
+                            console.log("nobody signed in");
+                            favContent.innerHTML = "Please sign in to view favorites."
+                        } else {
+                            rootRef.child("users").child(user.uid).update({
+                                name: user.displayName,
+                            });
+
+                            userGreeting.innerText = "Hello " + user.displayName;
+                            au.hidden = false;
+                            nonau.hidden = true;
+                            console.log(user.displayName + ' is signed in');
+                            favContent.innerHTML = "";
+                            rootRef.child("users").child(firebase.auth().currentUser.uid).child("favorites").orderByChild("ditrict_name").once("value", function(snapshot) {
+                                snapshot.forEach( function(childSnapshot) {
+                                    favContent.insertAdjacentHTML("beforeend", childSnapshot.val().district_name+ "</br>");
+                                });
+
+                            });
+                        }
+                    }
+                });
+            var uiConfig = {
+                signInSuccessUrl: "http://cis.gvsu.edu/~amesm/lotteryv2/",
+                signInFlow: 'popup',
+                signInOptions: [
+                    firebase.auth.GoogleAuthProvider.PROVIDER_ID
+                ],
+                // Terms of service url can be specified and will show up in the widget.
+                tosUrl: '<your-tos-url>'
+            };
+          /*  if (ui != null)
+                ui.reset();*/
+            ui = new firebaseui.auth.AuthUI(firebase.auth());
+            // The start method will wait until the DOM is loaded.
+            ui.start(signInContainer, uiConfig);
 
             map = new google.maps.Map(this.$.mapEle, {
-                    center: {lat: 44.5, lng: -84.5555},
+                    center: {lat: 44.5, lng: -86},
                     zoom: 7,
                     styles: [ { featureType: "road", stylers: [ { visibility: "off" } ] },{ },
                         { featureType: "poi", stylers: [ { visibility: "off" } ] },{ },
@@ -433,6 +540,7 @@ We ask only that you give the authors credit.
                     }
                 });
         };
+
 
         _computeEffects() {
             return [
@@ -457,6 +565,35 @@ We ask only that you give the authors credit.
 
         _goNext() {
             this.$.pages.selectNext();
+        }
+
+        _setFavorite() {
+            var favCard = this.$.favCard;
+            var favContent = this.$.favContent;
+
+            if (firebase.auth().currentUser != null) {
+                if (currentDistrict != null) {
+                    rootRef.child("users").child(firebase.auth().currentUser.uid).child("favorites").push().set({
+                        district_name: currentDistrict
+                    });
+                    alert(currentDistrict + " added to favorites.");
+
+                    favContent.innerHTML = "";
+                    rootRef.child("users").child(firebase.auth().currentUser.uid).child("favorites").orderByChild("ditrict_name").once("value", function(snapshot) {
+                        snapshot.forEach( function(childSnapshot) {
+                            favContent.insertAdjacentHTML("beforeend", childSnapshot.val().district_name + "<br/>");
+                        });
+
+                    });
+                }
+
+            } else {
+                alert("Please sign in.");
+                favContent.innerHTML = "Sign in to view favorites."
+            }
+
+
+
         }
 
         //This function fires when the slide-out app drawer changes state (open/close).
@@ -562,68 +699,71 @@ We ask only that you give the authors credit.
 
                 //query and filter
                 var results = [];
-                    rootRef.orderByChild(queryCategory).startAt(queryMin).endAt(queryMax).once("value", function(snapshot){
-                        snapshot.forEach(function(childSnapshot){
+                    if (rootRef != undefined) {
+                        rootRef.orderByChild(queryCategory).startAt(queryMin).endAt(queryMax).once("value", function(snapshot){
+                            snapshot.forEach(function(childSnapshot){
 
 
-                            if(queryCategory == "estimate_income") {
-                                if(raceBoxStates.includes(true) && ratioBoxStates.includes(true)) {
-                                    if(childSnapshot.val().percent_black <= raceMax) {
-                                       if(childSnapshot.val().percent_black >= raceMin) {
-                                           if(childSnapshot.val().money_spent_funding_received <= ratioMax) {
-                                               if(childSnapshot.val().money_spent_funding_received >= ratioMin) {
-                                                   console.log(childSnapshot.val().percent_black);
-                                                   results.push(childSnapshot);
-                                               }
-                                           }
-                                       }
-                                    }
-                                }
-                                else if (raceBoxStates.includes(true)) {
-                                    if(childSnapshot.val().percent_black <= raceMax) {
-                                        if (childSnapshot.val().percent_black >= raceMin) {
-                                            console.log(childSnapshot.val().percent_black);
-                                            results.push(childSnapshot);
+                                if(queryCategory == "estimate_income") {
+                                    if(raceBoxStates.includes(true) && ratioBoxStates.includes(true)) {
+                                        if(childSnapshot.val().percent_black <= raceMax) {
+                                            if(childSnapshot.val().percent_black >= raceMin) {
+                                                if(childSnapshot.val().money_spent_funding_received <= ratioMax) {
+                                                    if(childSnapshot.val().money_spent_funding_received >= ratioMin) {
+                                                        console.log(childSnapshot.val().percent_black);
+                                                        results.push(childSnapshot);
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
-                                }
-                                else if (ratioBoxStates.includes(true)) {
-                                    if(childSnapshot.val().money_spent_funding_received <= ratioMax) {
-                                        if (childSnapshot.val().money_spent_funding_received >= ratioMin) {
-                                            console.log(childSnapshot.val().money_spent_funding_received);
-                                            results.push(childSnapshot);
+                                    else if (raceBoxStates.includes(true)) {
+                                        if(childSnapshot.val().percent_black <= raceMax) {
+                                            if (childSnapshot.val().percent_black >= raceMin) {
+                                                console.log(childSnapshot.val().percent_black);
+                                                results.push(childSnapshot);
+                                            }
+                                        }
+                                    }
+                                    else if (ratioBoxStates.includes(true)) {
+                                        if(childSnapshot.val().money_spent_funding_received <= ratioMax) {
+                                            if (childSnapshot.val().money_spent_funding_received >= ratioMin) {
+                                                console.log(childSnapshot.val().money_spent_funding_received);
+                                                results.push(childSnapshot);
+                                            }
+
                                         }
 
                                     }
-
-                                }
-                                else {
-                                    results.push(childSnapshot);
-                                }
+                                    else {
+                                        results.push(childSnapshot);
+                                    }
 
 
-                            } else if(queryCategory == "percent_black") {
-                                if(ratioBoxStates.includes(true)){
-                                    if(childSnapshot.val().money_spent_funding_received <= ratioMax) {
-                                        if(childSnapshot.val().money_spent_funding_received >= ratioMin) {
-                                            console.log("Ratio: " + childSnapshot.val().money_spent_funding_received + " Race: " + childSnapshot.val().percent_black);
-                                            results.push(childSnapshot);
+                                } else if(queryCategory == "percent_black") {
+                                    if(ratioBoxStates.includes(true)){
+                                        if(childSnapshot.val().money_spent_funding_received <= ratioMax) {
+                                            if(childSnapshot.val().money_spent_funding_received >= ratioMin) {
+                                                console.log("Ratio: " + childSnapshot.val().money_spent_funding_received + " Race: " + childSnapshot.val().percent_black);
+                                                results.push(childSnapshot);
+                                            }
                                         }
+                                    } else {
+                                        results.push(childSnapshot);
                                     }
                                 } else {
                                     results.push(childSnapshot);
                                 }
-                            } else {
-                                results.push(childSnapshot);
-                            }
+                            });
+
+                            results.forEach(function(entry) {
+                                districtNames.push(entry.val().district_name);
+                            });
+
+                            console.log("District Names:" +  districtNames.length);
                         });
+                    }
 
-                        results.forEach(function(entry) {
-                            districtNames.push(entry.val().district_name);
-                    });
-
-                        console.log("District Names:" +  districtNames.length);
-                });
 
 
                 //update map
@@ -657,10 +797,11 @@ We ask only that you give the authors credit.
                         //add onClick handler
                         map.data.addListener('click', function (event) {
                             var districtChosen = event.feature.getProperty('NAME');
+                            currentDistrict = districtChosen;
                             //alert(districtChosen);
                             //var districtRef = rootRef.child(districtChosen);
 
-                            var arr = [];
+                           var arr = [];
                             rootRef.orderByChild('district_name').equalTo(districtChosen).limitToFirst(1).once("value", function (snapshot) {
                                 snapshot.forEach(function (childSnapshot) {
                                     arr.push(childSnapshot.val().district_name);
@@ -678,8 +819,10 @@ We ask only that you give the authors credit.
                                 console.log(typeof(arr[1]));*/
                                 //console.log(arr[2]);
 
+                                //Update H2 with selected district name
                                 districtNameHeader.innerText = arr[0];
 
+                                //update bar graph
                                 var ctx = inVsOut.getContext('2d');
 
                                 if (barChart != undefined)
@@ -727,7 +870,10 @@ We ask only that you give the authors credit.
                                     options: {
                                         responsive: false,
                                         maintainAspectRatio: true,
-                                        cutoutPercentage: 50
+                                        cutoutPercentage: 50,
+                                        animation: {
+                                            animateRotate: true
+                                        }
                                     }
 
                                 });
@@ -787,9 +933,18 @@ We ask only that you give the authors credit.
                 }
             });*/
         };
+        /*signs user out.... obviously*/
+        signOutFirebase() {
+            var favContent = this.$.favContent;
+            firebase.auth().signOut().then(function() {
+                au.hidden = true;
+                nonau.hidden = false;
+                favContent.innerHTML = "Sign in to view favorites."
 
-
-
+            }).catch(function(error) {
+                alert("Sorry, there was an error signing you out");
+            });
+        }
 
 
 

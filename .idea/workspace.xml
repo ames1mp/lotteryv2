@@ -20,18 +20,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="26" column="35" lean-forward="false" selection-start-line="26" selection-start-column="35" selection-end-line="26" selection-end-column="35" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="map.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/map.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1309">
-              <caret line="77" column="36" lean-forward="false" selection-start-line="74" selection-start-column="3" selection-end-line="83" selection-end-column="7" />
+            <state relative-caret-position="391">
+              <caret line="23" column="14" lean-forward="false" selection-start-line="23" selection-start-column="14" selection-end-line="23" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -40,21 +30,34 @@
       <file leaf-file-name="my-lotto.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/my-lotto/my-lotto.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2238">
-              <caret line="729" column="60" lean-forward="true" selection-start-line="729" selection-start-column="60" selection-end-line="729" selection-end-column="60" />
+            <state relative-caret-position="287">
+              <caret line="513" column="74" lean-forward="true" selection-start-line="513" selection-start-column="74" selection-end-line="513" selection-end-column="74" />
               <folding>
+                <element signature="e#0#171#0" expanded="false" />
+                <element signature="n#script#0;n#!!top" expanded="false" />
                 <element signature="n#style#0;n#div#0;n#app-drawer#0;n#app-drawer-layout#0;n#template#0;n#dom-module#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#template#0;n#dom-module#0;n#!!top" expanded="true" />
+                <element signature="e#18564#18999#0" expanded="false" />
+                <element signature="e#19037#19145#0" expanded="false" />
+                <element signature="e#19166#19220#0" expanded="false" />
+                <element signature="e#19240#19290#0" expanded="false" />
+                <element signature="e#22209#22753#0" expanded="false" />
+                <element signature="e#22892#23413#0" expanded="false" />
+                <element signature="e#23057#23394#0" expanded="false" />
+                <element signature="e#23555#24088#0" expanded="false" />
+                <element signature="e#25133#28862#0" expanded="false" />
+                <element signature="e#32154#32950#0" expanded="false" />
+                <element signature="e#34830#36549#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/style.css">
+      <file leaf-file-name="google.svg.url" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/AppData/Local/Temp/google.svg.url">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="17" lean-forward="false" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -67,9 +70,27 @@
       <find>mack</find>
       <find>alert</find>
       <find>div</find>
-      <find>ready</find>
       <find>select</find>
       <find>map</find>
+      <find>menu</find>
+      <find>auth-container</find>
+      <find>non-auth</find>
+      <find>auth-users</find>
+      <find>authUI</find>
+      <find>uiConfig</find>
+      <find>signInContainer</find>
+      <find>auth</find>
+      <find>signOutFirebase</find>
+      <find>poly</find>
+      <find>username</find>
+      <find>signin</find>
+      <find>_setFav</find>
+      <find>arr</find>
+      <find>setFavorite</find>
+      <find>dataCard</find>
+      <find>favCard</find>
+      <find>setFav</find>
+      <find>ready</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -81,6 +102,7 @@
         <option value="$PROJECT_DIR$/src/map.html" />
         <option value="$PROJECT_DIR$/src/style.css" />
         <option value="$PROJECT_DIR$/index.html" />
+        <option value="$USER_HOME$/AppData/Local/Temp/google.svg.url" />
         <option value="$PROJECT_DIR$/src/my-lotto/my-lotto.html" />
       </list>
     </option>
@@ -142,7 +164,7 @@
   <component name="PropertiesComponent">
     <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../myMap" />
+    <property name="last_opened_file_path" value="D:/Downloads/firebaseui.css" />
     <property name="HbShouldOpenHtmlAsHb" value="" />
   </component>
   <component name="RunDashboard">
@@ -172,12 +194,12 @@
       <workItem from="1512279790960" duration="35677000" />
       <workItem from="1512432522754" duration="3270000" />
       <workItem from="1512484764883" duration="35079000" />
-      <workItem from="1512663474474" duration="16207000" />
+      <workItem from="1512663474474" duration="57915000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="114965000" />
+    <option name="totallyTimeSpent" value="156673000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
@@ -208,7 +230,9 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <option name="time" value="2" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
@@ -241,8 +265,21 @@
         <state relative-caret-position="10047">
           <caret line="591" column="41" lean-forward="false" selection-start-line="591" selection-start-column="41" selection-end-line="591" selection-end-column="41" />
           <folding>
+            <element signature="e#0#171#0" expanded="false" />
+            <element signature="n#script#0;n#!!top" expanded="false" />
             <element signature="n#style#0;n#div#0;n#app-drawer#0;n#app-drawer-layout#0;n#template#0;n#dom-module#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#template#0;n#dom-module#0;n#!!top" expanded="true" />
+            <element signature="e#18564#18999#0" expanded="false" />
+            <element signature="e#19037#19145#0" expanded="false" />
+            <element signature="e#19166#19220#0" expanded="false" />
+            <element signature="e#19240#19290#0" expanded="false" />
+            <element signature="e#22209#22753#0" expanded="false" />
+            <element signature="e#22892#23413#0" expanded="false" />
+            <element signature="e#23057#23394#0" expanded="false" />
+            <element signature="e#23555#24088#0" expanded="false" />
+            <element signature="e#25133#28862#0" expanded="false" />
+            <element signature="e#32154#32950#0" expanded="false" />
+            <element signature="e#34830#36549#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -268,8 +305,21 @@
         <state relative-caret-position="629">
           <caret line="37" column="35" lean-forward="true" selection-start-line="37" selection-start-column="35" selection-end-line="37" selection-end-column="35" />
           <folding>
+            <element signature="e#0#171#0" expanded="false" />
+            <element signature="n#script#0;n#!!top" expanded="false" />
             <element signature="n#style#0;n#div#0;n#app-drawer#0;n#app-drawer-layout#0;n#template#0;n#dom-module#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#template#0;n#dom-module#0;n#!!top" expanded="true" />
+            <element signature="e#18564#18999#0" expanded="false" />
+            <element signature="e#19037#19145#0" expanded="false" />
+            <element signature="e#19166#19220#0" expanded="false" />
+            <element signature="e#19240#19290#0" expanded="false" />
+            <element signature="e#22209#22753#0" expanded="false" />
+            <element signature="e#22892#23413#0" expanded="false" />
+            <element signature="e#23057#23394#0" expanded="false" />
+            <element signature="e#23555#24088#0" expanded="false" />
+            <element signature="e#25133#28862#0" expanded="false" />
+            <element signature="e#32154#32950#0" expanded="false" />
+            <element signature="e#34830#36549#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -311,8 +361,21 @@
         <state relative-caret-position="5933">
           <caret line="349" column="32" lean-forward="false" selection-start-line="349" selection-start-column="32" selection-end-line="349" selection-end-column="32" />
           <folding>
+            <element signature="e#0#171#0" expanded="false" />
+            <element signature="n#script#0;n#!!top" expanded="false" />
             <element signature="n#style#0;n#div#0;n#app-drawer#0;n#app-drawer-layout#0;n#template#0;n#dom-module#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#template#0;n#dom-module#0;n#!!top" expanded="true" />
+            <element signature="e#18564#18999#0" expanded="false" />
+            <element signature="e#19037#19145#0" expanded="false" />
+            <element signature="e#19166#19220#0" expanded="false" />
+            <element signature="e#19240#19290#0" expanded="false" />
+            <element signature="e#22209#22753#0" expanded="false" />
+            <element signature="e#22892#23413#0" expanded="false" />
+            <element signature="e#23057#23394#0" expanded="false" />
+            <element signature="e#23555#24088#0" expanded="false" />
+            <element signature="e#25133#28862#0" expanded="false" />
+            <element signature="e#32154#32950#0" expanded="false" />
+            <element signature="e#34830#36549#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -330,8 +393,21 @@
         <state relative-caret-position="2737">
           <caret line="161" column="0" lean-forward="true" selection-start-line="161" selection-start-column="0" selection-end-line="161" selection-end-column="0" />
           <folding>
+            <element signature="e#0#171#0" expanded="false" />
+            <element signature="n#script#0;n#!!top" expanded="false" />
             <element signature="n#style#0;n#div#0;n#app-drawer#0;n#app-drawer-layout#0;n#template#0;n#dom-module#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#template#0;n#dom-module#0;n#!!top" expanded="true" />
+            <element signature="e#18564#18999#0" expanded="false" />
+            <element signature="e#19037#19145#0" expanded="false" />
+            <element signature="e#19166#19220#0" expanded="false" />
+            <element signature="e#19240#19290#0" expanded="false" />
+            <element signature="e#22209#22753#0" expanded="false" />
+            <element signature="e#22892#23413#0" expanded="false" />
+            <element signature="e#23057#23394#0" expanded="false" />
+            <element signature="e#23555#24088#0" expanded="false" />
+            <element signature="e#25133#28862#0" expanded="false" />
+            <element signature="e#32154#32950#0" expanded="false" />
+            <element signature="e#34830#36549#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -349,8 +425,21 @@
         <state relative-caret-position="187">
           <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
           <folding>
+            <element signature="e#0#171#0" expanded="false" />
+            <element signature="n#script#0;n#!!top" expanded="false" />
             <element signature="n#style#0;n#div#0;n#app-drawer#0;n#app-drawer-layout#0;n#template#0;n#dom-module#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#template#0;n#dom-module#0;n#!!top" expanded="true" />
+            <element signature="e#18564#18999#0" expanded="false" />
+            <element signature="e#19037#19145#0" expanded="false" />
+            <element signature="e#19166#19220#0" expanded="false" />
+            <element signature="e#19240#19290#0" expanded="false" />
+            <element signature="e#22209#22753#0" expanded="false" />
+            <element signature="e#22892#23413#0" expanded="false" />
+            <element signature="e#23057#23394#0" expanded="false" />
+            <element signature="e#23555#24088#0" expanded="false" />
+            <element signature="e#25133#28862#0" expanded="false" />
+            <element signature="e#32154#32950#0" expanded="false" />
+            <element signature="e#34830#36549#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -371,14 +460,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="17" lean-forward="false" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/map.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1309">
@@ -387,21 +468,58 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="23" column="19" lean-forward="true" selection-start-line="23" selection-start-column="19" selection-end-line="23" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Downloads/firebaseui.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="0" column="845" lean-forward="true" selection-start-line="0" selection-start-column="845" selection-end-line="0" selection-end-column="845" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="26" column="35" lean-forward="false" selection-start-line="26" selection-start-column="35" selection-end-line="26" selection-end-column="35" />
+        <state relative-caret-position="391">
+          <caret line="23" column="14" lean-forward="false" selection-start-line="23" selection-start-column="14" selection-end-line="23" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Temp/google.svg.url">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/my-lotto/my-lotto.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2238">
-          <caret line="729" column="60" lean-forward="true" selection-start-line="729" selection-start-column="60" selection-end-line="729" selection-end-column="60" />
+        <state relative-caret-position="287">
+          <caret line="513" column="74" lean-forward="true" selection-start-line="513" selection-start-column="74" selection-end-line="513" selection-end-column="74" />
           <folding>
+            <element signature="e#0#171#0" expanded="false" />
+            <element signature="n#script#0;n#!!top" expanded="false" />
             <element signature="n#style#0;n#div#0;n#app-drawer#0;n#app-drawer-layout#0;n#template#0;n#dom-module#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#template#0;n#dom-module#0;n#!!top" expanded="true" />
+            <element signature="e#18564#18999#0" expanded="false" />
+            <element signature="e#19037#19145#0" expanded="false" />
+            <element signature="e#19166#19220#0" expanded="false" />
+            <element signature="e#19240#19290#0" expanded="false" />
+            <element signature="e#22209#22753#0" expanded="false" />
+            <element signature="e#22892#23413#0" expanded="false" />
+            <element signature="e#23057#23394#0" expanded="false" />
+            <element signature="e#23555#24088#0" expanded="false" />
+            <element signature="e#25133#28862#0" expanded="false" />
+            <element signature="e#32154#32950#0" expanded="false" />
+            <element signature="e#34830#36549#0" expanded="false" />
           </folding>
         </state>
       </provider>
