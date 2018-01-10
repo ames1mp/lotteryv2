@@ -24,8 +24,28 @@ We ask only that you give the authors credit.
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-app.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-query.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase.html">
 
-
+<!--TODO chart needs slight changes to UI to make it look nicer inside the paper-card
+    maybe brighter colors, dollar sign and decimal format for the money spent chart, etc/-->
+<!--TODO (not necessary) fix Main title overlaps everything when browser width is changed too small looks wonky-->
+<!--TODO Add District Title functionality---
+    components are there but not implemented programatically, should be able to
+    select a district by name then click the 'Select District' button to highlight
+    district on map and fill in details chart.
+    Additionally, when user clicks certain filters and then hits the 'apply filters' button,
+    details chart should clear, and paper-dropdown-menu should revert back to original title
+    i.e. 'District Name'-->
+<!--TODO Align district details titles with selection box, maybe add spacing between them vertically as well
+    not sure exactly but needs to look a little better at some point-->
+<!--TODO the code will need some serious cleaning up after all features and tweaks are done-->
 
 <!-- Google Maps API -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKb-lSY4lMIiiy014YHhf9pwJOejs2YYU"
@@ -35,24 +55,24 @@ We ask only that you give the authors credit.
 <!--Firebase data-->
 <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
 
-<script>
-    // Initialize Firebase
-    var config = {
-        apiKey: "AIzaSyDKKJTf4YSeMypo9ciQYM9CqnNB8lVTHBg",
-        authDomain: "lotterydata-2fe33.firebaseapp.com",
-        databaseURL: "https://lotterydata-2fe33.firebaseio.com",
-        projectId: "lotterydata-2fe33",
-        storageBucket: "lotterydata-2fe33.appspot.com",
-        messagingSenderId: "601473570505"
-    };
+<!--<script>-->
+<!--// Initialize Firebase-->
+<!--var config = {-->
+<!--apiKey: "AIzaSyDKKJTf4YSeMypo9ciQYM9CqnNB8lVTHBg",-->
+<!--authDomain: "lotterydata-2fe33.firebaseapp.com",-->
+<!--databaseURL: "https://lotterydata-2fe33.firebaseio.com",-->
+<!--projectId: "lotterydata-2fe33",-->
+<!--storageBucket: "lotterydata-2fe33.appspot.com",-->
+<!--messagingSenderId: "601473570505"-->
+<!--};-->
 
-    firebase.initializeApp(config);
-    rootRef = firebase.database().ref();
-</script>
+<!--firebase.initializeApp(config);-->
+<!--rootRef = firebase.database().ref();-->
+<!--</script>-->
 
- <!--Firebase Auth-->
+<!--Firebase Auth-->
 <script src="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.js"></script>
-<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css" />
+<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css"/>
 
 <!--Chart.js-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
@@ -62,16 +82,21 @@ We ask only that you give the authors credit.
 
 
 <iron-iconset-svg name="app" size="24">
-    <svg><defs>
-        <g id="menu"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></g>
-    </defs></svg>
+    <svg>
+        <defs>
+            <g id="menu">
+                <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+            </g>
+        </defs>
+    </svg>
 </iron-iconset-svg>
 
 
 <!-- global variables -->
 <script>
+    var rootRef;
     incomeValues = [[0, 20000], [20000, 35000], [35000, 50000], [50000, Number.MAX_VALUE]];
-    raceValues  = [[0, 10], [10, 20], [20, 30], [30, 50], [50, 100]];
+    raceValues = [[0, 10], [10, 20], [20, 30], [30, 50], [50, 100]];
     ratioValues = [[0, 2], [2, 4], [4, 6], [6, 8], [8, 10], [10, 14], [14, 23]];
     var map;
     var barChart;
@@ -88,24 +113,97 @@ We ask only that you give the authors credit.
 </script>
 
 
-
 <dom-module id="my-lotto">
     <!-- Note, you cannot make a reference to templated elements within the template. Any refrences must be done in
     the ready method, or in a function in the main script section-->
     <template>
 
+        <style include="iron-flex iron-flex-alignment"></style>
+
+
         <style>
+
+            paper-card {
+                --paper-card-header: {
+                    background-color: red;
+                    --paper-card-header-color: white;
+                    @apply(--layout-vertical);
+                    @apply(--layout-center);
+                };
+                z-index: 0;
+            }
+
+            .detail_cards {
+                --paper-card-header-text: {
+                    font-size: 16px;
+                    font-weight: bold;
+                };
+                --paper-card-header: {
+                    background-color: red;
+                    --paper-card-header-color: white;
+
+                    @apply(--layout-vertical);
+                };
+                margin-top: 5px;
+                margin-right: 5px;
+                margin-left: 5px;
+                margin-bottom: 5px;
+            }
+
+            .detail_card_content {
+                font-size: 21px;
+                font-weight: bold;
+            }
+
+            app-drawer-layout {
+                /*fix for app-drawer scrolling over paper-cards*/
+                z-index: 10;
+            }
 
             app-drawer-layout:not([narrow]) [drawer-toggle] {
                 display: none;
             }
 
-            app-drawer-section {
-                height: 100%;
-                overflow-y: auto;
-                -webkit-overflow-scrolling: touch;
-                z-index: 5;
+            paper-dropdown-menu, paper-listbox {
+                /*width:inherit;*/
+                width: 20vw;
+                padding: 10px;
             }
+
+            paper-dropdown-menu {
+                /*height: 200px;*/
+                margin: auto;
+                display: block;
+                --primary-background-color: red;
+            }
+
+            paper-listbox {
+                background-color: red;
+                color: white;
+                /*z-index:5;*/
+                /*width:inherit;*/
+
+            }
+
+            paper-item {
+                /*z-index:5;*/
+                /*width: inherit;*/
+
+            }
+
+            #school_district_card {
+                /*height: 2px;*/
+                z-index: 1;
+                /*width:200px;*/
+                margin-bottom: 20px;
+            }
+
+            /*app-drawer-section {*/
+            /*height: 100%;*/
+            /*overflow-y: auto;*/
+            /*-webkit-overflow-scrolling: touch;*/
+            /*z-index: 5;*/
+            /*}*/
 
             app-drawer h2 {
                 margin: 8px 0 0;
@@ -119,6 +217,7 @@ We ask only that you give the authors credit.
             }
 
             app-header {
+                z-index: 5;
                 color: #fff;
                 background-color: #C62828;
                 --app-header-background-front-layer: {
@@ -129,180 +228,136 @@ We ask only that you give the authors credit.
 
             [main-title] {
                 font-size: 2em;
+
             }
-             #mapEle {
 
-                 width: 59vw;
-                 height: 73vh;
-                 min-height: 73vh;
-                 z-index: 1;
-                 float: left;
+            #mapEle {
+                width: 62vw;
+                height: 73vh;
+                min-height: 73vh;
+                z-index: 1;
 
+            }
 
-             }
-            #mapCard {
-                width: 60vw;
-                height: 75vh;
+            #map_card {
+                margin-right: 10px;
+            }
+
+            #filters {
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+
+            #filter_heading {
+                width: 100vw;
+                margin-top: 10px;
+            }
+
+            #income_filters {
+                width: 31vw;
+            }
+
+            #race_filters {
+                width: 31vw;
+            }
+
+            #funding_filters {
+                width: 31vw;
+            }
+
+            #copyright {
+                text-align: right;
+                font-size: x-small;
+                color: white;
+                text-decoration: none;
+                opacity: 0.5;
+
+            }
+
+            #main {
+                /*display: inline;*/
+                padding: 10px;
+            }
+
+            #data {
+                /*width: 39vw;*/
+                /*float: right;*/
+            }
+
+            #graph-container {
+                /*width: 39vw;*/
+                /*float: right;*/
+                visibility: visible;
+            }
+
+            #dataCard {
+                /*width: 31vw;*/
+                /*float: right;*/
+                /*margin-right: 1%;*/
+                /*height: 60vh;*/
+
+            }
+
+            #navLeft {
                 float: left;
-                margin-top: 1%;
-                margin-left: 1%;
-                padding-top: 0%;
-                padding-left: 0%;
-
+                padding-bottom: 3vh;
             }
 
-             #copyright {
-                 text-align: right;
-                 font-size: x-small;
-                 color: white;
-                 text-decoration: none;
-                 opacity: 0.5;
+            #navLeft:hover {
+                fill: orange;
+            }
 
-             }
-
-             #main {
-                 display: inline;
-                 margin-top: 10px;
-             }
-
-             #data {
-                 width: 39vw;
-                 float: right;
-             }
-
-             #graph-container {
-                 width: 39vw;
-                 float: right;
-                 visibility: visible;
-             }
-             paper-card {
-                 z-index: -1;
-             }
-
-             #dataCard {
-                 width: 37vw;
-                 float: right;
-                 margin-top: 1%;
-                 margin-right: 1%;
-             }
-
-             #favCard {
-                 margin-right: 1%;
-                 margin-top: 1%;
-                 float: right;
-
-             }
-
-             #navLeft {
-                 float: left;
-                 padding-bottom: 3vh;
-             }
-
-             #navLeft:hover {
-                 fill: orange;
-             }
-
-             #navRight {
-                 float: right;
-                 padding-bottom: 3vh;
-             }
+            #navRight {
+                float: right;
+                padding-bottom: 3vh;
+            }
 
             #navRight:hover {
                 fill: orange;
             }
 
-             app-drawer {
-                 z-index: 3;
-             }
+            app-drawer {
+                z-index: 3;
+            }
 
-
-             #fav:hover {
-                 fill: red;
-             }
-
-
+            #fav:hover {
+                fill: red;
+            }
 
             :host {
                 display: block;
                 z-index: 0;
             }
 
+            #apply_filters {
+                color: white;
+                background-color: red;
+                width: 31vw;
+            }
+
+            #select_district_button {
+                color: white;
+                background-color: red;
+            }
+
         </style>
+        <firebase-app id="myFireApp" api-key=”AIzaSyDKKJTf4YSeMypo9ciQYM9CqnNB8lVTHBg”
+                      auth-domain=”lotterydata-2fe33.firebaseapp.com”
+                      database-url=”https://lotterydata-2fe33.firebaseio.com></firebase-app>
+        </firebase-app>
+
+
+        <!--query for all district names-->
+        <firebase-query id="districtNameFiller" path="districts" data="{{districtNameData}}"
+                        order-by-child="district_name">
+        </firebase-query>
+
+        <!--query for data header titles-->
+        <firebase-query id="header_title_queryu" path="header_titles" data="{{headerTitleData}}">
+        </firebase-query>
 
         <!-- Layout for the side slide-out menu, force-narrow lets the menu slide in and out on larger screens -->
         <app-drawer-layout force-narrow>
-
-            <!-- Checkboxes in the slide-out menu-->
-            <app-drawer id="appDrawer" slot="drawer" opened="{{drawerOpened}}">
-                <div style="height: 100%; overflow: auto;">
-                <section>
-
-                    <div id="signInContainer"></div>
-                    <div id ="authUsers">
-                        <div>
-                            <paper-button id="signOutButton" on-click="signOutFirebase">Sign Out</paper-button>
-                            <h2 id="username"></h2>
-                        </div>
-                    </div>
-
-
-                    <h2>Filter Map By:</h2>
-                    <h2>Median Household Income</h2>
-                    <paper-checkbox id="i1" on-change="checkBoxChecked" disabled="{{i1-dis}}">
-                        $0 - $20K
-                    </paper-checkbox>
-                    <paper-checkbox id="i2" disabled="{{i2-dis}}">
-                        $20K - $35K
-                    </paper-checkbox>
-                    <paper-checkbox id="i3"checked="{{income2}}">
-                        $35K - $50K
-                    </paper-checkbox>
-                    <paper-checkbox id="i4"checked="{{income3}}">
-                        $50K+
-                    </paper-checkbox>
-
-                    <h2>Race</h2>
-                    <paper-checkbox id="r0" checked="{{race0}}">
-                        0 - 10% African American
-                    </paper-checkbox>
-                    <paper-checkbox id="r1" checked="{{race1}}">
-                        10 - 20% African American
-                    </paper-checkbox>
-                    <paper-checkbox id="r2" checked="{{race2}}">
-                        20 - 30% African American
-                    </paper-checkbox>
-                    <paper-checkbox id="r3" checked="{{race3}}">
-                        30 - 50% African American
-                    </paper-checkbox>
-                    <paper-checkbox id="r4" checked="{{race4}}">
-                        50%+ African American
-                    </paper-checkbox>
-
-                    <h2>$ Spent/School Funding Received </h2>
-                    <paper-checkbox id="ratio0" checked="{{ratio0}}">
-                        $0 - $2
-                    </paper-checkbox>
-                    <paper-checkbox id="ratio1" checked="{{ratio1}}">
-                        $2 - $4
-                    </paper-checkbox>
-                    <paper-checkbox id="ratio2" checked="{{ratio2}}">
-                        $4 - $6
-                    </paper-checkbox>
-                    <paper-checkbox id="ratio3" checked="{{ratio3}}">
-                        $6 - $8
-                    </paper-checkbox>
-                    <paper-checkbox id="ratio4" checked="{{ratio4}}">
-                        $8 - $10
-                    </paper-checkbox>
-                    <paper-checkbox id="ratio5" checked="{{ratio5}}">
-                        $10 - $14
-                    </paper-checkbox>
-                    <paper-checkbox id="ratio6" checked="{{ratio6}}">
-                        $14 - $23
-                    </paper-checkbox>
-                </section>
-                </div>
-            </app-drawer>
             <!-- Layout for the header-->
             <app-header-layout>
 
@@ -315,8 +370,6 @@ We ask only that you give the authors credit.
                         slot="header">
 
                     <app-toolbar>
-                        <paper-icon-button icon="app:menu" drawer-toggle></paper-icon-button>
-
                         <div condensed-title>School Disbursements</div>
                     </app-toolbar>
 
@@ -326,9 +379,12 @@ We ask only that you give the authors credit.
                         <div main-title spacer>Michigan Lottery Disbursements to Public Schools</div>
                     </app-toolbar>
 
-                   <div id="copyright">
-                       Image Info: By <a href="//commons.wikimedia.org/wiki/User:Dehk" title="User:Dehk">Dehk</a> - <span class="int-own-work" lang="en">Own work</span>, <a href="http://creativecommons.org/licenses/by/3.0" title="Creative Commons Attribution 3.0">CC BY 3.0</a>, <a href="https://commons.wikimedia.org/w/index.php?curid=4683886">Link</a>
-                   </div>
+                    <div id="copyright">
+                        Image Info: By <a href="//commons.wikimedia.org/wiki/User:Dehk" title="User:Dehk">Dehk</a> -
+                        <span class="int-own-work" lang="en">Own work</span>, <a
+                            href="http://creativecommons.org/licenses/by/3.0" title="Creative Commons Attribution 3.0">CC
+                        BY 3.0</a>, <a href="https://commons.wikimedia.org/w/index.php?curid=4683886">Link</a>
+                    </div>
                 </app-header>
 
             </app-header-layout>
@@ -337,281 +393,583 @@ We ask only that you give the authors credit.
 
 
         <!-- Div which contains the main content (Map and side panel with charts)-->
-        <div id ="main" style="display: inline;">
-            <paper-card id = "mapCard">
-                <div class="card-content">
-                    <div id="mapEle"></div>
+        <div id="main" class="layout vertical style-scope lay-out">
+
+            <div class="layout horizontal justified">
+
+                <div class="layout horizontal start-justified">
+                    <paper-card id="map_card">
+                        <div class="card-content">
+                            <div id="mapEle">
+
+                            </div>
+                        </div>
+                    </paper-card>
                 </div>
-            </paper-card>
+                <div class="layout horizontal end-justified">
+                    <div class="layout vertical style-scope lay-out">
+                        <paper-card id="school_district_card">
+                            <!--<paper-dropdown-menu label="School District">-->
+                            <!--<paper-listbox id="district_name_box" slot="dropdown-content" selected="0">-->
+                            <!--&lt;!&ndash;<paper-item>-</paper-item>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<paper-item>allosaurus</paper-item>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<paper-item>brontosaurus</paper-item>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<paper-item>carcharodontosaurus</paper-item>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<paper-item>diplodocus</paper-item>&ndash;&gt;-->
+                            <!--<template is="dom-repeat" items="[[friendData]]">-->
+                            <!--<paper-item>[[item.name]]</paper-item>-->
+                            <!--</template>-->
+                            <!--</paper-listbox>-->
+                            <!--</paper-dropdown-menu>-->
+                            <div class="card-content">
+                                <div class="layout horizontal justified style-scope lay-out">
+                                    <div class="style-scope lay-out">
+                                        <paper-dropdown-menu id="name_dropdown_list" label="District Name">
+                                            <paper-listbox slot="dropdown-content" class="dropdown-content">
+                                                <template is="dom-repeat" items="[[districtNameData]]" as="d">
+                                                    <paper-item>[[d.district_name]]</paper-item>
+                                                </template>
+                                            </paper-listbox>
+                                        </paper-dropdown-menu>
+                                    </div>
+                                    <div class="style-scope lay-out">
+                                        <paper-button id="select_district_button">
+                                            Select District
+                                        </paper-button>
+                                    </div>
 
+                                </div>
 
-            <paper-card id = dataCard>
+                                <template is="dom-repeat" items="[[headerTitleData]]" as="titles">
+                                    <div class="layout vertical style-scope lay-out">
+                                        <paper-card class="detail_cards" heading=[[titles.estimate_income]]>
+                                            <div class="card-content detail_card_content">
+                                                <div id="estimate_income_content"
+                                                     class="layout horizontal center-justified">
+                                                    $10,000
+                                                </div>
+                                            </div>
+                                        </paper-card>
 
-                <div class="card-content">
-                    <h2 id="distName"></h2>
-                    <!--<iron-icon on-click="_setFavorite"  id ='fav' icon="icons:favorite"></iron-icon>-->
-                    <iron-icon on-click="_goPrev" id='navLeft' icon="icons:chevron-left"></iron-icon>
-                    <iron-icon on-click="_goNext"  id ='navRight' icon="icons:chevron-right"></iron-icon>
-                    <iron-pages id="pages" selected="0">
-                        <section>
-                            <canvas id="inVsOut"></canvas>
-                        </section>
-                        <section>
-                            <canvas id="demographics"></canvas>
-                        </section>
-                    </iron-pages>
+                                        <div class="layout horizontal start justified style-scope lay-out">
+                                            <div class="style-scope lay-out">
+                                                <paper-card class="detail_cards"
+                                                            heading=[[titles.money_spent_funding_received]]>
+                                                    <div class="card-content detail_card_content">
+                                                        <div id="money_spent_content"
+                                                             class="layout horizontal center-justified">
+                                                            $20,000
+                                                        </div>
+                                                    </div>
+                                                </paper-card>
+                                            </div>
+                                            <div class="style-scope lay-out">
+                                                <paper-card class="detail_cards"
+                                                            heading=[[titles.total_lottery_received]]>
+                                                    <div class="card-content detail_card_content">
+                                                        <div id="total_lottery_received_content"
+                                                             class="layout horizontal center-justified">
+                                                            $5,000
+                                                        </div>
+                                                    </div>
+                                                </paper-card>
+                                            </div>
+                                        </div>
+
+                                        <div class="layout horizontal start justified style-scope lay-out">
+                                            <div class="style-scope lay-out">
+                                                <paper-card class="detail_cards"
+                                                            heading=[[titles.total_lottery_spending]]>
+                                                    <div class="card-content detail_card_content">
+                                                        <div id="total_lottery_spending_content"
+                                                             class="layout horizontal center-justified">
+                                                            $40,000
+                                                        </div>
+                                                    </div>
+                                                </paper-card>
+                                            </div>
+                                            <div class="style-scope lay-out">
+                                                <paper-card class="detail_cards" heading=[[titles.estimate_total]]>
+                                                    <div class="card-content detail_card_content">
+                                                        <div id="estimate_total_content"
+                                                             class="layout horizontal center-justified">
+                                                            600
+                                                        </div>
+                                                    </div>
+                                                </paper-card>
+                                            </div>
+                                            <div class="style-scope lay-out">
+                                            <paper-card class="detail_cards" heading=[[titles.total_students]]>
+                                                <div class="card-content detail_card_content">
+                                                    <div id="total_students_content"
+                                                         class="layout horizontal center-justified">
+                                                        875
+                                                    </div>
+                                                </div>
+                                            </paper-card>
+                                            </div>
+                                        </div>
+                                        <div class="layout horizontal justified style-scope lay-out">
+                                            <div class="style-scope lay-out">
+
+                                                <paper-card class="detail_cards" heading=[[titles.percent_asian]]>
+                                                    <div class="card-content detail_card_content">
+                                                        <div id="percent_asian_content"
+                                                             class="layout horizontal center-justified">
+                                                            30%
+                                                        </div>
+                                                    </div>
+                                                </paper-card>
+                                            </div>
+                                            <div class="style-scope lay-out">
+                                                <paper-card class="detail_cards" heading=[[titles.percent_black]]>
+                                                    <div class="card-content detail_card_content">
+                                                        <div id="percent_black_content"
+                                                             class="layout horizontal center-justified">
+                                                            40%
+                                                        </div>
+                                                    </div>
+                                                </paper-card>
+                                            </div>
+                                            <div class="style-scope lay-out">
+                                                <paper-card class="detail_cards" heading=[[titles.percent_latino]]>
+                                                    <div class="card-content detail_card_content">
+                                                        <div id="percent_latino_content"
+                                                             class="layout horizontal center-justified">
+                                                            20%
+                                                        </div>
+                                                    </div>
+                                                </paper-card>
+                                            </div>
+                                            <div class="style-scope lay-out">
+                                                <paper-card class="detail_cards" heading=[[titles.percent_white]]>
+                                                    <div class="card-content detail_card_content">
+                                                        <div id="percent_white_content"
+                                                             class="layout horizontal center-justified">
+                                                            10%
+                                                        </div>
+                                                    </div>
+                                                </paper-card>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--<div><b>[[titles.estimate_total]]: </b></div>-->
+                                    <!--<div><b>[[titles.money_spent_funding_received]]:</div>-->
+                                    <!--<div><b>[[titles.percent_asian]]: </b></div>-->
+                                    <!--<div><b>[[titles.percent_black]]: </b></div>-->
+                                    <!--<div><b>[[titles.percent_latino]]: </b></div>-->
+                                    <!--<div><b>[[titles.percent_white]]: </b></div>-->
+                                    <!--<div><b>[[titles.total_lottery_received]]: </b></div>-->
+                                    <!--<div><b>[[titles.total_lottery_spending]]: </b></div>-->
+                                    <!--<div><b>[[titles.total_students]]: </b></div>-->
+                                </template>
+                            </div>
+                        </paper-card>
+
+                        <!--<div class="flex-6 style-scope lay-out">-->
+                        <paper-card id=dataCard" class="flex style-scope lay-out">
+
+                            <div class="card-content">
+                                <h2 id="distName"></h2>
+                                <!--<iron-icon on-click="_setFavorite"  id ='fav' icon="icons:favorite"></iron-icon>-->
+                                <iron-icon on-click="_goPrev" id='navLeft' icon="icons:chevron-left"></iron-icon>
+                                <iron-icon on-click="_goNext" id='navRight' icon="icons:chevron-right"></iron-icon>
+                                <iron-pages id="pages" selected="0">
+                                    <section>
+                                        <canvas id="inVsOut"></canvas>
+                                    </section>
+                                    <section>
+                                        <canvas id="demographics"></canvas>
+                                    </section>
+                                </iron-pages>
+                            </div>
+                        </paper-card>
+                        <!--</div>-->
+                    </div>
                 </div>
-                <div class="card-actions">
-                    <paper-icon-button icon="favorite" id="fav" on-click="_setFavorite"></paper-icon-button>
+
+            </div>
+
+
+            <div id="filter_heading_cont" class="layout horizontal center-justified">
+                <paper-card id="filter_heading" heading="Filters"></paper-card>
+            </div>
+
+            <!--Div containing filters-->
+            <div id="filters" class="layout horizontal justified">
+                <paper-card id="income_filters" heading="Median Household Income" class="fix_z_index_for_click">
+                    <div class="card-content">
+                        <div>
+                            <paper-checkbox id="i1" on-change="checkBoxChecked" disabled="{{i1-dis}}">
+                                $0 - $20K
+                            </paper-checkbox>
+                        </div>
+                        <div>
+                            <paper-checkbox id="i2" disabled="{{i2-dis}}">
+                                $20K - $35K
+                            </paper-checkbox>
+                        </div>
+                        <div>
+                            <paper-checkbox id="i3" checked="{{income2}}">
+                                $35K - $50K
+                            </paper-checkbox>
+                        </div>
+                        <div>
+                            <paper-checkbox id="i4" checked="{{income3}}">
+                                $50K+
+                            </paper-checkbox>
+                        </div>
+                    </div>
+                </paper-card>
+
+                <paper-card id="race_filters" heading="Race" class="fix_z_index_for_click">
+                    <div class="card-content">
+                        <div>
+                            <paper-checkbox id="r0" checked="{{race0}}">
+                                0 - 10% African American
+                            </paper-checkbox>
+                        </div>
+                        <div>
+                            <paper-checkbox id="r1" checked="{{race1}}">
+                                10 - 20% African American
+                            </paper-checkbox>
+                        </div>
+                        <div>
+                            <paper-checkbox id="r2" checked="{{race2}}">
+                                20 - 30% African American
+                            </paper-checkbox>
+                        </div>
+                        <div>
+                            <paper-checkbox id="r3" checked="{{race3}}">
+                                30 - 50% African American
+                            </paper-checkbox>
+                        </div>
+                        <div>
+                            <paper-checkbox id="r4" checked="{{race4}}">
+                                50%+ African American
+                            </paper-checkbox>
+                        </div>
+                    </div>
+                </paper-card>
+
+                <paper-card id="funding_filters" heading="$ Spent/School Funding Received"
+                            class="fix_z_index_for_click">
+                    <div class="card-content">
+                        <div>
+                            <paper-checkbox id="ratio0" checked="{{ratio0}}">
+                                $0 - $2
+                            </paper-checkbox>
+                        </div>
+                        <div>
+                            <paper-checkbox id="ratio1" checked="{{ratio1}}">
+                                $2 - $4
+                            </paper-checkbox>
+                        </div>
+                        <div>
+                            <paper-checkbox id="ratio2" checked="{{ratio2}}">
+                                $4 - $6
+                            </paper-checkbox>
+                        </div>
+                        <div>
+                            <paper-checkbox id="ratio3" checked="{{ratio3}}">
+                                $6 - $8
+                            </paper-checkbox>
+                        </div>
+                        <div>
+                            <paper-checkbox id="ratio4" checked="{{ratio4}}">
+                                $8 - $10
+                            </paper-checkbox>
+                        </div>
+                        <div>
+                            <paper-checkbox id="ratio5" checked="{{ratio5}}">
+                                $10 - $14
+                            </paper-checkbox>
+                        </div>
+                        <div>
+                            <paper-checkbox id="ratio6" checked="{{ratio6}}">
+                                $14 - $23
+                            </paper-checkbox>
+                        </div>
+                    </div>
+                </paper-card>
+            </div>
+            <div class="layout horizontal center-justified">
+                <div class="flex-2">
+                    <paper-button id="apply_filters" on-click="applyFilters">Apply Filters</paper-button>
                 </div>
-
-        </paper-card>
-
-         <paper-card id="favCard" heading="Favorites">
-             <div class="card-content" id="favContent">
-
-             </div>
-         </paper-card>
+            </div>
         </div>
+    </template>
 
 
-  </template>
+    <script>
 
 
-
-
-
-
-  <script>
-
-
-    /**
-     * @customElement
-     * @polymer
-     */
-    class MyLotto extends Polymer.Element {
-      static get is() { return 'my-lotto'; }
-      static get properties() {
-        return {
-            condenses: {
-                type: Boolean,
-                value: true
-            },
-            fixed: {
-                type: Boolean,
-                value: true
-            },
-            reveals: {
-                type: Boolean,
-                value: false
-            },
-            shadow: {
-                type: Boolean,
-                value: false
-            },
-            blendBackground: {
-                type: Boolean,
-                value: true
-            },
-            fadeBackground: {
-                type: Boolean,
-                value: false
-            },
-            parallaxBackground: {
-                type: Boolean,
-                value: true
-            },
-            resizeSnappedTitle: {
-                type: Boolean,
-                value: false
-            },
-            resizeTitle: {
-                type: Boolean,
-                value: true
-            },
-            waterfall: {
-                type: Boolean,
-                value: true
-            },
-            i1dis: {
-                type: Boolean,
-                value: false
-            },
-            drawerOpened: {
-                type: Boolean,
-                notify: true,
-                observer: "_drawerStateChanged"
-            },
-            user: {
-                type: Object
-            }
-          }
-        };
-
-
-
-        //Runs one time, when the DOM is fully loaded. Renders the map for the first time.
-        ready() {
-           super.ready();
-
-            currentUid;
-            var poly = this;
-            var signOutButton = this.$.signOutButton;
-            var userGreeting = this.$.username;
-            signInContainer = this.$.signInContainer;
-            var favCard = this.$.favCard;
-            var favContent = this.$.favContent;
-
-            nonau = this.$.signInContainer;
-            au = this.$.authUsers;
-
-            if (currentUid == null) {
-                currentUid = null;
-                au.hidden = true;
-                nonau.hidden = false;
-                console.log("nobody signed in");
-            } else {
-                userGreeting.innerText = "Hello " + user.displayName;
-                au.hidden = false;
-                nonau.hidden = true;
-                console.log(user.displayName + ' is signed in');
-
+        /**
+         * @customElement
+         * @polymer
+         */
+        class MyLotto extends Polymer.Element {
+            static get is() {
+                return 'my-lotto';
             }
 
-            firebase.auth().onAuthStateChanged(function(user) {
-
-                    if (user && user.uid != currentUid) {
-                        currentUid = user.uid;
-                        currentUser = user;
-
-
-                        if (user == null) {
-                            currentUid = null;
-                            au.hidden = true;
-                            nonau.hidden = false;
-                            console.log("nobody signed in");
-                            favContent.innerHTML = "Please sign in to view favorites."
-                        } else {
-                            rootRef.child("users").child(user.uid).update({
-                                name: user.displayName,
-                            });
-
-                            userGreeting.innerText = "Hello " + user.displayName;
-                            au.hidden = false;
-                            nonau.hidden = true;
-                            console.log(user.displayName + ' is signed in');
-                            favContent.innerHTML = "";
-                            rootRef.child("users").child(firebase.auth().currentUser.uid).child("favorites").orderByChild("ditrict_name").once("value", function(snapshot) {
-                                snapshot.forEach( function(childSnapshot) {
-                                    favContent.insertAdjacentHTML("beforeend", childSnapshot.val().district_name+ "</br>");
-                                });
-
-                            });
-                        }
+            static get properties() {
+                return {
+                    condenses: {
+                        type: Boolean,
+                        value: true
+                    },
+                    fixed: {
+                        type: Boolean,
+                        value: true
+                    },
+                    reveals: {
+                        type: Boolean,
+                        value: false
+                    },
+                    shadow: {
+                        type: Boolean,
+                        value: false
+                    },
+                    blendBackground: {
+                        type: Boolean,
+                        value: true
+                    },
+                    fadeBackground: {
+                        type: Boolean,
+                        value: false
+                    },
+                    parallaxBackground: {
+                        type: Boolean,
+                        value: true
+                    },
+                    resizeSnappedTitle: {
+                        type: Boolean,
+                        value: false
+                    },
+                    resizeTitle: {
+                        type: Boolean,
+                        value: true
+                    },
+                    waterfall: {
+                        type: Boolean,
+                        value: true
+                    },
+                    i1dis: {
+                        type: Boolean,
+                        value: false
+                    },
+//                    drawerOpened: {
+//                        type: Boolean,
+//                        notify: true,
+//                        observer: "_drawerStateChanged"
+//                    },
+                    user: {
+                        type: Object
                     }
-                });
-            var uiConfig = {
-                signInSuccessUrl: "http://cis.gvsu.edu/~amesm/lotteryv2/",
-                signInFlow: 'popup',
-                signInOptions: [
-                    firebase.auth.GoogleAuthProvider.PROVIDER_ID
-                ],
-                // Terms of service url can be specified and will show up in the widget.
-                tosUrl: '<your-tos-url>'
+                }
             };
-          /*  if (ui != null)
-                ui.reset();*/
-            ui = new firebaseui.auth.AuthUI(firebase.auth());
-            // The start method will wait until the DOM is loaded.
-            ui.start(signInContainer, uiConfig);
 
-            map = new google.maps.Map(this.$.mapEle, {
+
+            //Runs one time, when the DOM is fully loaded. Renders the map for the first time.
+            ready() {
+                super.ready();
+
+                rootRef = firebase.database().ref();
+
+
+//                console.log(this.districtNameData.child());
+//
+//                //populate dropdown list
+//                var district_name_list = [];
+//                //var for drop down box
+//                var dropDownBox = this.$.district_name_box;
+//
+//                rootRef.orderByChild('district_name').once("value", function (snapshot) {
+//                    snapshot.forEach(function (childSnapshot) {
+//                        district_name_list.push(childSnapshot.val().district_name);
+//                        //first few nodes are undefined because they are not part of the data set
+//                        if(childSnapshot.val().district_name){
+////                            console.log(childSnapshot.val().district_name);
+//
+//                        }
+//                    });
+//                    console.log(district_name_list.length);
+////                    dropDownBox.appendChild
+////                    console.log(district_name_list);
+//                });
+//
+////
+//////                dropDownBox.innerHTML = "";
+//////                for(var i = 0; i < district_name_list.length; i++){
+////                    dropDownBox.innerHTML = "ssdf";
+//////                }
+//
+//
+//
+//                /**************************************
+//                 * not in use but keeping around for reference for now- zack
+//                 *
+//                 *
+//                 *
+//                 * *************************************/
+////                currentUid;
+////                var poly = this;
+////                var signOutButton = this.$.signOutButton;
+////                var userGreeting = this.$.username;
+////                signInContainer = this.$.signInContainer;
+////                var favCard = this.$.favCard;
+////                var favContent = this.$.favContent;
+////
+////                nonau = this.$.signInContainer;
+////                au = this.$.authUsers;
+////
+////                if (currentUid == null) {
+////                    currentUid = null;
+////                    au.hidden = true;
+////                    nonau.hidden = false;
+////                    console.log("nobody signed in");
+////                } else {
+////                    userGreeting.innerText = "Hello " + user.displayName;
+////                    au.hidden = false;
+////                    nonau.hidden = true;
+////                    console.log(user.displayName + ' is signed in');
+////
+////                }
+////
+////                firebase.auth().onAuthStateChanged(function (user) {
+////
+////                    if (user && user.uid != currentUid) {
+////                        currentUid = user.uid;
+////                        currentUser = user;
+////
+////
+////                        if (user == null) {
+////                            currentUid = null;
+////                            au.hidden = true;
+////                            nonau.hidden = false;
+////                            console.log("nobody signed in");
+////                            favContent.innerHTML = "Please sign in to view favorites."
+////                        } else {
+////                            rootRef.child("users").child(user.uid).update({
+////                                name: user.displayName,
+////                            });
+////
+////                            userGreeting.innerText = "Hello " + user.displayName;
+////                            au.hidden = false;
+////                            nonau.hidden = true;
+////                            console.log(user.displayName + ' is signed in');
+////                            favContent.innerHTML = "";
+////                            rootRef.child("users").child(firebase.auth().currentUser.uid).child("favorites").orderByChild("ditrict_name").once("value", function (snapshot) {
+////                                snapshot.forEach(function (childSnapshot) {
+////                                    favContent.insertAdjacentHTML("beforeend", childSnapshot.val().district_name + "</br>");
+////                                });
+////
+////                            });
+////                        }
+////                    }
+////                });
+////                var uiConfig = {
+////                    signInSuccessUrl: "http://cis.gvsu.edu/~amesm/lotteryv2/",
+////                    signInFlow: 'popup',
+////                    signInOptions: [
+////                        firebase.auth.GoogleAuthProvider.PROVIDER_ID
+////                    ],
+////                    // Terms of service url can be specified and will show up in the widget.
+////                    tosUrl: '<your-tos-url>'
+////                };
+////                /*  if (ui != null)
+////                      ui.reset();*/
+////                ui = new firebaseui.auth.AuthUI(firebase.auth());
+////                // The start method will wait until the DOM is loaded.
+////                ui.start(signInContainer, uiConfig);
+//
+                map = new google.maps.Map(this.$.mapEle, {
                     center: {lat: 44.5, lng: -86},
                     zoom: 7,
-                    styles: [ { featureType: "road", stylers: [ { visibility: "off" } ] },{ },
-                        { featureType: "poi", stylers: [ { visibility: "off" } ] },{ },
-                        { featureType: "administrative", stylers: [ { visibility: "off" } ] },{ }]
+                    styles: [{featureType: "road", stylers: [{visibility: "off"}]}, {},
+                        {featureType: "poi", stylers: [{visibility: "off"}]}, {},
+                        {featureType: "administrative", stylers: [{visibility: "off"}]}, {}]
                 });
                 map.data.loadGeoJson("src/simplified.json");
 
-                map.data.setStyle(function(feature) {
-                        return {
-                            strokeWeight: .3
+                map.data.setStyle(function (feature) {
+                    return {
+                        strokeWeight: .3
                     }
                 });
-        };
+            };
 
 
-        _computeEffects() {
-            return [
-                this.blendBackground ? 'blend-background ' : '',
-                this.fadeBackground ? 'fade-background ' : '',
-                this.parallaxBackground ? 'parallax-background ' : '',
-                this.resizeSnappedTitle ? 'resize-snapped-title ' : '',
-                this.resizeTitle ? 'resize-title ' : '',
-                this.waterfall ? 'waterfall ' : ''
-            ].join('');
-        };
+            _computeEffects() {
+                return [
+                    this.blendBackground ? 'blend-background ' : '',
+                    this.fadeBackground ? 'fade-background ' : '',
+                    this.parallaxBackground ? 'parallax-background ' : '',
+                    this.resizeSnappedTitle ? 'resize-snapped-title ' : '',
+                    this.resizeTitle ? 'resize-title ' : '',
+                    this.waterfall ? 'waterfall ' : ''
+                ].join('');
+            };
 
-        _removeIf(propName, value) {
-            if (this[propName] && value) {
-                this[propName] = false;
-            }
-        };
-
-        _goPrev() {
-            this.$.pages.selectPrevious();
-        }
-
-        _goNext() {
-            this.$.pages.selectNext();
-        }
-
-        _setFavorite() {
-            var favCard = this.$.favCard;
-            var favContent = this.$.favContent;
-
-            if (firebase.auth().currentUser != null) {
-                if (currentDistrict != null) {
-                    rootRef.child("users").child(firebase.auth().currentUser.uid).child("favorites").push().set({
-                        district_name: currentDistrict
-                    });
-                    alert(currentDistrict + " added to favorites.");
-
-                    favContent.innerHTML = "";
-                    rootRef.child("users").child(firebase.auth().currentUser.uid).child("favorites").orderByChild("ditrict_name").once("value", function(snapshot) {
-                        snapshot.forEach( function(childSnapshot) {
-                            favContent.insertAdjacentHTML("beforeend", childSnapshot.val().district_name + "<br/>");
-                        });
-
-                    });
+            _removeIf(propName, value) {
+                if (this[propName] && value) {
+                    this[propName] = false;
                 }
+            };
 
-            } else {
-                alert("Please sign in.");
-                favContent.innerHTML = "Sign in to view favorites."
+            _goPrev() {
+                this.$.pages.selectPrevious();
             }
 
+            _goNext() {
+                this.$.pages.selectNext();
+            }
 
+//            _setFavorite() {
+//                var favCard = this.$.favCard;
+//                var favContent = this.$.favContent;
+//
+//                if (firebase.auth().currentUser != null) {
+//                    if (currentDistrict != null) {
+//                        rootRef.child("users").child(firebase.auth().currentUser.uid).child("favorites").push().set({
+//                            district_name: currentDistrict
+//                        });
+//                        alert(currentDistrict + " added to favorites.");
+//
+//                        favContent.innerHTML = "";
+//                        rootRef.child("users").child(firebase.auth().currentUser.uid).child("favorites").orderByChild("ditrict_name").once("value", function (snapshot) {
+//                            snapshot.forEach(function (childSnapshot) {
+//                                favContent.insertAdjacentHTML("beforeend", childSnapshot.val().district_name + "<br/>");
+//                            });
+//
+//                        });
+//                    }
+//
+//                } else {
+//                    alert("Please sign in.");
+//                    favContent.innerHTML = "Sign in to view favorites."
+//                }
+//
+//
+//            }
 
-        }
+            //refactored from drawerstatechanged to apply filters
+            applyFilters() {
 
-        //This function fires when the slide-out app drawer changes state (open/close).
-        _drawerStateChanged(ev) {
-            var districtNames = [];
-            var incomeMin;
-            var incomeMax;
-            var raceMin;
-            var raceMax;
-            var ratioMin;
-            var ratioMax;
-            var inVsOut = this.$.inVsOut;
-            var demographics = this.$.demographics;
-            var districtNameHeader = this.$.distName;
-            //var arr = [];
+                var districtNames = [];
+                var incomeMin;
+                var incomeMax;
+                var raceMin;
+                var raceMax;
+                var ratioMin;
+                var ratioMax;
+                var inVsOut = this.$.inVsOut;
+                var demographics = this.$.demographics;
+                var districtNameHeader = this.$.distName;
+                //var arr = [];
 
-            //check to see if App-Drawer is closed
-            if(!ev) {
                 //get the states of the checkboxes
                 var incomeBoxStates = [];
                 incomeBoxStates.push(this.$.i1.checked);
@@ -682,7 +1040,7 @@ We ask only that you give the authors credit.
                 var queryMin = 0;
                 var queryMax = 0;
 
-                if(incomeBoxStates.includes(true)) {
+                if (incomeBoxStates.includes(true)) {
                     queryMin = incomeMin;
                     queryMax = incomeMax;
                 }
@@ -699,261 +1057,257 @@ We ask only that you give the authors credit.
 
                 //query and filter
                 var results = [];
-                    if (rootRef != undefined) {
-                        rootRef.orderByChild(queryCategory).startAt(queryMin).endAt(queryMax).once("value", function(snapshot){
-                            snapshot.forEach(function(childSnapshot){
+                if (rootRef != undefined) {
+                    rootRef.orderByChild(queryCategory).startAt(queryMin).endAt(queryMax).once("value", function (snapshot) {
+                        snapshot.forEach(function (childSnapshot) {
 
 
-                                if(queryCategory == "estimate_income") {
-                                    if(raceBoxStates.includes(true) && ratioBoxStates.includes(true)) {
-                                        if(childSnapshot.val().percent_black <= raceMax) {
-                                            if(childSnapshot.val().percent_black >= raceMin) {
-                                                if(childSnapshot.val().money_spent_funding_received <= ratioMax) {
-                                                    if(childSnapshot.val().money_spent_funding_received >= ratioMin) {
-                                                        console.log(childSnapshot.val().percent_black);
-                                                        results.push(childSnapshot);
-                                                    }
+                            if (queryCategory == "estimate_income") {
+                                if (raceBoxStates.includes(true) && ratioBoxStates.includes(true)) {
+                                    if (childSnapshot.val().percent_black <= raceMax) {
+                                        if (childSnapshot.val().percent_black >= raceMin) {
+                                            if (childSnapshot.val().money_spent_funding_received <= ratioMax) {
+                                                if (childSnapshot.val().money_spent_funding_received >= ratioMin) {
+                                                    console.log(childSnapshot.val().percent_black);
+                                                    results.push(childSnapshot);
                                                 }
                                             }
                                         }
                                     }
-                                    else if (raceBoxStates.includes(true)) {
-                                        if(childSnapshot.val().percent_black <= raceMax) {
-                                            if (childSnapshot.val().percent_black >= raceMin) {
-                                                console.log(childSnapshot.val().percent_black);
-                                                results.push(childSnapshot);
-                                            }
+                                }
+                                else if (raceBoxStates.includes(true)) {
+                                    if (childSnapshot.val().percent_black <= raceMax) {
+                                        if (childSnapshot.val().percent_black >= raceMin) {
+                                            console.log(childSnapshot.val().percent_black);
+                                            results.push(childSnapshot);
                                         }
                                     }
-                                    else if (ratioBoxStates.includes(true)) {
-                                        if(childSnapshot.val().money_spent_funding_received <= ratioMax) {
-                                            if (childSnapshot.val().money_spent_funding_received >= ratioMin) {
-                                                console.log(childSnapshot.val().money_spent_funding_received);
-                                                results.push(childSnapshot);
-                                            }
-
+                                }
+                                else if (ratioBoxStates.includes(true)) {
+                                    if (childSnapshot.val().money_spent_funding_received <= ratioMax) {
+                                        if (childSnapshot.val().money_spent_funding_received >= ratioMin) {
+                                            console.log(childSnapshot.val().money_spent_funding_received);
+                                            results.push(childSnapshot);
                                         }
 
                                     }
-                                    else {
-                                        results.push(childSnapshot);
-                                    }
+
+                                }
+                                else {
+                                    results.push(childSnapshot);
+                                }
 
 
-                                } else if(queryCategory == "percent_black") {
-                                    if(ratioBoxStates.includes(true)){
-                                        if(childSnapshot.val().money_spent_funding_received <= ratioMax) {
-                                            if(childSnapshot.val().money_spent_funding_received >= ratioMin) {
-                                                console.log("Ratio: " + childSnapshot.val().money_spent_funding_received + " Race: " + childSnapshot.val().percent_black);
-                                                results.push(childSnapshot);
-                                            }
+                            } else if (queryCategory == "percent_black") {
+                                if (ratioBoxStates.includes(true)) {
+                                    if (childSnapshot.val().money_spent_funding_received <= ratioMax) {
+                                        if (childSnapshot.val().money_spent_funding_received >= ratioMin) {
+                                            console.log("Ratio: " + childSnapshot.val().money_spent_funding_received + " Race: " + childSnapshot.val().percent_black);
+                                            results.push(childSnapshot);
                                         }
-                                    } else {
-                                        results.push(childSnapshot);
                                     }
                                 } else {
                                     results.push(childSnapshot);
                                 }
-                            });
-
-                            results.forEach(function(entry) {
-                                districtNames.push(entry.val().district_name);
-                            });
-
-                            console.log("District Names:" +  districtNames.length);
+                            } else {
+                                results.push(childSnapshot);
+                            }
                         });
-                    }
 
+                        results.forEach(function (entry) {
+                            districtNames.push(entry.val().district_name);
+                        });
+
+                        console.log("District Names:" + districtNames.length);
+                    });
+                }
 
 
                 //update map
                 if (map != undefined) {
-                        map.data.setStyle(function (feature) {
-                            var name = feature.getProperty('NAME');
+                    map.data.setStyle(function (feature) {
+                        var name = feature.getProperty('NAME');
 
-                            if (districtNames.includes(name)) {
-                                var color = 'red';
-                                return {
-                                    fillColor: color,
-                                    strokeWeight: .3,
-                                    clickable: true
-                                };
-                            } else {
-                                return {
-                                    strokeWeight: .3,
-                                    clickable: false
-                                };
-                            }
-                        });
+                        if (districtNames.includes(name)) {
+                            var color = 'red';
+                            return {
+                                fillColor: color,
+                                strokeWeight: .3,
+                                clickable: true
+                            };
+                        } else {
+                            return {
+                                strokeWeight: .3,
+                                clickable: false
+                            };
+                        }
+                    });
 
-                        map.data.addListener('mouseover', function(event){
-                            map.data.overrideStyle(event.feature, {strokeWeight: 1.3, strokeColor: 'red'});
-                        });
+                    map.data.addListener('mouseover', function (event) {
+                        map.data.overrideStyle(event.feature, {strokeWeight: 1.3, strokeColor: 'red'});
+                    });
 
-                        map.data.addListener('mouseout', function(event){
-                            map.data.revertStyle();
-                        });
+                    map.data.addListener('mouseout', function (event) {
+                        map.data.revertStyle();
+                    });
 
-                        //add onClick handler
-                        map.data.addListener('click', function (event) {
-                            var districtChosen = event.feature.getProperty('NAME');
-                            currentDistrict = districtChosen;
-                            //alert(districtChosen);
-                            //var districtRef = rootRef.child(districtChosen);
+                    //add onClick handler
+                    map.data.addListener('click', function (event) {
+                        var districtChosen = event.feature.getProperty('NAME');
+                        currentDistrict = districtChosen;
+                        //alert(districtChosen);
+                        //var districtRef = rootRef.child(districtChosen);
 
-                           var arr = [];
-                            rootRef.orderByChild('district_name').equalTo(districtChosen).limitToFirst(1).once("value", function (snapshot) {
-                                snapshot.forEach(function (childSnapshot) {
-                                    arr.push(childSnapshot.val().district_name);
-                                    arr.push(childSnapshot.val().total_lottery_spending);
-                                    arr.push(childSnapshot.val().total_lottery_received);
-                                    arr.push(childSnapshot.val().percent_white);
-                                    arr.push(childSnapshot.val().percent_asian);
-                                    arr.push(childSnapshot.val().percent_black);
-                                    arr.push(childSnapshot.val().percent_latino);
-                                });
+                        var arr = [];
+                        rootRef.orderByChild('district_name').equalTo(districtChosen).limitToFirst(1).once("value", function (snapshot) {
+                            snapshot.forEach(function (childSnapshot) {
+                                arr.push(childSnapshot.val().district_name);
+                                arr.push(childSnapshot.val().total_lottery_spending);
+                                arr.push(childSnapshot.val().total_lottery_received);
+                                arr.push(childSnapshot.val().percent_white);
+                                arr.push(childSnapshot.val().percent_asian);
+                                arr.push(childSnapshot.val().percent_black);
+                                arr.push(childSnapshot.val().percent_latino);
+                            });
 
-                                //console.log("Inside: " + typeof(arr[1]));
-                                /*$('#inVsOut').remove();
-                                $('#graphContainer').append('<canvas id="inVsOut"></canvas>');
-                                console.log(typeof(arr[1]));*/
-                                //console.log(arr[2]);
+                            //console.log("Inside: " + typeof(arr[1]));
+                            /*$('#inVsOut').remove();
+                            $('#graphContainer').append('<canvas id="inVsOut"></canvas>');
+                            console.log(typeof(arr[1]));*/
+                            //console.log(arr[2]);
 
-                                //Update H2 with selected district name
-                                districtNameHeader.innerText = arr[0];
+                            //Update H2 with selected district name
+                            districtNameHeader.innerText = arr[0];
 
-                                //update bar graph
-                                var ctx = inVsOut.getContext('2d');
+                            //update bar graph
+                            var ctx = inVsOut.getContext('2d');
 
-                                if (barChart != undefined)
-                                    barChart.destroy();
+                            if (barChart != undefined)
+                                barChart.destroy();
 
-                                barChart = new Chart(ctx, {
-                                    type: 'bar',
+                            barChart = new Chart(ctx, {
+                                type: 'bar',
 
-                                    data: {
-                                        labels: ["Money Spent", "Money Received"],
-                                        datasets: [{
-                                            labels: arr[0],
-                                            backgroundColor: ["#ff0000", "#00CC00"],
-                                            data: [arr[1], arr[2]]
-                                        }]
-                                    },
+                                data: {
+                                    labels: ["Money Spent", "Money Received"],
+                                    datasets: [{
+                                        labels: arr[0],
+                                        backgroundColor: ["#ff0000", "#00CC00"],
+                                        data: [arr[1], arr[2]]
+                                    }]
+                                },
 
-                                    options: {
-                                        legend: {
-                                            display: false
-                                        }
+                                options: {
+                                    legend: {
+                                        display: false
                                     }
-                                });
+                                }
+                            });
 
-                                //update demographics chart
-                                var demoCtx = demographics.getContext("2d");
-                                var data;
-                                if (demoChart != undefined)
-                                    demoChart.destroy();
-                                demoChart = new Chart (demoCtx, {
-                                    type: 'pie',
-                                    data: data = {
-                                        datasets: [{
-                                            data: [arr[3], arr[4], arr[5], arr[6]],
-                                            backgroundColor: ["#5e3232", "#6a9c89", "#332c45", "#8c925b"]
-                                        }],
-                                        // These labels appear in the legend and in the tooltips when hovering different arcs
-                                        labels: [
-                                            'White',
-                                            'Asian',
-                                            'Black',
-                                            'Latino'
-                                        ]
-                                    },
-                                    options: {
-                                        responsive: false,
-                                        maintainAspectRatio: true,
-                                        cutoutPercentage: 50,
-                                        animation: {
-                                            animateRotate: true
-                                        }
+                            //update demographics chart
+                            var demoCtx = demographics.getContext("2d");
+                            var data;
+                            if (demoChart != undefined)
+                                demoChart.destroy();
+                            demoChart = new Chart(demoCtx, {
+                                type: 'pie',
+                                data: data = {
+                                    datasets: [{
+                                        data: [arr[3], arr[4], arr[5], arr[6]],
+                                        backgroundColor: ["#5e3232", "#6a9c89", "#332c45", "#8c925b"]
+                                    }],
+                                    // These labels appear in the legend and in the tooltips when hovering different arcs
+                                    labels: [
+                                        '% White',
+                                        '% Asian',
+                                        '% Black',
+                                        '% Latino'
+                                    ]
+                                },
+                                options: {
+                                    responsive: false,
+                                    maintainAspectRatio: true,
+                                    cutoutPercentage: 50,
+                                    animation: {
+                                        animateRotate: true
                                     }
+                                }
 
-                                });
-                            }); //update map
+                            });
+                        }); //update map
 
 
-                        });
+                    });
                 }
 
-            } //if (!ev)
+            }
+
+
+            //Disregard for now
+
+            checkBoxChecked(ev) {
+
+                /*var results = []                                                                                                                                                                                                                            ;
+                rootRef.orderByChild("percent_black").endAt(1).once("value", function(snapshot){
+                    snapshot.forEach(function(childSnapshot){
+                        results.push(childSnapshot);
+                        console.log(results.length)
+
+
+                    });
+
+                });*/
+
+                //alert(ev.target.checked);
+                //var other = this.$.i2;
+                //other.disabled = true;
+                //alert(other.checked);
+
+                /*  var map = new google.maps.Map(this.$.mapEle, {
+                      center: {lat: 44.5, lng: -84.5555},
+                      zoom: 7,
+                      styles: [ { featureType: "road", stylers: [ { visibility: "off" } ] },{ },
+                          { featureType: "poi", stylers: [ { visibility: "off" } ] },{ },
+                          { featureType: "administrative", stylers: [ { visibility: "off" } ] },{ }]
+                  });
+                  map.data.loadGeoJson("src/simplified.json");
+
+                  map.data.setStyle(function(feature) {
+                      var name = feature.getProperty('NAME');
+                      if (name == "Alcona Community Schools") {
+                          var color = 'red';
+                          return {
+                              fillColor: color,
+                              strokeWeight: .7
+                          };
+                      } else {
+                          return {
+                              strokeWeight: .3,
+                              fillColor: 'blue'
+                          };
+                      }
+                  });*/
+            };
+
+            /*signs user out.... obviously*/
+//            signOutFirebase() {
+//                var favContent = this.$.favContent;
+//                firebase.auth().signOut().then(function () {
+//                    au.hidden = true;
+//                    nonau.hidden = false;
+//                    favContent.innerHTML = "Sign in to view favorites."
+//
+//                }).catch(function (error) {
+//                    alert("Sorry, there was an error signing you out");
+//                });
+//            }
+
 
         }
 
 
-        //Disregard for now
-
-        checkBoxChecked(ev) {
-
-            /*var results = []                                                                                                                                                                                                                            ;
-            rootRef.orderByChild("percent_black").endAt(1).once("value", function(snapshot){
-                snapshot.forEach(function(childSnapshot){
-                    results.push(childSnapshot);
-                    console.log(results.length)
-
-
-                });
-
-            });*/
-
-            //alert(ev.target.checked);
-           //var other = this.$.i2;
-           //other.disabled = true;
-           //alert(other.checked);
-
-          /*  var map = new google.maps.Map(this.$.mapEle, {
-                center: {lat: 44.5, lng: -84.5555},
-                zoom: 7,
-                styles: [ { featureType: "road", stylers: [ { visibility: "off" } ] },{ },
-                    { featureType: "poi", stylers: [ { visibility: "off" } ] },{ },
-                    { featureType: "administrative", stylers: [ { visibility: "off" } ] },{ }]
-            });
-            map.data.loadGeoJson("src/simplified.json");
-
-            map.data.setStyle(function(feature) {
-                var name = feature.getProperty('NAME');
-                if (name == "Alcona Community Schools") {
-                    var color = 'red';
-                    return {
-                        fillColor: color,
-                        strokeWeight: .7
-                    };
-                } else {
-                    return {
-                        strokeWeight: .3,
-                        fillColor: 'blue'
-                    };
-                }
-            });*/
-        };
-        /*signs user out.... obviously*/
-        signOutFirebase() {
-            var favContent = this.$.favContent;
-            firebase.auth().signOut().then(function() {
-                au.hidden = true;
-                nonau.hidden = false;
-                favContent.innerHTML = "Sign in to view favorites."
-
-            }).catch(function(error) {
-                alert("Sorry, there was an error signing you out");
-            });
-        }
-
-
-
-    }
-
-
-
-    window.customElements.define(MyLotto.is, MyLotto);
-  </script>
+        window.customElements.define(MyLotto.is, MyLotto);
+    </script>
 
 </dom-module>
 
