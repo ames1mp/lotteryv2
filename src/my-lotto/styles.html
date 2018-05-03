@@ -1,0 +1,234 @@
+<dom-module id="my-style-module">
+    <template>
+        <style>
+            paper-card {
+                --paper-card-header: {
+                    background-color: #0000A0;
+                    --paper-card-header-color: white;
+                    @apply(--layout-vertical);
+                    @apply(--layout-center);
+                };
+                z-index: 0;
+            }
+
+            .detail_cards {
+                --paper-card-header-text: {
+                    font-size: 16px;
+                    font-weight: bold;
+                };
+                --paper-card-header: {
+                    background-color: #0000A0;
+                    --paper-card-header-color: white;
+
+                    @apply(--layout-vertical);
+                };
+                margin: 5px;
+            }
+
+            .detail_card_content {
+                font-size: 21px;
+                font-weight: bold;
+            }
+
+            #details {
+                width: 35vw;
+                /*margin-right: 30px;*/
+            }
+
+            app-drawer-layout {
+                /*fix for app-drawer scrolling over paper-cards*/
+                z-index: 10;
+            }
+
+            app-drawer-layout:not([narrow]) [drawer-toggle] {
+                display: none;
+            }
+
+            paper-dropdown-menu, paper-listbox {
+                /*width:inherit;*/
+                width: 20vw;
+                padding: 10px;
+            }
+
+            paper-dropdown-menu {
+                /*height: 200px;*/
+                margin: auto;
+                display: block;
+                --primary-background-color: #0000A0;
+            }
+
+            paper-listbox {
+                background-color: #0000A0;
+                color: white;
+                /*z-index:5;*/
+                /*width:inherit;*/
+
+            }
+
+            paper-range-slider{
+                --paper-range-slider-knob-color: #0000A0;
+                --paper-range-slider-active-color: #0000A0;
+                --paper-range-slider-pin-color: #0000A0;
+            }
+
+            paper-item {
+                /*z-index:5;*/
+                /*width: inherit;*/
+
+            }
+
+            #school_district_card {
+                /*height: 2px;*/
+                z-index: 1;
+                /*width:200px;*/
+                /*margin-bottom: 20px;*/
+            }
+
+            /*app-drawer-section {*/
+            /*height: 100%;*/
+            /*overflow-y: auto;*/
+            /*-webkit-overflow-scrolling: touch;*/
+            /*z-index: 5;*/
+            /*}*/
+
+            app-drawer h2 {
+                margin: 8px 0 0;
+                padding: 18px;
+                font-size: 18px;
+            }
+
+            app-drawer paper-checkbox {
+                display: block;
+                padding: 18px;
+            }
+
+            app-header {
+                z-index: 5;
+                color: #fff;
+                background-color: #0000A0;
+                --app-header-background-front-layer: {
+                    background-image: url('../../res/mack.png');
+                    background-position: 50% 13%;
+                };
+            }
+
+            [main-title] {
+                font-size: 2em;
+
+            }
+
+            #mapEle {
+                width: 62vw;
+                height: 73vh;
+                min-height: 73vh;
+                z-index: 1;
+
+            }
+
+            #map_card {
+                /*margin-right: 10px;*/
+                margin-bottom: 10px;
+            }
+
+            #filters {
+                /*margin-top: 10px;*/
+                /*margin-bottom: 10px;*/
+            }
+
+            #filter_heading {
+                /*width: 100vw;*/
+                /*margin-top: 10px;*/
+                width: 25vw;
+            }
+
+            #income_filters {
+                width: 25vw;
+            }
+
+            #race_filters {
+                width: 25vw;
+            }
+
+            #funding_filters {
+                width: 25vw;
+                margin-bottom: 10px;
+            }
+
+            #copyright {
+                text-align: right;
+                font-size: x-small;
+                color: white;
+                text-decoration: none;
+                opacity: 0.5;
+
+            }
+
+            #main {
+                /*display: inline;*/
+                padding: 20px;
+            }
+
+            #data {
+                /*width: 39vw;*/
+                /*float: right;*/
+            }
+
+            #graph-container {
+                /*width: 39vw;*/
+                /*float: right;*/
+                visibility: visible;
+            }
+
+            #dataCard {
+                /*width: 22vw;*/
+                /*margin-top: 50px;*/
+                /*float: right;*/
+                /*margin-left: 20px;*/
+                /*height: 60vh;*/
+
+            }
+
+            #navLeft {
+                float: left;
+                padding-bottom: 3vh;
+            }
+
+            #navLeft:hover {
+                fill: #0000A0;
+            }
+
+            #navRight {
+                float: right;
+                padding-bottom: 3vh;
+            }
+
+            #navRight:hover {
+                fill: #0000A0;
+            }
+
+            app-drawer {
+                z-index: 3;
+            }
+
+            #fav:hover {
+                fill: #0000A0;
+            }
+
+            :host {
+                display: block;
+                z-index: 0;
+            }
+
+            #apply_filters {
+                color: white;
+                background-color: #0000A0;
+                width: 31vw;
+            }
+
+            #select_district_button {
+                color: white;
+                background-color: #0000A0;
+            }
+        </style>
+    </template>
+</dom-module>

@@ -20,7 +20,10 @@
     "firebaseui": "^2.5.1",
     "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#^2.0.1",
     "paper-listbox": "PolymerElements/paper-listbox#^2.0.0",
-    "paper-item": "PolymerElements/paper-item#^2.0.0"
+    "paper-item": "PolymerElements/paper-item#^2.0.0",
+    "paper-slider": "PolymerElements/paper-slider#^2.0.6",
+    "paper-range-slider": "IftachSadeh/paper-range-slider#^1.0.3",
+    "web-animations-js": "web-animations/web-animations-js#^2.3.1"
   },
   "devDependencies": {
     "web-component-tester": "Polymer/web-component-tester#^6.0.0",

@@ -48,20 +48,20 @@
         });
         map.data.loadGeoJson("simplified.json");
 
-        map.data.setStyle(function(feature) {
-            var name = feature.getProperty('NAME');
-            if (name == "Alcona Community Schools") {
-                color = 'red';
-                return {
-                    fillColor: color,
-                    strokeWeight: .7
-                };
-            } else {
-                return {
-                    strokeWeight: .3
-                };
-            }
-        });
+        // map.data.setStyle(function(feature) {
+        //     var name = feature.getProperty('NAME');
+        //     if (name == "Alcona Community Schools") {
+        //         color = 'blue';
+        //         return {
+        //             fillColor: color,
+        //             strokeWeight: .7
+        //         };
+        //     } else {
+        //         return {
+        //             strokeWeight: .3
+        //         };
+        //     }
+        // });
     }
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKb-lSY4lMIiiy014YHhf9pwJOejs2YYU&callback=initMap"
@@ -71,16 +71,16 @@
 
 
 
-<script>
-    results = []                                                                                                                                                                                                                            ;
-    rootRef.orderByChild("percent_black").endAt(1).once("value", function(snapshot){
-        snapshot.forEach(function(childSnapshot){
-            results.push(childSnapshot);
-            console.log(results.length)
+<!--<script>-->
+    <!--results = []                                                                                                                                                                                                                            ;-->
+    <!--rootRef.orderByChild("percent_black").endAt(1).once("value", function(snapshot){-->
+        <!--snapshot.forEach(function(childSnapshot){-->
+            <!--results.push(childSnapshot);-->
+            <!--console.log(results.length)-->
 
 
-        });
+        <!--});-->
 
-    });
-</script>
+    <!--});-->
+<!--</script>-->
 </html>
