@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a5b2b3f5-abb8-4bf9-bfb3-3dd658190734" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bower.json" afterPath="$PROJECT_DIR$/bower.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/my-lotto/my-lotto.html" afterPath="$PROJECT_DIR$/src/my-lotto/my-lotto.html" />
+      <change beforePath="$PROJECT_DIR$/.idea/lottery.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/lottery.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/my-lotto/my-lotto.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/my-lotto/my-lotto.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/my-lotto/styles.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/my-lotto/styles.html" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -18,85 +19,79 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="my-lotto.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/my-lotto/my-lotto.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-6643">
-              <caret line="556" column="71" lean-forward="false" selection-start-line="556" selection-start-column="71" selection-end-line="556" selection-end-column="71" />
-              <folding>
-                <element signature="e#0#171#0" expanded="false" />
-                <element signature="n#script#0;n#!!top" expanded="false" />
-                <element signature="e#39711#40182#0" expanded="false" />
-                <element signature="e#40224#40348#0" expanded="false" />
-                <element signature="e#40373#40435#0" expanded="false" />
-                <element signature="e#40459#40517#0" expanded="false" />
-                <element signature="e#43519#44063#0" expanded="false" />
-                <element signature="e#44202#44723#0" expanded="false" />
-                <element signature="e#44367#44704#0" expanded="false" />
-                <element signature="e#44865#45398#0" expanded="false" />
-                <element signature="e#46438#49970#0" expanded="false" />
-                <element signature="e#53058#53794#0" expanded="false" />
-                <marker date="1515626149998" expanded="true" signature="8649:8741" ph="..." />
-              </folding>
+            <state relative-caret-position="-238">
+              <caret line="984" column="25" selection-start-line="984" selection-start-column="25" selection-end-line="984" selection-end-column="25" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="my-main.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../CIS371/hw7/src/my-main/my-main.html">
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="284">
-              <caret line="70" column="62" lean-forward="false" selection-start-line="70" selection-start-column="53" selection-end-line="70" selection-end-column="62" />
-              <folding />
+            <state relative-caret-position="650">
+              <caret line="40" column="7" selection-start-line="40" selection-start-column="7" selection-end-line="40" selection-end-column="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="styles.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/my-lotto/styles.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="650">
+              <caret line="212" column="11" selection-start-line="212" selection-start-column="11" selection-end-line="214" selection-end-column="15" />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>paper-dropdown-menu</find>
-      <find>frienddata</find>
-      <find>firebase query</find>
-      <find>test</find>
-      <find>friendData</find>
-      <find>districtNameData</find>
-      <find>mapele</find>
-      <find>ready()</find>
-      <find>console.log</find>
-      <find>properties</find>
-      <find>districtnamedata</find>
-      <find>firebase</find>
-      <find>rootref</find>
-      <find>rootref =</find>
-      <find>myfireapp</find>
-      <find>query</find>
-      <find>headerTitleData</find>
-      <find>headertitledata</find>
-      <find>school_distr</find>
-      <find>map_card</find>
-      <find>datacard</find>
-      <find>data</find>
-      <find>money spent</find>
-      <find>details_cards</find>
-      <find>detail_card</find>
-      <find>detail_card_</find>
-      <find>detail_cards</find>
-      <find>elevation</find>
-      <find>around-</find>
-      <find>fuck</find>
+      <find>setStyle</find>
+      <find>map</find>
+      <find>estimate_income_content</find>
+      <find>school</find>
+      <find>this.$.</find>
+      <find>schoolselected</find>
+      <find>estimate_income</find>
+      <find>[[</find>
+      <find>[[income</find>
+      <find>total_lottery_spending</find>
+      <find>spentrecei</find>
+      <find>bal</find>
+      <find>val</find>
+      <find>spentcardval</find>
+      <find>totalspent</find>
+      <find>totalspendingcardval</find>
+      <find>arr</find>
+      <find>barchart</find>
+      <find>chart</find>
+      <find>invsout</find>
+      <find>dropdown</find>
+      <find>dropdown.</find>
+      <find>mousedown</find>
+      <find>mouseup</find>
+      <find>resetDist</find>
+      <find>mouseupresetDistrictData()</find>
+      <find>schoolsele</find>
+      <find>fav</find>
+      <find>selected</find>
+      <find>idle</find>
     </findStrings>
+    <replaceStrings>
+      <replace>#0000A0</replace>
+    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -104,11 +99,18 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/map.html" />
         <option value="$PROJECT_DIR$/src/style.css" />
-        <option value="$PROJECT_DIR$/index.html" />
         <option value="$USER_HOME$/AppData/Local/Temp/google.svg.url" />
-        <option value="$PROJECT_DIR$/../../CIS371/hw7/src/my-main/my-main.html" />
+        <option value="E:/CIS371/hw7/src/my-main/my-main.html" />
+        <option value="$PROJECT_DIR$/test/my-lotto/my-lotto_test.html" />
+        <option value="$PROJECT_DIR$/src/my-lotto/style.css" />
+        <option value="$PROJECT_DIR$/src/my-lotto/my-style-module.html" />
+        <option value="$PROJECT_DIR$/src/map.html" />
+        <option value="$PROJECT_DIR$/src/my-lotto/index.js" />
+        <option value="$PROJECT_DIR$/src/index.js" />
+        <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/src/my-lotto/styles.html" />
+        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/src/my-lotto/my-lotto.html" />
       </list>
     </option>
@@ -119,25 +121,36 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
+  <component name="NodeModulesDirectoryManager">
+    <handled-path value="$PROJECT_DIR$/node_modules" />
+  </component>
+  <component name="NodePackageJsonFileManager">
+    <packageJsonPaths>
+      <path value="$PROJECT_DIR$/bower_components/async/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/chai/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/firebaseui/buildtools/country_data/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/firebaseui/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/font-roboto/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/iron-range-behavior/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/paper-button/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/paper-progress/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/polymer/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/shadycss/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/sinon-chai/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/test-fixture/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/web-component-tester/package.json" />
+      <path value="$PROJECT_DIR$/bower_components/webcomponentsjs/package.json" />
+      <path value="$PROJECT_DIR$/package.json" />
+    </packageJsonPaths>
+  </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="71" />
-    <option name="y" value="24" />
-    <option name="width" value="810" />
-    <option name="height" value="1020" />
+    <option name="x" value="-7" />
+    <option name="width" value="974" />
+    <option name="height" value="1047" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
-      <flattenPackages />
-      <showMembers />
-      <showModules />
-      <showLibraryContents />
-      <hideEmptyPackages />
-      <abbreviatePackageNames />
-      <autoscrollToSource />
-      <autoscrollFromSource />
-      <sortByType />
-      <manualOrder />
+    <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
@@ -148,30 +161,27 @@
               <item name="lotteryv2" type="b2602c69:ProjectViewProjectNode" />
               <item name="lotteryv2" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="lotteryv2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="lotteryv2" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="lotteryv2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="lotteryv2" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="my-lotto" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
       <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../CIS371/hw7/src/my-main/my-main.html" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="HbShouldOpenHtmlAsHb" value="" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../LotteryData" />
+    <property name="node.js.detected.package.prettier" value="true" />
+    <property name="node.js.path.for.package.prettier" value="project" />
+    <property name="node.js.selected.package.prettier" value="" />
+    <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\Projects\Web Projects\lotteryv2\src" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -184,9 +194,6 @@
         </RuleState>
       </list>
     </option>
-  </component>
-  <component name="ShelveChangesManager" show_recycled="false">
-    <option name="remove_strategy" value="false" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -210,31 +217,50 @@
       <workItem from="1515546713224" duration="12757000" />
       <workItem from="1515625176532" duration="15000" />
       <workItem from="1515625277368" duration="1030000" />
+      <workItem from="1525131533822" duration="274000" />
+      <workItem from="1525132566433" duration="151000" />
+      <workItem from="1525214732028" duration="49076000" />
+      <workItem from="1525906928022" duration="1965000" />
+      <workItem from="1525910590134" duration="599000" />
+      <workItem from="1525976786381" duration="36250000" />
+      <workItem from="1526322876738" duration="757000" />
+      <workItem from="1526404568869" duration="193000" />
+      <workItem from="1531851437560" duration="651000" />
     </task>
+    <task id="LOCAL-00001" summary="Refactored to sliders, changed layout, corrected errors">
+      <created>1525377312585</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1525377312585</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="206712000" />
+    <option name="totallyTimeSpent" value="296628000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="71" y="24" width="810" height="1020" extended-state="0" />
+    <frame x="-7" y="0" width="974" height="1047" extended-state="1" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.49139786" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24947807" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50052685" side_tool="true" weight="0.3181818" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.32900432" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49947312" visible="true" weight="0.21641791" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32900432" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Message" order="0" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -243,208 +269,88 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Refactored to sliders, changed layout, corrected errors" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactored to sliders, changed layout, corrected errors" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="2" />
+      <option name="time" value="3" />
     </breakpoint-manager>
-    <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../CIS371/hw7/src/my-main/my-main.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2020">
-          <caret line="101" column="44" lean-forward="false" selection-start-line="101" selection-start-column="44" selection-end-line="101" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://E:/CIS371/hw7/src/my-main/my-main.html" />
     <entry file="file://$PROJECT_DIR$/src/my-lotto/my-lotto.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="9660">
-          <caret line="483" column="65" lean-forward="false" selection-start-line="483" selection-start-column="65" selection-end-line="483" selection-end-column="65" />
-          <folding>
-            <element signature="e#0#171#0" expanded="false" />
-            <element signature="n#script#0;n#!!top" expanded="false" />
-            <element signature="e#39711#40182#0" expanded="false" />
-            <element signature="e#40224#40348#0" expanded="false" />
-            <element signature="e#40373#40435#0" expanded="false" />
-            <element signature="e#40459#40517#0" expanded="false" />
-            <element signature="e#43519#44063#0" expanded="false" />
-            <element signature="e#44202#44723#0" expanded="false" />
-            <element signature="e#44367#44704#0" expanded="false" />
-            <element signature="e#44865#45398#0" expanded="false" />
-            <element signature="e#46438#49970#0" expanded="false" />
-            <element signature="e#53058#53794#0" expanded="false" />
-            <marker date="1515626149998" expanded="true" signature="8649:8741" ph="..." />
-          </folding>
+          <caret line="483" column="65" selection-start-line="483" selection-start-column="65" selection-end-line="483" selection-end-column="65" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
-          <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding />
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../CIS371/hw7/src/my-main/my-main.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2020">
-          <caret line="101" column="44" lean-forward="false" selection-start-line="101" selection-start-column="44" selection-end-line="101" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://E:/CIS371/hw7/src/my-main/my-main.html" />
     <entry file="file://$PROJECT_DIR$/src/my-lotto/my-lotto.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="9660">
-          <caret line="483" column="65" lean-forward="false" selection-start-line="483" selection-start-column="65" selection-end-line="483" selection-end-column="65" />
-          <folding>
-            <element signature="e#0#171#0" expanded="false" />
-            <element signature="n#script#0;n#!!top" expanded="false" />
-            <element signature="e#39711#40182#0" expanded="false" />
-            <element signature="e#40224#40348#0" expanded="false" />
-            <element signature="e#40373#40435#0" expanded="false" />
-            <element signature="e#40459#40517#0" expanded="false" />
-            <element signature="e#43519#44063#0" expanded="false" />
-            <element signature="e#44202#44723#0" expanded="false" />
-            <element signature="e#44367#44704#0" expanded="false" />
-            <element signature="e#44865#45398#0" expanded="false" />
-            <element signature="e#46438#49970#0" expanded="false" />
-            <element signature="e#53058#53794#0" expanded="false" />
-            <marker date="1515626149998" expanded="true" signature="8649:8741" ph="..." />
-          </folding>
+          <caret line="483" column="65" selection-start-line="483" selection-start-column="65" selection-end-line="483" selection-end-column="65" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
-          <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding />
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../CIS371/hw7/src/my-main/my-main.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1840">
-          <caret line="92" column="0" lean-forward="false" selection-start-line="92" selection-start-column="0" selection-end-line="98" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://E:/CIS371/hw7/src/my-main/my-main.html" />
     <entry file="file://$PROJECT_DIR$/src/my-lotto/my-lotto.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="11920">
-          <caret line="596" column="33" lean-forward="false" selection-start-line="596" selection-start-column="33" selection-end-line="596" selection-end-column="33" />
-          <folding>
-            <element signature="e#0#171#0" expanded="false" />
-            <element signature="n#script#0;n#!!top" expanded="false" />
-            <element signature="e#39711#40182#0" expanded="false" />
-            <element signature="e#40224#40348#0" expanded="false" />
-            <element signature="e#40373#40435#0" expanded="false" />
-            <element signature="e#40459#40517#0" expanded="false" />
-            <element signature="e#43519#44063#0" expanded="false" />
-            <element signature="e#44202#44723#0" expanded="false" />
-            <element signature="e#44367#44704#0" expanded="false" />
-            <element signature="e#44865#45398#0" expanded="false" />
-            <element signature="e#46438#49970#0" expanded="false" />
-            <element signature="e#53058#53794#0" expanded="false" />
-            <marker date="1515626149998" expanded="true" signature="8649:8741" ph="..." />
-          </folding>
+          <caret line="596" column="33" selection-start-line="596" selection-start-column="33" selection-end-line="596" selection-end-column="33" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
-          <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding />
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../CIS371/hw7/src/my-main/my-main.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="63" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://E:/CIS371/hw7/src/my-main/my-main.html" />
     <entry file="file://$PROJECT_DIR$/src/my-lotto/my-lotto.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="11680">
-          <caret line="584" column="39" lean-forward="false" selection-start-line="584" selection-start-column="30" selection-end-line="584" selection-end-column="39" />
-          <folding>
-            <element signature="e#0#171#0" expanded="false" />
-            <element signature="n#script#0;n#!!top" expanded="false" />
-            <element signature="e#39711#40182#0" expanded="false" />
-            <element signature="e#40224#40348#0" expanded="false" />
-            <element signature="e#40373#40435#0" expanded="false" />
-            <element signature="e#40459#40517#0" expanded="false" />
-            <element signature="e#43519#44063#0" expanded="false" />
-            <element signature="e#44202#44723#0" expanded="false" />
-            <element signature="e#44367#44704#0" expanded="false" />
-            <element signature="e#44865#45398#0" expanded="false" />
-            <element signature="e#46438#49970#0" expanded="false" />
-            <element signature="e#53058#53794#0" expanded="false" />
-            <marker date="1515626149998" expanded="true" signature="8649:8741" ph="..." />
-          </folding>
+          <caret line="584" column="39" selection-start-line="584" selection-start-column="30" selection-end-line="584" selection-end-column="39" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="460">
-          <caret line="23" column="14" lean-forward="false" selection-start-line="23" selection-start-column="14" selection-end-line="23" selection-end-column="14" />
-          <folding />
+          <caret line="23" column="14" selection-start-line="23" selection-start-column="14" selection-end-line="23" selection-end-column="14" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../CIS371/hw7/src/my-main/my-main.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="63" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://E:/CIS371/hw7/src/my-main/my-main.html" />
     <entry file="file://$PROJECT_DIR$/src/my-lotto/my-lotto.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1760">
-          <caret line="88" column="0" lean-forward="true" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#171#0" expanded="false" />
-            <element signature="n#script#0;n#!!top" expanded="false" />
-            <element signature="e#39711#40182#0" expanded="false" />
-            <element signature="e#40224#40348#0" expanded="false" />
-            <element signature="e#40373#40435#0" expanded="false" />
-            <element signature="e#40459#40517#0" expanded="false" />
-            <element signature="e#43519#44063#0" expanded="false" />
-            <element signature="e#44202#44723#0" expanded="false" />
-            <element signature="e#44367#44704#0" expanded="false" />
-            <element signature="e#44865#45398#0" expanded="false" />
-            <element signature="e#46438#49970#0" expanded="false" />
-            <element signature="e#53058#53794#0" expanded="false" />
-            <marker date="1515626149998" expanded="true" signature="8649:8741" ph="..." />
-          </folding>
+          <caret line="88" lean-forward="true" selection-start-line="88" selection-end-line="88" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="714">
-          <caret line="42" column="0" lean-forward="false" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
-          <folding />
+          <caret line="42" selection-start-line="42" selection-end-line="42" />
         </state>
       </provider>
     </entry>
@@ -458,37 +364,14 @@
     <entry file="file://$PROJECT_DIR$/src/style.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
-          <caret line="8" column="17" lean-forward="false" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+          <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/my-lotto/my-lotto.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="10047">
-          <caret line="591" column="41" lean-forward="false" selection-start-line="591" selection-start-column="41" selection-end-line="591" selection-end-column="41" />
-          <folding>
-            <element signature="e#0#171#0" expanded="false" />
-            <element signature="n#script#0;n#!!top" expanded="false" />
-            <element signature="e#39711#40182#0" expanded="false" />
-            <element signature="e#40224#40348#0" expanded="false" />
-            <element signature="e#40373#40435#0" expanded="false" />
-            <element signature="e#40459#40517#0" expanded="false" />
-            <element signature="e#43519#44063#0" expanded="false" />
-            <element signature="e#44202#44723#0" expanded="false" />
-            <element signature="e#44367#44704#0" expanded="false" />
-            <element signature="e#44865#45398#0" expanded="false" />
-            <element signature="e#46438#49970#0" expanded="false" />
-            <element signature="e#53058#53794#0" expanded="false" />
-            <marker date="1515626149998" expanded="true" signature="8649:8741" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <caret line="591" column="41" selection-start-line="591" selection-start-column="41" selection-end-line="591" selection-end-column="41" />
         </state>
       </provider>
     </entry>
@@ -503,138 +386,69 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="629">
           <caret line="37" column="35" lean-forward="true" selection-start-line="37" selection-start-column="35" selection-end-line="37" selection-end-column="35" />
-          <folding>
-            <element signature="e#0#171#0" expanded="false" />
-            <element signature="n#script#0;n#!!top" expanded="false" />
-            <element signature="e#39711#40182#0" expanded="false" />
-            <element signature="e#40224#40348#0" expanded="false" />
-            <element signature="e#40373#40435#0" expanded="false" />
-            <element signature="e#40459#40517#0" expanded="false" />
-            <element signature="e#43519#44063#0" expanded="false" />
-            <element signature="e#44202#44723#0" expanded="false" />
-            <element signature="e#44367#44704#0" expanded="false" />
-            <element signature="e#44865#45398#0" expanded="false" />
-            <element signature="e#46438#49970#0" expanded="false" />
-            <element signature="e#53058#53794#0" expanded="false" />
-            <marker date="1515626149998" expanded="true" signature="8649:8741" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/style.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
-          <caret line="8" column="17" lean-forward="false" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+          <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="714">
-          <caret line="42" column="0" lean-forward="false" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
-          <folding />
+          <caret line="42" selection-start-line="42" selection-end-line="42" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/map.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
-          <caret line="25" column="13" lean-forward="false" selection-start-line="12" selection-start-column="4" selection-end-line="25" selection-end-column="13" />
+          <caret line="25" column="13" selection-start-line="12" selection-start-column="4" selection-end-line="25" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/style.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
-          <caret line="8" column="17" lean-forward="false" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+          <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/my-lotto/my-lotto.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5933">
-          <caret line="349" column="32" lean-forward="false" selection-start-line="349" selection-start-column="32" selection-end-line="349" selection-end-column="32" />
-          <folding>
-            <element signature="e#0#171#0" expanded="false" />
-            <element signature="n#script#0;n#!!top" expanded="false" />
-            <element signature="e#39711#40182#0" expanded="false" />
-            <element signature="e#40224#40348#0" expanded="false" />
-            <element signature="e#40373#40435#0" expanded="false" />
-            <element signature="e#40459#40517#0" expanded="false" />
-            <element signature="e#43519#44063#0" expanded="false" />
-            <element signature="e#44202#44723#0" expanded="false" />
-            <element signature="e#44367#44704#0" expanded="false" />
-            <element signature="e#44865#45398#0" expanded="false" />
-            <element signature="e#46438#49970#0" expanded="false" />
-            <element signature="e#53058#53794#0" expanded="false" />
-            <marker date="1515626149998" expanded="true" signature="8649:8741" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <caret line="349" column="32" selection-start-line="349" selection-start-column="32" selection-end-line="349" selection-end-column="32" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/my-lotto/my-lotto.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2737">
-          <caret line="161" column="0" lean-forward="true" selection-start-line="161" selection-start-column="0" selection-end-line="161" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#171#0" expanded="false" />
-            <element signature="n#script#0;n#!!top" expanded="false" />
-            <element signature="e#39711#40182#0" expanded="false" />
-            <element signature="e#40224#40348#0" expanded="false" />
-            <element signature="e#40373#40435#0" expanded="false" />
-            <element signature="e#40459#40517#0" expanded="false" />
-            <element signature="e#43519#44063#0" expanded="false" />
-            <element signature="e#44202#44723#0" expanded="false" />
-            <element signature="e#44367#44704#0" expanded="false" />
-            <element signature="e#44865#45398#0" expanded="false" />
-            <element signature="e#46438#49970#0" expanded="false" />
-            <element signature="e#53058#53794#0" expanded="false" />
-            <marker date="1515626149998" expanded="true" signature="8649:8741" ph="..." />
-          </folding>
+          <caret line="161" lean-forward="true" selection-start-line="161" selection-end-line="161" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/style.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
-          <caret line="8" column="17" lean-forward="false" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+          <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/my-lotto/my-lotto.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
-          <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#171#0" expanded="false" />
-            <element signature="n#script#0;n#!!top" expanded="false" />
-            <element signature="e#39711#40182#0" expanded="false" />
-            <element signature="e#40224#40348#0" expanded="false" />
-            <element signature="e#40373#40435#0" expanded="false" />
-            <element signature="e#40459#40517#0" expanded="false" />
-            <element signature="e#43519#44063#0" expanded="false" />
-            <element signature="e#44202#44723#0" expanded="false" />
-            <element signature="e#44367#44704#0" expanded="false" />
-            <element signature="e#44865#45398#0" expanded="false" />
-            <element signature="e#46438#49970#0" expanded="false" />
-            <element signature="e#53058#53794#0" expanded="false" />
-            <marker date="1515626149998" expanded="true" signature="8649:8741" ph="..." />
-          </folding>
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/map.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1071">
-          <caret line="63" column="29" lean-forward="true" selection-start-line="33" selection-start-column="0" selection-end-line="63" selection-end-column="29" />
+          <caret line="63" column="29" lean-forward="true" selection-start-line="33" selection-end-line="63" selection-end-column="29" />
         </state>
       </provider>
     </entry>
@@ -642,14 +456,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="442">
           <caret line="26" column="12" lean-forward="true" selection-start-line="26" selection-start-column="12" selection-end-line="26" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/map.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1309">
-          <caret line="77" column="36" lean-forward="false" selection-start-line="74" selection-start-column="3" selection-end-line="83" selection-end-column="7" />
         </state>
       </provider>
     </entry>
@@ -662,41 +468,97 @@
     </entry>
     <entry file="file://D:/Downloads/firebaseui.css" />
     <entry file="file://$USER_HOME$/AppData/Local/Temp/google.svg.url" />
-    <entry file="file://$PROJECT_DIR$/index.html">
+    <entry file="file://E:/CIS371/hw7/src/my-main/my-main.html" />
+    <entry file="file://$PROJECT_DIR$/yarn.lock">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="-1581" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/my-lotto/my-lotto_test.html" />
+    <entry file="file://$PROJECT_DIR$/src/my-lotto/style.css" />
+    <entry file="file://$PROJECT_DIR$/src/map.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="910">
+          <caret line="55" column="40" lean-forward="true" selection-start-line="55" selection-start-column="40" selection-end-line="55" selection-end-column="40" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../CIS371/hw7/src/my-main/my-main.html">
+    <entry file="file://$PROJECT_DIR$/src/index.js" />
+    <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
-          <caret line="70" column="62" lean-forward="false" selection-start-line="70" selection-start-column="53" selection-end-line="70" selection-end-column="62" />
-          <folding />
+        <state relative-caret-position="187">
+          <caret line="11" column="33" selection-start-line="11" selection-start-column="33" selection-end-line="11" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/simplified.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="482" column="2341" selection-start-line="482" selection-start-column="2341" selection-end-line="482" selection-end-column="2341" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/webstorm.jar!/resources/html5-schema/html5/block.rnc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="244" column="16" selection-start-line="244" selection-start-column="16" selection-end-line="244" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bower_components/paper-range-slider/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-265">
+          <caret line="60" column="131" selection-start-line="60" selection-start-column="126" selection-end-line="60" selection-end-column="131" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bower_components/paper-range-slider/paper-range-slider.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="903" column="21" selection-start-line="903" selection-start-column="15" selection-end-line="903" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bower_components/paper-range-slider/index.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bower_components/paper-dropdown-menu/test/paper-dropdown-menu.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1275" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bower_components/paper-dropdown-menu/paper-dropdown-menu-light.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="569" column="12" selection-start-line="569" selection-start-column="9" selection-end-line="569" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2397">
+          <caret line="141" column="58" selection-start-line="141" selection-start-column="50" selection-end-line="141" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/my-lotto/styles.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="650">
+          <caret line="212" column="11" selection-start-line="212" selection-start-column="11" selection-end-line="214" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="650">
+          <caret line="40" column="7" selection-start-line="40" selection-start-column="7" selection-end-line="40" selection-end-column="7" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/my-lotto/my-lotto.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-6643">
-          <caret line="556" column="71" lean-forward="false" selection-start-line="556" selection-start-column="71" selection-end-line="556" selection-end-column="71" />
-          <folding>
-            <element signature="e#0#171#0" expanded="false" />
-            <element signature="n#script#0;n#!!top" expanded="false" />
-            <element signature="e#39711#40182#0" expanded="false" />
-            <element signature="e#40224#40348#0" expanded="false" />
-            <element signature="e#40373#40435#0" expanded="false" />
-            <element signature="e#40459#40517#0" expanded="false" />
-            <element signature="e#43519#44063#0" expanded="false" />
-            <element signature="e#44202#44723#0" expanded="false" />
-            <element signature="e#44367#44704#0" expanded="false" />
-            <element signature="e#44865#45398#0" expanded="false" />
-            <element signature="e#46438#49970#0" expanded="false" />
-            <element signature="e#53058#53794#0" expanded="false" />
-            <marker date="1515626149998" expanded="true" signature="8649:8741" ph="..." />
-          </folding>
+        <state relative-caret-position="-238">
+          <caret line="984" column="25" selection-start-line="984" selection-start-column="25" selection-end-line="984" selection-end-column="25" />
         </state>
       </provider>
     </entry>

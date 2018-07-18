@@ -79,17 +79,18 @@ We ask only that you give the authors credit.
         var map;
         var barChart;
         var demoChart;
-        var ui;
-        var nonau;
-        var au;
-        var signInContainer;
-        var currentUid;
-        var currentUser;
+        /* list of district names selected */
+        var districtNames = [];
+
+        const testing0 = {red:355, blue:544};
+        const testing1 = {red:60, blue:576};
+        var testing2 = [];
+        testing2.push(testing0);
+        testing2.push(testing1);
 
         //slider tracker variables
-        var incomeMin = 0;
-        var incomeMax = 100;
-            var whiteMin, whiteMax, asianMin, asianMax, blackMin, blackMax, latinoMin, latinoMax, spentReceivedMin, spentReceivedMax;
+            var incomeMin, incomeMax, whiteMin, whiteMax, asianMin, asianMax, blackMin, blackMax, latinoMin, latinoMax, spentReceivedMin, spentReceivedMax ;
+            //console.log("mins and stuff: " + whiteMin, whiteMax, asianMin);
 
         var currentDistrict;
         /*var provider = new firebase.auth.GoogleAuthProvider();*/
@@ -183,7 +184,7 @@ We ask only that you give the authors credit.
                                 <div class="card-content">
                                     <br>
                                     <div class="layout horizontal center-justified">
-                                        <paper-range-slider always-show-pin id="incomeSlider" step="5"></paper-range-slider>
+                                        <paper-range-slider always-show-pin id="incomeSlider" step="1"></paper-range-slider>
                                     </div>
                                 </div>
                             </paper-card>
@@ -244,14 +245,14 @@ We ask only that you give the authors credit.
                             <div class="style-scope lay-out">
                                 <paper-dropdown-menu id="name_dropdown_list" label="District Name">
                                     <paper-listbox slot="dropdown-content" class="dropdown-content">
-                                        <template is="dom-repeat" items="[[districtNameData]]" as="d">
-                                            <paper-item>[[d.district_name]]</paper-item>
+                                        <template is="dom-repeat" items="[[nameKeyList]]">
+                                            <paper-item id="[[item.key]]">[[item.name]]</paper-item>
                                         </template>
                                     </paper-listbox>
                                 </paper-dropdown-menu>
                             </div>
                             <div class="style-scope lay-out">
-                                <paper-button id="select_district_button">
+                                <paper-button id="select_district_button" on-click="schoolSelected">
                                     Select District
                                 </paper-button>
                             </div>
@@ -264,7 +265,7 @@ We ask only that you give the authors credit.
                                     <div class="card-content detail_card_content">
                                         <div id="estimate_income_content"
                                              class="layout horizontal center-justified">
-                                            $10,000
+                                            [[incomeCardVal]]
                                         </div>
                                     </div>
                                 </paper-card>
@@ -276,7 +277,7 @@ We ask only that you give the authors credit.
                                             <div class="card-content detail_card_content">
                                                 <div id="money_spent_content"
                                                      class="layout horizontal center-justified">
-                                                    $20,000
+                                                    [[spentReceivedCardVal]]
                                                 </div>
                                             </div>
                                         </paper-card>
@@ -287,7 +288,7 @@ We ask only that you give the authors credit.
                                             <div class="card-content detail_card_content">
                                                 <div id="total_lottery_received_content"
                                                      class="layout horizontal center-justified">
-                                                    $5,000
+                                                    [[totalReceivedCardVal]]
                                                 </div>
                                             </div>
                                         </paper-card>
@@ -301,7 +302,7 @@ We ask only that you give the authors credit.
                                             <div class="card-content detail_card_content">
                                                 <div id="total_lottery_spending_content"
                                                      class="layout horizontal center-justified">
-                                                    $40,000
+                                                   [[totalSpendingCardVal]]
                                                 </div>
                                             </div>
                                         </paper-card>
@@ -311,7 +312,7 @@ We ask only that you give the authors credit.
                                             <div class="card-content detail_card_content">
                                                 <div id="estimate_total_content"
                                                      class="layout horizontal center-justified">
-                                                    600
+                                                    [[estimateTotalCardVal]]
                                                 </div>
                                             </div>
                                         </paper-card>
@@ -321,7 +322,7 @@ We ask only that you give the authors credit.
                                             <div class="card-content detail_card_content">
                                                 <div id="total_students_content"
                                                      class="layout horizontal center-justified">
-                                                    875
+                                                    [[totalStudentsCardVal]]
                                                 </div>
                                             </div>
                                         </paper-card>
@@ -334,7 +335,7 @@ We ask only that you give the authors credit.
                                             <div class="card-content detail_card_content">
                                                 <div id="percent_asian_content"
                                                      class="layout horizontal center-justified">
-                                                    30%
+                                                    [[percentAsianCardVal]]
                                                 </div>
                                             </div>
                                         </paper-card>
@@ -344,7 +345,7 @@ We ask only that you give the authors credit.
                                             <div class="card-content detail_card_content">
                                                 <div id="percent_black_content"
                                                      class="layout horizontal center-justified">
-                                                    40%
+                                                    [[percentBlackCardVal]]
                                                 </div>
                                             </div>
                                         </paper-card>
@@ -354,7 +355,7 @@ We ask only that you give the authors credit.
                                             <div class="card-content detail_card_content">
                                                 <div id="percent_latino_content"
                                                      class="layout horizontal center-justified">
-                                                    20%
+                                                    [[percentLatinoCardVal]]
                                                 </div>
                                             </div>
                                         </paper-card>
@@ -364,7 +365,7 @@ We ask only that you give the authors credit.
                                             <div class="card-content detail_card_content">
                                                 <div id="percent_white_content"
                                                      class="layout horizontal center-justified">
-                                                    10%
+                                                    [[percentWhiteCardVal]]
                                                 </div>
                                             </div>
                                         </paper-card>
@@ -413,14 +414,6 @@ We ask only that you give the authors credit.
 
                 static get properties() {
                     return {
-                        myVal: {
-                            type: Boolean,
-                            value: true
-                        },
-                        myVal2: {
-                            type: Number,
-                            value: 0
-                        },
                         condenses: {
                             type: Boolean,
                             value: true
@@ -471,37 +464,21 @@ We ask only that you give the authors credit.
                     }
                 };
 
-
                 applyFilters() {
+                    //clear current list
+                    districtNames = [];
 
-                    //TODO make this somewhere else eventually
-                    //deselect current school district
-                    var dropdown = this.$.name_dropdown_list;
-                    dropdown._setSelectedItem(null);
-
-                    var districtNames = [];
                     var inVsOut = this.$.inVsOut;
                     var demographics = this.$.demographics;
                     var districtNameHeader = this.$.distName;
 
                     //query and filter
                     var results = [];
-                    var estimated_income_query = 10;
-                    var estimated_black_query = 50;
-                    var estimated_asian_query = 1.3;
-                    var money_spent_to_received_query = 0;
-
-                    console.log("incomemin: " + incomeMin);
-
                     if (rootRef != undefined) {
                         rootRef.once("value", function (snapshot) {
                             snapshot.forEach(function (childSnapshot) {
-
-
-
-
                                 if (childSnapshot.val().estimate_income >= (incomeMin * 1000) &&
-                                    childSnapshot.val().estimate_income <= incomeMax * 1000 &&
+                                    childSnapshot.val().estimate_income <= (incomeMax * 1000) &&
                                     childSnapshot.val().percent_black >= blackMin &&
                                     childSnapshot.val().percent_black <= blackMax &&
                                     childSnapshot.val().percent_asian >= asianMin &&
@@ -514,7 +491,6 @@ We ask only that you give the authors credit.
                                     childSnapshot.val().money_spent_funding_received <= spentReceivedMax) {
 
                                     results.push(childSnapshot);
-                                    console.log(childSnapshot.val().district_name);
                                 }
                             });
 
@@ -522,7 +498,6 @@ We ask only that you give the authors credit.
                                 districtNames.push(entry.val().district_name);
                             });
 
-                            console.log("District Names:" + districtNames.length);
 
                             //update map
                             if (map != undefined) {
@@ -641,6 +616,8 @@ We ask only that you give the authors credit.
 
 
                                 });
+                            } else {
+                                console.log("Map undefined");
                             }
 
                         });
@@ -651,9 +628,198 @@ We ask only that you give the authors credit.
                     return this;
                 }
 
+                resetDistrictData(){
+                    //variable for dropdown menu
+                    var dropdown = this.$.name_dropdown_list;
+                    //set no selection
+                    dropdown._setSelectedItem(null);
+
+                    //clear data values
+                    this.incomeCardVal = "";
+                    this.spentReceivedCardVal = "";
+                    this.totalReceivedCardVal = "";
+                    this.totalSpendingCardVal = "";
+                    this.estimateTotalCardVal = "";
+                    this.totalStudentsCardVal = "";
+                    this.percentAsianCardVal = "";
+                    this.percentBlackCardVal = "";
+                    this.percentLatinoCardVal = "";
+                    this.percentWhiteCardVal = "";
+                }
+
                 //Runs one time, when the DOM is fully loaded. Renders the map for the first time.
                 ready() {
                     super.ready();
+
+                    //load map
+                    map = new google.maps.Map(this.$.mapEle, {
+                        center: {lat: 44.5, lng: -86},
+                        zoom: 7,
+                        styles: [{featureType: "road", stylers: [{visibility: "off"}]}, {},
+                            {featureType: "poi", stylers: [{visibility: "off"}]}, {},
+                            {featureType: "administrative", stylers: [{visibility: "off"}]}, {}]
+                    });
+
+                    map.data.loadGeoJson("src/simplified.json");
+
+                    map.data.setStyle(function (feature) {
+                        return {
+                            strokeWeight: .3
+                        }
+                    });
+
+                    //variable for this keyword
+                    var app = this.getThis();
+
+                    rootRef = firebase.database().ref();
+                    incomeMin = 0;
+                    incomeMax = 0;
+                    asianMin = 0;
+                    asianMax = 0;
+                    blackMin = 0;
+                    blackMax = 0;
+                    whiteMin = 0;
+                    whiteMax = 0;
+                    latinoMin = 0;
+                    latinoMax = 0;
+                    spentReceivedMin = 0;
+                    spentReceivedMax = 0;
+
+                    rootRef.once("value", function (snapshot) {
+                        //create array for storing names and keys
+                        app.nameKeyList = [];
+                        snapshot.forEach(function (childSnapshot) {
+                            //push each name and key to array
+                            if(childSnapshot.val().district_name) {
+                                app.nameKeyList.push({key: childSnapshot.key, name: childSnapshot.val().district_name});
+                            }
+
+                            //if first node scanned
+                            if (incomeMax == 0) {
+                                incomeMax = childSnapshot.val().estimate_income;
+                                incomeMin = childSnapshot.val().estimate_income;
+                            }
+                            if (asianMax == 0) {
+                                asianMax = childSnapshot.val().percent_asian;
+                                asianMin = childSnapshot.val().percent_asian;
+                            }
+                            if (blackMax == 0) {
+                                blackMax = childSnapshot.val().percent_black;
+                                blackMin = childSnapshot.val().percent_black;
+                            }
+                            if (whiteMax == 0) {
+                                whiteMax = childSnapshot.val().percent_white;
+                                whiteMin = childSnapshot.val().percent_white;
+                            }
+                            if (latinoMax == 0) {
+                                latinoMax = childSnapshot.val().percent_latino;
+                                latinoMin = childSnapshot.val().percent_latino;
+                            }
+                            if (spentReceivedMax == 0) {
+                                spentReceivedMax = childSnapshot.val().money_spent_funding_received;
+                                spentReceivedMin = childSnapshot.val().money_spent_funding_received;
+                            }
+
+                            //check for max/min
+                            //income
+                            if (childSnapshot.val().estimate_income > incomeMax) {
+                                incomeMax = childSnapshot.val().estimate_income/1000;
+                            }
+                            if (childSnapshot.val().estimate_income < incomeMin) {
+                                incomeMin = childSnapshot.val().estimate_income/1000;
+                            }
+                            //percent asian
+                            if (childSnapshot.val().percent_asian > asianMax) {
+                                asianMax = childSnapshot.val().percent_asian;
+                            }
+                            if (childSnapshot.val().percent_asian < asianMin) {
+                                asianMin = childSnapshot.val().percent_asian;
+                            }
+                            //percent black
+                            if (childSnapshot.val().percent_black > blackMax) {
+                                blackMax = childSnapshot.val().percent_black;
+                            }
+                            if (childSnapshot.val().percent_black < blackMin) {
+                                blackMin = childSnapshot.val().percent_black;
+                            }
+                            //percent latino
+                            if (childSnapshot.val().percent_latino > latinoMax) {
+                                latinoMax = childSnapshot.val().percent_latino;
+                            }
+                            if (childSnapshot.val().percent_latino < latinoMin) {
+                                latinoMin = childSnapshot.val().percent_latino;
+                            }
+                            //percent white
+                            if (childSnapshot.val().percent_white > whiteMax) {
+                                whiteMax = childSnapshot.val().percent_white;
+                            }
+                            if (childSnapshot.val().percent_white < whiteMin) {
+                                whiteMin = childSnapshot.val().percent_white;
+                            }
+                            //spent to received
+                            if (childSnapshot.val().money_spent_funding_received > spentReceivedMax) {
+                                spentReceivedMax = childSnapshot.val().percent_asian;
+                            }
+                            if (childSnapshot.val().money_spent_funding_received < spentReceivedMin) {
+                                spentReceivedMin = childSnapshot.val().percent_asian;
+                            }
+                        });
+
+                        //sort array list by district name- thanks Omar Natour: https://stackoverflow.com/a/1129270
+                        app.nameKeyList.sort(function(a,b) {return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);} );
+
+
+                        //get sliders inside function
+                        var incomeSlider = app.getThis().$.incomeSlider;
+                        var percentAsianSlider = app.getThis().$.percentAsianSlider;
+                        var percentBlackSlider = app.getThis().$.percentBlackSlider;
+                        var percentLatinoSlider = app.getThis().$.percentLatinoSlider;
+                        var percentWhiteSlider = app.getThis().$.percentWhiteSlider;
+                        var spentToReceivedSlider = app.getThis().$.spentToReceivedSlider;
+
+                        //implement min/max values
+                        incomeSlider.setMin(Math.floor(incomeMin));
+                        incomeSlider.setMax(Math.ceil(incomeMax));
+                        percentAsianSlider.setMin(Math.floor(asianMin));
+                        percentAsianSlider.setMax(Math.ceil(asianMax));
+                        percentBlackSlider.setMin(Math.floor(blackMin));
+                        percentBlackSlider.setMax(Math.ceil(blackMax));
+                        percentLatinoSlider.setMin(Math.floor(latinoMin));
+                        percentLatinoSlider.setMax(Math.ceil(latinoMax));
+                        percentWhiteSlider.setMin(Math.floor(whiteMin));
+                        percentWhiteSlider.setMax(Math.ceil(whiteMax));
+                        spentToReceivedSlider.setMin(Math.floor(spentReceivedMin));
+                        spentToReceivedSlider.setMax(Math.ceil(spentReceivedMax));
+
+                        //set what the sliders start at
+                        incomeSlider._setValueMin(Math.floor(incomeMin));
+                        incomeSlider._setValueMax(Math.ceil(incomeMax));
+                        percentAsianSlider._setValueMin(Math.floor(asianMin));
+                        percentAsianSlider._setValueMax(Math.ceil(asianMax));
+                        percentBlackSlider._setValueMin(Math.floor(blackMin));
+                        percentBlackSlider._setValueMax(Math.ceil(blackMax));
+                        percentLatinoSlider._setValueMin(Math.floor(latinoMin));
+                        percentLatinoSlider._setValueMax(Math.ceil(latinoMax));
+                        percentWhiteSlider._setValueMin(Math.floor(whiteMin));
+                        percentWhiteSlider._setValueMax(Math.ceil(whiteMax));
+                        spentToReceivedSlider._setValueMin(Math.floor(spentReceivedMin));
+                        spentToReceivedSlider._setValueMax(Math.ceil(spentReceivedMax));
+                    });
+
+
+                        //get sliders
+                        var incomeSlider = this.$.incomeSlider;
+                        var percentAsianSlider = this.$.percentAsianSlider;
+                        var percentBlackSlider = this.$.percentBlackSlider;
+                        var percentLatinoSlider = this.$.percentLatinoSlider;
+                        var percentWhiteSlider = this.$.percentWhiteSlider;
+                        var spentToReceivedSlider = this.$.spentToReceivedSlider;
+
+
+
+                        // incomeSlider.setMin(10);
+                        // this.$.incomeSlider.setMax(50);
+
 
                     //listen for changes
                     // this.$.incomeSlider.addEventListener('updateValues', function (customEvent) {
@@ -666,16 +832,14 @@ We ask only that you give the authors credit.
                     //
                     // });
 
-                    //variable for this keyword
-                    var app = this.getThis();
+
+
 
                     //update map when sliders are adjusted
-                    this.$.incomeSlider.addEventListener('mouseup', function (customEvent) {
+                    incomeSlider.addEventListener('click', function (customEvent) {
                         //check if changed
                         var sliderMin = customEvent.target.valueMin;
                         var sliderMax = customEvent.target.valueMax;
-                        //console.log("slidermin" + sliderMin);
-
 
                         if(sliderMin != incomeMin || sliderMax != incomeMax){
                             incomeMin = sliderMin;
@@ -683,7 +847,9 @@ We ask only that you give the authors credit.
                             app.applyFilters();
                         }
                     });
-                    this.$.percentAsianSlider.addEventListener('mouseup', function (customEvent) {
+
+
+                    percentAsianSlider.addEventListener('mouseup', function (customEvent) {
                         //check if changed
                         var sliderMin = customEvent.target.valueMin;
                         var sliderMax = customEvent.target.valueMax;
@@ -694,8 +860,10 @@ We ask only that you give the authors credit.
                             asianMax = sliderMax;
                             app.applyFilters();
                         }
+
+                        app.resetDistrictData();
                     });
-                    this.$.percentBlackSlider.addEventListener('mouseup', function (customEvent) {
+                    percentBlackSlider.addEventListener('mouseup', function (customEvent) {
                         //check if changed
                         var sliderMin = customEvent.target.valueMin;
                         var sliderMax = customEvent.target.valueMax;
@@ -706,8 +874,9 @@ We ask only that you give the authors credit.
                             blackMax = sliderMax;
                             app.applyFilters();
                         }
+                        app.resetDistrictData();
                     });
-                    this.$.percentLatinoSlider.addEventListener('mouseup', function (customEvent) {
+                    percentLatinoSlider.addEventListener('mouseup', function (customEvent) {
                         //check if changed
                         var sliderMin = customEvent.target.valueMin;
                         var sliderMax = customEvent.target.valueMax;
@@ -718,8 +887,9 @@ We ask only that you give the authors credit.
                             latinoMax = sliderMax;
                             app.applyFilters();
                         }
+                        app.resetDistrictData();
                     });
-                    this.$.percentWhiteSlider.addEventListener('mouseup', function (customEvent) {
+                    percentWhiteSlider.addEventListener('mouseup', function (customEvent) {
                         //check if changed
                         var sliderMin = customEvent.target.valueMin;
                         var sliderMax = customEvent.target.valueMax;
@@ -730,8 +900,9 @@ We ask only that you give the authors credit.
                             whiteMax = sliderMax;
                             app.applyFilters();
                         }
+                        app.resetDistrictData();
                     });
-                    this.$.spentToReceivedSlider.addEventListener('mouseup', function (customEvent) {
+                    spentToReceivedSlider.addEventListener('mouseup', function (customEvent) {
                         //check if changed
                         var sliderMin = customEvent.target.valueMin;
                         var sliderMax = customEvent.target.valueMax;
@@ -742,6 +913,7 @@ We ask only that you give the authors credit.
                             spentReceivedMax = sliderMax;
                             app.applyFilters();
                         }
+                        app.resetDistrictData();
                     });
 
 
@@ -797,25 +969,7 @@ We ask only that you give the authors credit.
                         // assign the display function that is called for every value
                         slider.displayFunction = function (value) {
                             // format the value
-                            return `$${value}`
-                        }
-                    });
-
-
-                    rootRef = firebase.database().ref();
-
-                    map = new google.maps.Map(this.$.mapEle, {
-                        center: {lat: 44.5, lng: -86},
-                        zoom: 7,
-                        styles: [{featureType: "road", stylers: [{visibility: "off"}]}, {},
-                            {featureType: "poi", stylers: [{visibility: "off"}]}, {},
-                            {featureType: "administrative", stylers: [{visibility: "off"}]}, {}]
-                    });
-                    map.data.loadGeoJson("src/simplified.json");
-
-                    map.data.setStyle(function (feature) {
-                        return {
-                            strokeWeight: .3
+                            return `$${value}K`
                         }
                     });
                 };
@@ -845,343 +999,205 @@ We ask only that you give the authors credit.
                     this.$.pages.selectNext();
                 }
 
+                updateMap(){
+                    var inVsOut = this.$.inVsOut;
+                    var demographics = this.$.demographics;
+                    var districtNameHeader = this.$.distName;
+                    //update map
+                    if (map != undefined) {
+                        map.data.setStyle(function (feature) {
+
+                            //to fix inconsistencies later use FIPSCODE instead of NAME
+                            //'Id2' on data given to us
+
+                            var name = feature.getProperty('NAME');
+
+                            if (districtNames.includes(name)) {
+                                var color = 'red';
+                                return {
+                                    fillColor: color,
+                                    strokeWeight: .3,
+                                    clickable: true
+                                };
+                            } else {
+                                return {
+                                    strokeWeight: .3,
+                                    clickable: false
+                                };
+                            }
+                        });
+
+                        map.data.addListener('mouseover', function (event) {
+                            map.data.overrideStyle(event.feature, {strokeWeight: 1.3, strokeColor: 'red'});
+                        });
+
+                        map.data.addListener('mouseout', function (event) {
+                            map.data.revertStyle();
+                        });
+
+                            // var districtChosen = event.feature.getProperty('NAME');
+                            var districtChosen = districtNames[0];
+                            //alert(districtChosen);
+                            //var districtRef = rootRef.child(districtChosen);
+
+                            var arr = [];
+                            rootRef.orderByChild('district_name').equalTo(districtChosen).limitToFirst(1).once("value", function (snapshot) {
+                                snapshot.forEach(function (childSnapshot) {
+                                    arr.push(childSnapshot.val().district_name);
+                                    arr.push(childSnapshot.val().total_lottery_spending);
+                                    arr.push(childSnapshot.val().total_lottery_received);
+                                    arr.push(childSnapshot.val().percent_white);
+                                    arr.push(childSnapshot.val().percent_asian);
+                                    arr.push(childSnapshot.val().percent_black);
+                                    arr.push(childSnapshot.val().percent_latino);
+                                });
+
+
+                                //Update H2 with selected district name
+                                districtNameHeader.innerText = arr[0];
+
+                                //update bar graph
+                                var ctx = inVsOut.getContext('2d');
+
+                                if (barChart != undefined)
+                                    barChart.destroy();
+
+                                barChart = new Chart(ctx, {
+                                    type: 'bar',
+
+                                    data: {
+                                        labels: ["Money Spent", "Money Received"],
+                                        datasets: [{
+                                            labels: arr[0],
+                                            backgroundColor: ["#ff0000", "#00CC00"],
+                                            data: [arr[1], arr[2]]
+                                        }]
+                                    },
+
+                                    options: {
+                                        legend: {
+                                            display: false
+                                        }
+                                    }
+                                });
+
+                                //update demographics chart
+                                var demoCtx = demographics.getContext("2d");
+                                var data;
+                                if (demoChart != undefined)
+                                    demoChart.destroy();
+                                demoChart = new Chart(demoCtx, {
+                                    type: 'pie',
+                                    data: data = {
+                                        datasets: [{
+                                            data: [arr[3], arr[4], arr[5], arr[6]],
+                                            backgroundColor: ["#ff8b8b", "#aeffe1", "#006eff", "#c5cc87"]
+                                        }],
+                                        // These labels appear in the legend and in the tooltips when hovering different arcs
+                                        labels: [
+                                            '% White',
+                                            '% Asian',
+                                            '% Black',
+                                            '% Latino'
+                                        ]
+                                    },
+                                    options: {
+                                        responsive: false,
+                                        maintainAspectRatio: true,
+                                        cutoutPercentage: 50,
+                                        animation: {
+                                            animateRotate: true
+                                        }
+                                    }
+
+                                });
+                            }); //update map
+                    } else {
+                        console.log("Map undefined");
+                    }
+                }
+
+                clearMap(){
+                    map.data.setStyle(function (feature) {
+                        return {
+                            strokeWeight: .3
+                        }
+                    });
+                }
+
+                schoolSelected() {
+                    var dropdown = this.$.name_dropdown_list;
+                    //only if something selected
+                    if (dropdown.selectedItem) {
+                        var nameKey = dropdown.selectedItem.id;
+                        //for 'this' ref
+                        var app = this.getThis();
+
+                        //clear previous list of districts
+                        districtNames = [];
+
+                        //query for data to filter by
+                        rootRef.child(nameKey).once("value", function (snapshot) {
+                            //variables for query
+                            var averageIncome = snapshot.val().estimate_income;
+                            var percentBlack = snapshot.val().percent_black;
+                            var percentAsian = snapshot.val().percent_asian;
+                            var percentLatino = snapshot.val().percent_latino;
+                            var percentWhite = snapshot.val().percent_white;
+                            var spentToReceived = snapshot.val().money_spent_funding_received;
+                            var districtName = snapshot.val().district_name;
+                            var totalReceived = snapshot.val().total_lottery_received;
+                            var totalSpent = snapshot.val().total_lottery_spending;
+                            var estimateTotal = snapshot.val().estimate_total;
+                            var totalStudents = snapshot.val().total_students;
+
+                            //get sliders inside function
+                            var incomeSlider = app.getThis().$.incomeSlider;
+                            var percentAsianSlider = app.getThis().$.percentAsianSlider;
+                            var percentBlackSlider = app.getThis().$.percentBlackSlider;
+                            var percentLatinoSlider = app.getThis().$.percentLatinoSlider;
+                            var percentWhiteSlider = app.getThis().$.percentWhiteSlider;
+                            var spentToReceivedSlider = app.getThis().$.spentToReceivedSlider;
+
+                            //set sliders to the values for the district
+                            incomeSlider._setValueMin(Math.round(averageIncome / 1000));
+                            incomeSlider._setValueMax(Math.round(averageIncome / 1000));
+                            percentAsianSlider._setValueMin(Math.round(percentAsian));
+                            percentAsianSlider._setValueMax(Math.round(percentAsian));
+                            percentBlackSlider._setValueMin(Math.round(percentBlack));
+                            percentBlackSlider._setValueMax(Math.round(percentBlack));
+                            percentLatinoSlider._setValueMin(Math.round(percentLatino));
+                            percentLatinoSlider._setValueMax(Math.round(percentLatino));
+                            percentWhiteSlider._setValueMin(Math.round(percentWhite));
+                            percentWhiteSlider._setValueMax(Math.round(percentWhite));
+                            spentToReceivedSlider._setValueMin(Math.round(spentToReceived));
+                            spentToReceivedSlider._setValueMax(Math.round(spentToReceived));
+
+                            //update district names array
+                            districtNames.push(districtName);
+                            //update map
+                            app.updateMap();
+
+                            //update data section
+                            //simple money number format- thanks VisioN: https://stackoverflow.com/a/14428340
+                            app.incomeCardVal = "$" + averageIncome.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+                            app.spentReceivedCardVal = spentToReceived;
+                            app.totalReceivedCardVal = "$" + totalReceived.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+                            app.totalSpendingCardVal = "$" + totalSpent.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+                            app.estimateTotalCardVal = estimateTotal;
+                            app.totalStudentsCardVal = totalStudents;
+                            app.percentAsianCardVal = percentAsian + "%";
+                            app.percentBlackCardVal = percentBlack + "%";
+                            app.percentLatinoCardVal = percentLatino + "%";
+                            app.percentWhiteCardVal = percentWhite + "%";
+
+                        });
+                    }
+                }
+
                 static getMyVal() {
                     return this;
                 }
-
-                //TODO OG CODE BELOW
-                // applyFilters() {
-                //
-                //     var districtNames = [];
-                //     var incomeMin;
-                //     var incomeMax;
-                //     var raceMin;
-                //     var raceMax;
-                //     var ratioMin;
-                //     var ratioMax;
-                //     var inVsOut = this.$.inVsOut;
-                //     var demographics = this.$.demographics;
-                //     var districtNameHeader = this.$.distName;
-                //     //var arr = [];
-                //
-                //     //get the states of the checkboxes
-                //     var incomeBoxStates = [];
-                //     incomeBoxStates.push(this.$.i1.checked);
-                //     incomeBoxStates.push(this.$.i2.checked);
-                //     incomeBoxStates.push(this.$.i3.checked);
-                //     incomeBoxStates.push(this.$.i4.checked);
-                //
-                //     var raceBoxStates = [];
-                //     raceBoxStates.push(this.$.r0.checked);
-                //     raceBoxStates.push(this.$.r1.checked);
-                //     raceBoxStates.push(this.$.r2.checked);
-                //     raceBoxStates.push(this.$.r3.checked);
-                //     raceBoxStates.push(this.$.r4.checked);
-                //
-                //     var ratioBoxStates = [];
-                //     ratioBoxStates.push(this.$.ratio0.checked);
-                //     ratioBoxStates.push(this.$.ratio1.checked);
-                //     ratioBoxStates.push(this.$.ratio2.checked);
-                //     ratioBoxStates.push(this.$.ratio3.checked);
-                //     ratioBoxStates.push(this.$.ratio4.checked);
-                //     ratioBoxStates.push(this.$.ratio5.checked);
-                //     ratioBoxStates.push(this.$.ratio6.checked);
-                //
-                //     //get the income range to query on firebase
-                //     if (incomeBoxStates != undefined && incomeBoxStates.includes(true)) {
-                //         incomeMin = Number.MAX_VALUE;
-                //         incomeMax = Number.MIN_VALUE;
-                //         for (var i = 0; i < incomeBoxStates.length; ++i) {
-                //             if (incomeBoxStates[i]) {
-                //                 if (incomeMin > incomeValues[i][0])
-                //                     incomeMin = incomeValues[i][0];
-                //                 if (incomeMax < incomeValues[i][1])
-                //                     incomeMax = incomeValues[i][1];
-                //             }
-                //         }
-                //     }
-                //     //get the race range to query on firebase
-                //     if (raceBoxStates != undefined && raceBoxStates.includes(true)) {
-                //         raceMin = Number.MAX_VALUE;
-                //         raceMax = Number.MIN_VALUE;
-                //         for (var i = 0; i < raceBoxStates.length; ++i) {
-                //             if (raceBoxStates[i]) {
-                //                 if (raceMin > raceValues[i][0])
-                //                     raceMin = raceValues[i][0];
-                //                 if (raceMax < raceValues[i][1])
-                //                     raceMax = raceValues[i][1];
-                //             }
-                //         }
-                //
-                //     }
-                //     //get the ratio range to query on firebase
-                //     if (ratioBoxStates != undefined && ratioBoxStates.includes(true)) {
-                //         ratioMin = Number.MAX_VALUE;
-                //         ratioMax = Number.MIN_VALUE;
-                //         for (var i = 0; i < ratioBoxStates.length; ++i) {
-                //             if (ratioBoxStates[i]) {
-                //                 if (ratioMin > ratioValues[i][0])
-                //                     ratioMin = ratioValues[i][0];
-                //                 if (ratioMax < ratioValues[i][1])
-                //                     ratioMax = ratioValues[i][1];
-                //             }
-                //         }
-                //
-                //     }
-                //
-                //     //decide which category to filter by
-                //     var queryCategory = "estimate_income";
-                //     var queryMin = 0;
-                //     var queryMax = 0;
-                //
-                //     if (incomeBoxStates.includes(true)) {
-                //         queryMin = incomeMin;
-                //         queryMax = incomeMax;
-                //     }
-                //     else if (raceBoxStates.includes(true)) {
-                //         queryCategory = "percent_black";
-                //         queryMin = raceMin;
-                //         queryMax = raceMax;
-                //     }
-                //     else if (ratioBoxStates.includes(true) && !raceBoxStates.includes(true)) {
-                //         queryCategory = "money_spent_funding_received";
-                //         queryMin = ratioMin;
-                //         queryMax = ratioMax;
-                //     }
-                //
-                //     //query and filter
-                //     var results = [];
-                //     if (rootRef != undefined) {
-                //         rootRef.orderByChild(queryCategory).startAt(queryMin).endAt(queryMax).once("value", function (snapshot) {
-                //             snapshot.forEach(function (childSnapshot) {
-                //
-                //
-                //                 if (queryCategory == "estimate_income") {
-                //                     if (raceBoxStates.includes(true) && ratioBoxStates.includes(true)) {
-                //                         if (childSnapshot.val().percent_black <= raceMax) {
-                //                             if (childSnapshot.val().percent_black >= raceMin) {
-                //                                 if (childSnapshot.val().money_spent_funding_received <= ratioMax) {
-                //                                     if (childSnapshot.val().money_spent_funding_received >= ratioMin) {
-                //                                         console.log(childSnapshot.val().percent_black);
-                //                                         results.push(childSnapshot);
-                //                                     }
-                //                                 }
-                //                             }
-                //                         }
-                //                     }
-                //                     else if (raceBoxStates.includes(true)) {
-                //                         if (childSnapshot.val().percent_black <= raceMax) {
-                //                             if (childSnapshot.val().percent_black >= raceMin) {
-                //                                 console.log(childSnapshot.val().percent_black);
-                //                                 results.push(childSnapshot);
-                //                             }
-                //                         }
-                //                     }
-                //                     else if (ratioBoxStates.includes(true)) {
-                //                         if (childSnapshot.val().money_spent_funding_received <= ratioMax) {
-                //                             if (childSnapshot.val().money_spent_funding_received >= ratioMin) {
-                //                                 console.log(childSnapshot.val().money_spent_funding_received);
-                //                                 results.push(childSnapshot);
-                //                             }
-                //
-                //                         }
-                //
-                //                     }
-                //                     else {
-                //                         results.push(childSnapshot);
-                //                     }
-                //
-                //
-                //                 } else if (queryCategory == "percent_black") {
-                //                     if (ratioBoxStates.includes(true)) {
-                //                         if (childSnapshot.val().money_spent_funding_received <= ratioMax) {
-                //                             if (childSnapshot.val().money_spent_funding_received >= ratioMin) {
-                //                                 console.log("Ratio: " + childSnapshot.val().money_spent_funding_received + " Race: " + childSnapshot.val().percent_black);
-                //                                 results.push(childSnapshot);
-                //                             }
-                //                         }
-                //                     } else {
-                //                         results.push(childSnapshot);
-                //                     }
-                //                 } else {
-                //                     results.push(childSnapshot);
-                //                 }
-                //             });
-                //
-                //             results.forEach(function (entry) {
-                //                 districtNames.push(entry.val().district_name);
-                //             });
-                //
-                //             console.log("District Names:" + districtNames.length);
-                //         });
-                //     }
-                //
-                //
-                //     //update map
-                //     if (map != undefined) {
-                //         map.data.setStyle(function (feature) {
-                //             var name = feature.getProperty('NAME');
-                //
-                //             if (districtNames.includes(name)) {
-                //                 var color = 'red';
-                //                 return {
-                //                     fillColor: color,
-                //                     strokeWeight: .3,
-                //                     clickable: true
-                //                 };
-                //             } else {
-                //                 return {
-                //                     strokeWeight: .3,
-                //                     clickable: false
-                //                 };
-                //             }
-                //         });
-                //
-                //         map.data.addListener('mouseover', function (event) {
-                //             map.data.overrideStyle(event.feature, {strokeWeight: 1.3, strokeColor: 'red'});
-                //         });
-                //
-                //         map.data.addListener('mouseout', function (event) {
-                //             map.data.revertStyle();
-                //         });
-                //
-                //         //add onClick handler
-                //         map.data.addListener('click', function (event) {
-                //             var districtChosen = event.feature.getProperty('NAME');
-                //             currentDistrict = districtChosen;
-                //             //alert(districtChosen);
-                //             //var districtRef = rootRef.child(districtChosen);
-                //
-                //             var arr = [];
-                //             rootRef.orderByChild('district_name').equalTo(districtChosen).limitToFirst(1).once("value", function (snapshot) {
-                //                 snapshot.forEach(function (childSnapshot) {
-                //                     arr.push(childSnapshot.val().district_name);
-                //                     arr.push(childSnapshot.val().total_lottery_spending);
-                //                     arr.push(childSnapshot.val().total_lottery_received);
-                //                     arr.push(childSnapshot.val().percent_white);
-                //                     arr.push(childSnapshot.val().percent_asian);
-                //                     arr.push(childSnapshot.val().percent_black);
-                //                     arr.push(childSnapshot.val().percent_latino);
-                //                 });
-                //
-                //                 //console.log("Inside: " + typeof(arr[1]));
-                //                 /*$('#inVsOut').remove();
-                //                 $('#graphContainer').append('<canvas id="inVsOut"></canvas>');
-                //                 console.log(typeof(arr[1]));*/
-                //                 //console.log(arr[2]);
-                //
-                //                 //Update H2 with selected district name
-                //                 districtNameHeader.innerText = arr[0];
-                //
-                //                 //update bar graph
-                //                 var ctx = inVsOut.getContext('2d');
-                //
-                //                 if (barChart != undefined)
-                //                     barChart.destroy();
-                //
-                //                 barChart = new Chart(ctx, {
-                //                     type: 'bar',
-                //
-                //                     data: {
-                //                         labels: ["Money Spent", "Money Received"],
-                //                         datasets: [{
-                //                             labels: arr[0],
-                //                             backgroundColor: ["#ff0000", "#00CC00"],
-                //                             data: [arr[1], arr[2]]
-                //                         }]
-                //                     },
-                //
-                //                     options: {
-                //                         legend: {
-                //                             display: false
-                //                         }
-                //                     }
-                //                 });
-                //
-                //                 //update demographics chart
-                //                 var demoCtx = demographics.getContext("2d");
-                //                 var data;
-                //                 if (demoChart != undefined)
-                //                     demoChart.destroy();
-                //                 demoChart = new Chart(demoCtx, {
-                //                     type: 'pie',
-                //                     data: data = {
-                //                         datasets: [{
-                //                             data: [arr[3], arr[4], arr[5], arr[6]],
-                //                             backgroundColor: ["#ff8b8b", "#aeffe1", "#006eff", "#c5cc87"]
-                //                         }],
-                //                         // These labels appear in the legend and in the tooltips when hovering different arcs
-                //                         labels: [
-                //                             '% White',
-                //                             '% Asian',
-                //                             '% Black',
-                //                             '% Latino'
-                //                         ]
-                //                     },
-                //                     options: {
-                //                         responsive: false,
-                //                         maintainAspectRatio: true,
-                //                         cutoutPercentage: 50,
-                //                         animation: {
-                //                             animateRotate: true
-                //                         }
-                //                     }
-                //
-                //                 });
-                //             }); //update map
-                //
-                //
-                //         });
-                //     }
-                //
-                // }
-
-
-                //Disregard for now
-
-                checkBoxChecked(ev) {
-
-                    /*var results = []                                                                                                                                                                                                                            ;
-                    rootRef.orderByChild("percent_black").endAt(1).once("value", function(snapshot){
-                        snapshot.forEach(function(childSnapshot){
-                            results.push(childSnapshot);
-                            console.log(results.length)
-
-
-                        });
-
-                    });*/
-
-                    //alert(ev.target.checked);
-                    //var other = this.$.i2;
-                    //other.disabled = true;
-                    //alert(other.checked);
-
-                    /*  var map = new google.maps.Map(this.$.mapEle, {
-                          center: {lat: 44.5, lng: -84.5555},
-                          zoom: 7,
-                          styles: [ { featureType: "road", stylers: [ { visibility: "off" } ] },{ },
-                              { featureType: "poi", stylers: [ { visibility: "off" } ] },{ },
-                              { featureType: "administrative", stylers: [ { visibility: "off" } ] },{ }]
-                      });
-                      map.data.loadGeoJson("src/simplified.json");
-
-                      map.data.setStyle(function(feature) {
-                          var name = feature.getProperty('NAME');
-                          if (name == "Alcona Community Schools") {
-                              var color = 'red';
-                              return {
-                                  fillColor: color,
-                                  strokeWeight: .7
-                              };
-                          } else {
-                              return {
-                                  strokeWeight: .3,
-                                  fillColor: 'blue'
-                              };
-                          }
-                      });*/
-                };
 
                 /*signs user out.... obviously*/
 //            signOutFirebase() {
@@ -1195,6 +1211,8 @@ We ask only that you give the authors credit.
 //                    alert("Sorry, there was an error signing you out");
 //                });
 //            }
+
+
 
 
             }
